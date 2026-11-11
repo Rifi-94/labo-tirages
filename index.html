@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="fr" data-game="em">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Labo Tirages">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%230a0f1e%27/%3E%3Ccircle cx=%2724%27 cy=%2728%27 r=%2711%27 fill=%27%23eef2ff%27/%3E%3Ccircle cx=%2742%27 cy=%2740%27 r=%2711%27 fill=%27%23f2b632%27/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADEklEQVR42u3dMVIbQRCG0WVKEYkTAgeAD+HTcEIuwkUoEzjwIUgpyiW5jLbn79n3xSoYaZ96FiGtbm6/PW7S3xoeAsEhOASH4BAcgkNwCA7BITgkOASH4BAcgkNwCA7BITgEhwSH4BAcgkNwCA7BITgEh+CQ4BAcgkNwCA7BocxO7Vb89uv1/A3uH344rlfppsWlJi+CAOVwOP7bBCXL4riiCUqWOiHdVUbBzzc5VjhsRkibyVH/hDZCGkyO6QfJCAmdHAlPXyMkEUfOUeEjC0fa8eAjBUfmkeBjPo7kY8DHTBz5jz4f/mWvMBxdnpSGRzWOXo84H7YVBeDo+EQ0PIZHmQ/biuBQIxzdJ/ORdxaTQ3AoDccaM/mwO4vJITgEh3rgWGmrPuZph8khOASH4BAcgkOba4It3+/nu/M3+P70Bw4gLt84HwocFSbO/4RYJXBUm2ikZLgoyr/flz1k7C1vi72yzzL/kji9/Kz8dSEjxJ+ycTJyRohzjiwWn3zMHSHDtdgCZYSMENtKrozpPuCIljHXx3CVz3AZE32YHA1kzPIBRw8ZU3wM14/W5MmR7yN/bNQPD9tKJxnFPoYvJ1DE5Mj00WtsVA6PYUPZvLMkBIfNxbbCBxzNffTdU2p2luGb1ZR4QsoHHKE+uu8pBTvLSHhjtxFicthi4IgfIWZV11dI9z5sNR9PWuO04xT78bLtqp+JMipW+9zK15Uwsf6Hmj4e44tQgDjuJ94ce+8EExyCQ3AIDsEhOI5Yr+uBzrovJofgEByCw2lHxb0wOQSH4DjUzrL3+k0OwSE4jrOzFKzc5Gjpo2bNcAiOhYZH2WrhaOajcp1wCI4lhkfxCuFo46N+bXD08DFlVXA08DFrPXCk+5i4Ejiifcxdw75fOry5OkpnmiZH4nEK2dRMjqwREnUubHIEHbm0v5JMjvlTJPaVNzimKcl/tR6OUii93hsAh5yQCg7BITgEh+AQHIJDcAgOCQ7BITgEh+AQHIJDcAgOwSHBITgEh+AQHIJDcAgOwSE4JDgEh+AQHIJDcCi0d3Ia8o9IyTtgAAAAAElFTkSuQmCC">
+<title>Labo Tirages — EuroMillions &amp; Loto</title>
+<meta name="description" content="Laboratoire statistique autonome pour les tirages EuroMillions et Loto : tout est calculé localement dans le navigateur.">
+<style>
+:root{--hot:#ff9f43;--cold:#4f9dff;--bg:#0a0f1e;--card:#121a30;--card2:#18223d;--line:#28345a;--text:#e9edf8;--muted:#a3aed0;--accent:#f2b632;--accent-ink:#1a1300;--good:#4fd08a;--bad:#ff7a85;--warn:#f5c15c;--bar:#5d8bff;--r:14px}
+html[data-game=loto]{--accent:#ff6f7d;--accent-ink:#22060a}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;padding-bottom:env(safe-area-inset-bottom);background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}h1,h2,h3{line-height:1.25;margin:0}h2{font-size:1.3rem;margin-bottom:10px}h3{font-size:1.02rem;margin:22px 0 8px;color:#fff}
+p{margin:8px 0}.muted,.sub{color:var(--muted);font-size:.93rem}.sub{margin:4px 0 14px}code{background:#0006;padding:2px 6px;border-radius:6px;font-size:.88em}
+svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.top{position:sticky;top:0;padding-top:env(safe-area-inset-top);z-index:20;background:rgba(10,15,30,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in,.wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}.top-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;flex-direction:column;margin-right:auto}.brand b{font-size:1.12rem;letter-spacing:.2px}.brand span{color:var(--muted);font-size:.8rem}
+.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.tabs button{min-height:44px;padding:0 22px;border:0;border-radius:999px;background:none;color:var(--muted);font:600 .9rem/1 inherit;letter-spacing:.8px;cursor:pointer}
+.tabs button.on{background:var(--accent);color:var(--accent-ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:600 .92rem/1.2 inherit;cursor:pointer;text-decoration:none}
+.btn svg{width:18px;height:18px;flex:none}.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.btn.ghost:hover{border-color:var(--muted)}
+.btn.danger{background:#b3263a;border-color:#b3263a;color:#fff}.btn.sm{min-height:44px;padding:0 12px;font-size:.86rem}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.link{display:inline-flex;align-items:center;min-height:44px;background:none;border:0;padding:0 4px;color:var(--accent);font:600 .9rem inherit;cursor:pointer;text-decoration:underline}.link.danger{color:var(--bad)}
+:focus-visible{outline:3px solid #fff;outline-offset:2px;border-radius:6px}
+main{padding:16px 0 60px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.strip>div{background:var(--card);padding:12px 14px;display:flex;flex-direction:column;gap:4px}.strip span:first-child{color:var(--muted);font-size:.8rem}.strip b{font-size:1.08rem}.strip b.bad{color:var(--bad)}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:var(--muted);line-height:1.4}
+.tag.good{color:var(--good);border-color:#2c7a55}.tag.bad{color:var(--bad);border-color:#a8404b}.tag.warn{color:var(--warn);border-color:#8a6a22}
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:var(--r);border:1px solid;margin:0 0 12px;line-height:1.5}.alert>svg{width:22px;height:22px;flex:none;margin-top:2px}
+.alert.err{border-color:#a8404b;background:#2a1220}.alert.err>svg{color:var(--bad)}.alert.warn{border-color:#8a6a22;background:#241c0c}.alert.warn>svg{color:var(--warn)}.alert ul{margin:6px 0 0;padding-left:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px}.chip{background:#0005;border:1px solid var(--line);border-radius:10px;padding:2px 10px;font-size:.9rem}
+.progress{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:12px;display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center}
+.ptxt{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem;grid-column:1}.pbar{grid-column:1;height:8px;background:#0007;border-radius:9px;overflow:hidden}.pbar i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.progress .btn{grid-column:2;grid-row:1/3}
+.subnav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:thin}.subnav a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:600}.subnav a:hover{color:var(--text);border-color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px 28px}.two>div{min-width:0}
+.verdict{margin:10px 0 14px}.note{background:#0004;border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 10px 10px 0;margin:14px 0 4px;font-size:.95rem}
+.kv{list-style:none;padding:0;margin:8px 0}.kv li{padding:7px 0;border-bottom:1px solid #ffffff10}.kv li:last-child{border:0}
+.steps{padding-left:22px}.steps li{margin:10px 0}
+.balls{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;vertical-align:middle}
+.ball{display:inline-grid;place-items:center;min-width:34px;height:34px;padding:0 4px;border-radius:50%;background:#eef2ff;color:#0b1433;font-weight:700;font-size:.92rem}
+.ball.bonus{background:var(--accent);color:var(--accent-ink)}.ball.hit{box-shadow:0 0 0 3px var(--good)}.sepb{width:1px;height:26px;background:var(--line);margin:0 4px}
+td .ball,.rank .ball{min-width:28px;height:28px;font-size:.82rem;margin-right:3px}
+.grids{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}.grid{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.grid header{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:12px}.grid h3{margin:0;font-size:1.1rem}
+.grid .ball{min-width:46px;height:46px;font-size:1.15rem}.why{padding-left:18px;margin:14px 0 6px;color:var(--muted);font-size:.93rem}.why li{margin:6px 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;align-items:center;margin-top:14px}.actions.left{justify-content:flex-start}
+.rank{list-style:none;padding:0;margin:0}.rank li{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #ffffff10}.rank span:last-child{color:var(--muted);font-size:.9rem}
+.scroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #ffffff12;vertical-align:middle}
+th{color:var(--muted);font-weight:600;font-size:.82rem;white-space:nowrap}table.num td:not(:first-child),table.num th:not(:first-child){text-align:right}
+.chart{display:block;width:100%;height:auto;margin:6px 0}.chart .bar{fill:var(--bar);stroke:none}.chart .bar.hi{fill:var(--bad)}.chart .grid{stroke:#ffffff14;stroke-width:1}.chart .ref{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 4}
+.chart .exp{stroke:#fff;stroke-width:2}.chart .ax{fill:var(--muted);stroke:none;font-size:10.5px}.chart .line{stroke:var(--bar);stroke-width:1.6}
+.legend{color:var(--muted);font-size:.85rem;margin:2px 0 8px}.lg{display:inline-block;width:18px;height:0;border-top:2px dashed var(--accent);vertical-align:middle;margin-right:6px}.lg.exp{border-top:2px solid #fff}
+details{border-top:1px solid #ffffff12;margin-top:14px;padding-top:4px}summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--accent)}
+label{display:flex;flex-direction:column;gap:5px;font-size:.88rem;color:var(--muted);font-weight:600}label.inline{flex-direction:row;align-items:center;gap:8px}label.check{flex-direction:row;align-items:center;gap:10px;color:var(--text);margin:12px 0;min-height:44px}label.check input{width:22px;height:22px;min-height:0}
+input,select{min-height:44px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:#0b1224;color:var(--text);font:16px inherit;max-width:100%}
+.mrow{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 12px;min-width:0}.mrow legend{padding:0 6px;color:var(--muted);font-size:.85rem}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:10px;margin-top:10px}.nums input{width:100%}.nums .bonus input{border-color:var(--accent)}.ferr{color:var(--bad);font-weight:600;margin:8px 0 0;min-height:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:12px 0 0}.seg button{min-height:44px;padding:0 18px;border:0;background:none;color:var(--muted);font:600 .9rem inherit;cursor:pointer}.seg button.on{background:var(--accent);color:var(--accent-ink)}
+dialog{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:22px;width:min(720px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto}dialog::backdrop{background:#000b}
+.tests{list-style:none;padding:0;columns:2 320px;font-size:.88rem}.tests li{display:flex;gap:6px;padding:3px 0;break-inside:avoid}.tests svg{width:16px;height:16px;flex:none;margin-top:3px}.tests .ok svg{color:var(--good)}.tests .ko{color:var(--bad)}
+#toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,30px);background:#fff;color:#0b1433;padding:12px 18px;border-radius:12px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:calc(100vw - 32px);box-shadow:0 8px 30px #0008}#toast.show{opacity:1;transform:translate(-50%,0)}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding:18px 0 30px}
+@media(max-width:640px){.card{padding:16px 14px}.tabs{order:3;width:100%}.tabs button{flex:1;padding:0 8px}.top-actions{width:100%}.top-actions .btn{flex:1}table.draws th:nth-child(3),table.draws td:nth-child(3){display:none}.grid .ball{min-width:42px;height:42px}h2{font-size:1.18rem}.brand span{display:none}html{scroll-padding-top:190px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Grille de chaleur des fréquences */
+.heat{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;margin:10px 0 4px}
+.hc{position:relative;border-radius:8px;padding:6px 2px;text-align:center;background:color-mix(in srgb,var(--c) calc(var(--a)*70%),var(--card2));border:1px solid #ffffff14;line-height:1.15}
+.hc b{display:block;font-size:.95rem;color:#fff}.hc span{display:block;font-size:.72rem;color:#e9edf8cc}
+.hc.sig{outline:2px solid #fff;outline-offset:-2px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin:0 6px 0 10px}.sw.hot{background:var(--hot)}.sw.cold{background:var(--cold)}
+.short{display:none}
+@media(min-width:900px){.heat{grid-template-columns:repeat(13,minmax(0,1fr))}}
+@media(max-width:640px){
+ html{scroll-padding-top:130px}
+ .top-in{gap:8px;padding-top:8px;padding-bottom:8px}
+ .brand b{font-size:1rem}
+ .top-actions{width:auto;order:2;margin-left:auto!important;gap:8px}
+ .top-actions .btn{flex:none;padding:0 12px}
+ .top-actions .long{display:none}.top-actions .short{display:inline}
+ .top-actions .btn.ghost .short{display:none}
+ .tabs{order:3;width:100%}
+ .wide-only{display:none}
+ .strip{grid-template-columns:1fr 1fr}
+ .strip>div:last-child{grid-column:1/-1}
+ .card{padding:16px 14px;border-radius:12px}
+ .grids{grid-template-columns:1fr}
+ .grid .ball{min-width:44px;height:44px;font-size:1.08rem}
+ .heat{grid-template-columns:repeat(7,minmax(0,1fr))}
+ .two{grid-template-columns:1fr}
+ /* tableaux en cartes */
+ table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ table.stack,table.stack tbody,table.stack tr,table.stack td{display:block;width:100%}
+ table.stack tr{border:1px solid var(--line);border-radius:10px;padding:6px 10px;margin:0 0 10px;background:#0003}
+ table.stack td{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:right!important;padding:6px 0;border-bottom:1px solid #ffffff0d}
+ table.stack td:last-child{border-bottom:0}
+ table.stack td::before{content:attr(data-label);color:var(--muted);font-size:.8rem;font-weight:600;text-align:left;flex:0 0 42%}
+ table.stack td[data-label=""]::before{display:none}
+ table.stack td:first-child{display:block;text-align:left!important;padding:6px 0 8px;font-weight:600;color:#fff;border-bottom:1px solid var(--line)}
+ table.stack td:first-child::before{display:none}
+ table.stack td:first-child .muted{font-weight:400}
+ table.stack td .v{text-align:right;min-width:0;overflow-wrap:anywhere}
+ dialog{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
+ .nums{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .actions .btn{flex:1 1 auto}
+ .progress{grid-template-columns:1fr}.progress .btn{grid-column:1;grid-row:auto}
+}
+@media(max-width:360px){.heat{grid-template-columns:repeat(6,minmax(0,1fr))}.strip{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+ <div class="brand"><b>Labo Tirages</b><span>Analyse statistique locale · EuroMillions &amp; Loto</span></div>
+ <div class="tabs" role="tablist" aria-label="Jeu"><button role="tab" data-tab="em" class="on" aria-selected="true">EUROMILLIONS</button><button role="tab" data-tab="loto" aria-selected="false">LOTO</button></div>
+ <div class="top-actions actions" style="margin:0"><button class="btn ghost" data-act="sync" aria-label="Actualiser les tirages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9M18 3v4.5h-4.5M6 21v-4.5h4.5"/></svg><span class="long">Actualiser les tirages</span></button><button class="btn primary" data-act="manual" aria-label="Ajouter un ou plusieurs tirages manuellement"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="long">Ajouter un ou plusieurs tirages manuellement</span><span class="short">Ajouter</span></button></div>
+</div></header>
+<main class="wrap"><div id="view" aria-live="off"><p class="muted">Chargement…</p></div></main>
+<footer class="wrap">Les tirages sont aléatoires et indépendants : aucune analyse ne permet de prévoir un résultat. Les grilles proposées sont des sélections construites selon des critères affichés, pas des prédictions. Jeu interdit aux moins de 18 ans. Jouer comporte des risques : endettement, dépendance… Appelez le 09 74 75 13 13 (appel non surtaxé). Application indépendante, sans lien avec FDJ ; toutes les données restent dans ce navigateur.</footer>
+<dialog id="dlg" aria-label="Fenêtre de saisie"><div id="dlg-body"></div></dialog>
+<dialog id="confirm" aria-label="Confirmation"><div id="confirm-body"></div></dialog>
+<input type="file" id="fi-files" data-act="files" multiple accept=".zip,.csv,.json,.txt" hidden>
+<input type="file" id="fi-restore" data-act="restore" accept=".json" hidden>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+function LotoEngine(){
+'use strict';
+/* ================= Configuration des jeux ================= */
+const GAMES={
+ em:{id:'em',name:'EuroMillions',n:50,k:5,bn:12,bk:2,bonusLabel:'Étoiles',bonusShort:'étoile',price:2.5,
+  periods:[
+   {id:'em-2004',label:'2004 – 2011 · 2 étoiles parmi 9, tirage le vendredi',from:'2004-02-13',to:'2011-05-09',bn:9,days:[5]},
+   {id:'em-2011',label:'2011 – 2016 · 2 étoiles parmi 11, mardi et vendredi',from:'2011-05-10',to:'2016-09-26',bn:11,days:[2,5]},
+   {id:'em-2016',label:'Depuis sept. 2016 · 2 étoiles parmi 12, mardi et vendredi',from:'2016-09-27',to:null,bn:12,days:[2,5]}],
+  gains:{'5+2':17000000,'5+1':250000,'5+0':25000,'4+2':1500,'4+1':130,'3+2':60,'4+0':40,'2+2':15,'3+1':11,'3+0':9.5,'1+2':7.5,'2+1':5.5,'2+0':4},
+  gainsNote:'Montants moyens indicatifs : à EuroMillions les gains sont répartis entre gagnants (pari mutuel) et varient à chaque tirage.'},
+ loto:{id:'loto',name:'Loto',n:49,k:5,bn:10,bk:1,bonusLabel:'N° Chance',bonusShort:'n° Chance',price:2.2,
+  periods:[
+   {id:'loto-1976',label:'1976 – 2008 · 6 numéros parmi 49 + complémentaire',from:'1976-05-19',to:'2008-10-05',legacy:true,days:null},
+   {id:'loto-2008',label:'Depuis oct. 2008 · 5 numéros parmi 49 + N° Chance parmi 10, lundi, mercredi, samedi',from:'2008-10-06',to:null,bn:10,days:[1,3,6]}],
+  gains:{'5+1':2000000,'5+0':100000,'4+1':1000,'4+0':500,'3+1':50,'3+0':20,'2+1':10,'2+0':5,'1+1':2.2,'0+1':2.2},
+  gainsNote:'Barème indicatif de la formule actuelle ; le jackpot est compté à son minimum de 2 M€ et les rangs élevés varient en réalité.',
+  noDraw:['2019-11-04']/* absent des archives officielles FDJ : transition vers la formule du 06/11/2019 */}
+};
+function periodOf(gid,date){const P=GAMES[gid].periods;for(let i=P.length-1;i>=0;i--)if(date>=P[i].from)return P[i];return null;}
+function currentPeriod(gid){const P=GAMES[gid].periods;return P[P.length-1];}
+
+/* ================= Mathématiques ================= */
+function lnGamma(x){const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.1208650973866179e-2,-0.5395239384953e-5];
+ let y=x,t=x+5.5;t-=(x+0.5)*Math.log(t);let s=1.000000000190015;for(let j=0;j<6;j++)s+=c[j]/++y;return -t+Math.log(2.5066282746310005*s/x);}
+function normInv(q){if(q<=0)return-Infinity;if(q>=1)return Infinity;const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416],pl=0.02425;let x;
+ if(q<pl){const r=Math.sqrt(-2*Math.log(q));x=(((((c[0]*r+c[1])*r+c[2])*r+c[3])*r+c[4])*r+c[5])/((((d[0]*r+d[1])*r+d[2])*r+d[3])*r+1);}
+ else if(q<=1-pl){const r=q-0.5,t=r*r;x=(((((a[0]*t+a[1])*t+a[2])*t+a[3])*t+a[4])*t+a[5])*r/(((((b[0]*t+b[1])*t+b[2])*t+b[3])*t+b[4])*t+1);}
+ else{const r=Math.sqrt(-2*Math.log(1-q));x=-(((((c[0]*r+c[1])*r+c[2])*r+c[3])*r+c[4])*r+c[5])/((((d[0]*r+d[1])*r+d[2])*r+d[3])*r+1);}
+ const e=0.5*(1+erfS(x/Math.SQRT2))-q,u=e*Math.sqrt(2*Math.PI)*Math.exp(x*x/2);return x-u/(1+x*u/2);}
+function erfS(x){const s=x<0?-1:1;return s*(1-2*normSf(Math.abs(x)*Math.SQRT2));}
+function lnG(x){if(x<10){let r=0;while(x<10){r-=Math.log(x);x+=1;}return r+lnG(x);}const x2=x*x;return(x-0.5)*Math.log(x)-x+0.9189385332046728+1/(12*x)-1/(360*x*x2)+1/(1260*x2*x2*x)-1/(1680*x2*x2*x2*x);}
+function lnBeta(a,b){return lnG(a)+lnG(b)-lnG(a+b);}
+/* Loi exacte de la somme de k numéros distincts parmi 1..n (dénombrement) */
+function sumDist(n,k){const S=k*n,W=[];for(let j=0;j<=k;j++)W.push(new Float64Array(S+1));W[0][0]=1;
+ for(let x=1;x<=n;x++)for(let j=Math.min(k,x);j>=1;j--){const A=W[j],B=W[j-1];for(let s=S;s>=x;s--)A[s]+=B[s-x];}
+ const tot=comb(n,k),P=new Float64Array(S+1);for(let s=0;s<=S;s++)P[s]=W[k][s]/tot;return P;}
+function poisSf(lam,c){if(c<=0)return 1;let s=0,t=Math.exp(-lam);for(let i=0;i<c;i++){s+=t;t*=lam/(i+1);}return Math.max(0,1-s);}
+function poisCdf(lam,c){if(c<0)return 0;let s=0,t=Math.exp(-lam);for(let i=0;i<=c;i++){s+=t;t*=lam/(i+1);}return Math.min(1,s);}
+function comb(n,k){if(k<0||k>n)return 0;k=Math.min(k,n-k);let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return Math.round(r);}
+function hyper(N,K,n,x){return comb(K,x)*comb(N-K,n-x)/comb(N,n);}
+function gammaQ(a,x){if(x<=0)return 1;const lg=lnGamma(a);
+ if(x<a+1){let ap=a,sum=1/a,del=sum;for(let i=0;i<1000;i++){ap++;del*=x/ap;sum+=del;if(Math.abs(del)<Math.abs(sum)*1e-15)break;}return Math.max(0,1-sum*Math.exp(-x+a*Math.log(x)-lg));}
+ let b=x+1-a,c=1e300,d=1/b,h=d;for(let i=1;i<1000;i++){const an=-i*(i-a);b+=2;d=an*d+b;if(Math.abs(d)<1e-300)d=1e-300;c=b+an/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<1e-15)break;}
+ return Math.exp(-x+a*Math.log(x)-lg)*h;}
+function chi2sf(x,df){return df<=0?1:gammaQ(df/2,x/2);}
+function normSf(z){return z>=0?0.5*gammaQ(0.5,z*z/2):1-0.5*gammaQ(0.5,z*z/2);}
+function normP2(z){return Math.min(1,2*normSf(Math.abs(z)));}
+function betacf(a,b,x){let qab=a+b,qap=a+1,qam=a-1,c=1,d=1-qab*x/qap;if(Math.abs(d)<1e-300)d=1e-300;d=1/d;let h=d;
+ for(let m=1;m<=300;m++){const m2=2*m;let aa=m*(b-m)*x/((qam+m2)*(a+m2));d=1+aa*d;if(Math.abs(d)<1e-300)d=1e-300;c=1+aa/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;h*=d*c;
+  aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));d=1+aa*d;if(Math.abs(d)<1e-300)d=1e-300;c=1+aa/c;if(Math.abs(c)<1e-300)c=1e-300;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<1e-14)break;}return h;}
+function betaInc(a,b,x){if(x<=0)return 0;if(x>=1)return 1;const bt=Math.exp(lnGamma(a+b)-lnGamma(a)-lnGamma(b)+a*Math.log(x)+b*Math.log(1-x));
+ return x<(a+1)/(a+b+2)?bt*betacf(a,b,x)/a:1-bt*betacf(b,a,1-x)/b;}
+function binSf(n,p,c){return c<=0?1:c>n?0:betaInc(c,n-c+1,p);}
+function binCdf(n,p,c){return c<0?0:c>=n?1:1-betaInc(c+1,n-c,p);}
+function binP2(n,p,c){return Math.min(1,2*Math.min(binSf(n,p,c),binCdf(n,p,c)));}
+function betaQuantile(a,b,q){let lo=0,hi=1;for(let i=0;i<60;i++){const m=(lo+hi)/2;if(betaInc(a,b,m)<q)lo=m;else hi=m;}return (lo+hi)/2;}
+function wilson(x,n,z){z=z||1.96;if(!n)return[0,1];const p=x/n,d=1+z*z/n,c=p+z*z/(2*n),m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n));return[(c-m)/d,(c+m)/d];}
+function adjustBH(p){const m=p.length,idx=p.map((v,i)=>i).sort((a,b)=>p[a]-p[b]),out=new Array(m);let prev=1;
+ for(let r=m-1;r>=0;r--){const i=idx[r];prev=Math.min(prev,p[i]*m/(r+1));out[i]=prev;}return out;}
+function adjustHolm(p){const m=p.length,idx=p.map((v,i)=>i).sort((a,b)=>p[a]-p[b]),out=new Array(m);let prev=0;
+ for(let r=0;r<m;r++){const i=idx[r];prev=Math.max(prev,Math.min(1,p[i]*(m-r)));out[i]=prev;}return out;}
+function mean(a){let s=0;for(let i=0;i<a.length;i++)s+=a[i];return a.length?s/a.length:0;}
+function sd(a){const m=mean(a);let s=0;for(let i=0;i<a.length;i++)s+=(a[i]-m)*(a[i]-m);return a.length>1?Math.sqrt(s/(a.length-1)):0;}
+function median(a){if(!a.length)return 0;const b=Array.from(a).sort((x,y)=>x-y),m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2;}
+/* Khi-deux d'ajustement avec regroupement des classes d'effectif attendu < 5 */
+function chi2gof(obs,probs,total){let O=[],Ex=[];for(let i=0;i<obs.length;i++){O.push(obs[i]);Ex.push(probs[i]*total);}
+ for(let pass=0;pass<2;pass++){for(let i=O.length-1;i>0;i--)if(Ex[i]<5){O[i-1]+=O[i];Ex[i-1]+=Ex[i];O.splice(i,1);Ex.splice(i,1);}O.reverse();Ex.reverse();}
+ let st=0;for(let i=0;i<O.length;i++)if(Ex[i]>0)st+=(O[i]-Ex[i])*(O[i]-Ex[i])/Ex[i];const df=O.length-1;return{stat:st,df,p:chi2sf(st,df)};}
+
+/* ================= Générateur pseudo-aléatoire (sfc32) ================= */
+function RNG(seed){let a=0x9E3779B9^seed,b=0x243F6A88^(seed*2654435761>>>0),c=0xB7E15162^(seed>>>3),d=1;
+ function next(){a|=0;b|=0;c|=0;d|=0;const t=(a+b|0)+d|0;d=d+1|0;a=b^b>>>9;b=c+(c<<3)|0;c=c<<21|c>>>11;c=c+t|0;return(t>>>0)/4294967296;}
+ for(let i=0;i<20;i++)next();
+ next.int=function(m){return Math.floor(next()*m);};return next;}
+function newSeed(){try{const u=new Uint32Array(1);(typeof crypto!=='undefined'?crypto:self.crypto).getRandomValues(u);return u[0]>>>0;}catch(e){return(Date.now()^(Math.random()*4294967296))>>>0;}}
+function makeSampler(n){const perm=new Int32Array(n);for(let i=0;i<n;i++)perm[i]=i+1;
+ return function(rng,k,out){for(let i=0;i<k;i++){const j=i+Math.floor(rng()*(n-i));const t=perm[i];perm[i]=perm[j];perm[j]=t;out[i]=perm[i];}return out;};}
+function sampleK(rng,n,k){const s=makeSampler(n);return Array.from(s(rng,k,new Array(k))).sort((a,b)=>a-b);}
+function weightedSampleK(rng,w,n,k){const used=new Uint8Array(n+1),out=[];let tot=0;for(let i=1;i<=n;i++)tot+=w[i];
+ for(let j=0;j<k;j++){let r=rng()*tot,pick=0;for(let i=1;i<=n;i++){if(used[i])continue;pick=i;r-=w[i];if(r<=0)break;}used[pick]=1;tot-=w[pick];out.push(pick);}return out.sort((a,b)=>a-b);}
+
+/* ================= Dates et calendrier ================= */
+function pad(x){return(x<10?'0':'')+x;}
+function isoOf(y,m,d){const dt=new Date(Date.UTC(y,m-1,d));if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==m-1||dt.getUTCDate()!==d)return null;return y+'-'+pad(m)+'-'+pad(d);}
+function parseDate(s){if(s==null)return null;s=String(s).trim();let m;
+ if((m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/)))return isoOf(+m[1],+m[2],+m[3]);
+ if((m=s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/)))return isoOf(+m[3],+m[2],+m[1]);
+ if((m=s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2})$/))){const y=+m[3];return isoOf(y>=76?1900+y:2000+y,+m[2],+m[1]);}
+ if((m=s.match(/^(\d{8})$/))){const y=+s.slice(0,4);if(y>=1970&&y<=2100)return isoOf(y,+s.slice(4,6),+s.slice(6,8));return isoOf(+s.slice(4,8),+s.slice(2,4),+s.slice(0,2));}
+ return null;}
+function dow(iso){return new Date(iso+'T00:00:00Z').getUTCDay();}
+function addDays(iso,n){const d=new Date(iso+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+function expectedDates(gid,from,to){const out=[];if(!from||!to||from>to)return out;let d=from,guard=0;
+ while(d<=to&&guard++<40000){const p=periodOf(gid,d);if(p&&p.days&&p.days.indexOf(dow(d))>=0)out.push(d);d=addDays(d,1);}return out;}
+function missingDates(gid,dates,lastComplete,ignored){if(!dates.length)return[];const set=new Set(dates),ig=new Set((ignored||[]).concat(GAMES[gid].noDraw||[]));
+ const first=dates.reduce((a,b)=>a<b?a:b);return expectedDates(gid,first,lastComplete).filter(d=>!set.has(d)&&!ig.has(d));}
+function nextDrawDate(gid,after){let d=addDays(after,1);for(let i=0;i<14;i++){const p=periodOf(gid,d);if(p&&p.days&&p.days.indexOf(dow(d))>=0)return d;d=addDays(d,1);}return d;}
+
+/* ================= Validation et normalisation ================= */
+function drawId(gid,date,seq){return gid+'|'+date+'|'+(seq||1);}
+function validateDraw(gid,d,today){const G=GAMES[gid],err=[],warn=[];
+ if(!d.date||!/^\d{4}-\d{2}-\d{2}$/.test(d.date)){err.push('date invalide ou absente');return{err,warn};}
+ const per=periodOf(gid,d.date);if(!per){err.push('date antérieure au lancement du jeu ('+G.periods[0].from+')');return{err,warn};}
+ if(today&&d.date>today)err.push('date dans le futur');
+ const legacy=!!per.legacy,kk=legacy?6:G.k;
+ if(!Array.isArray(d.nums)||d.nums.length!==kk)err.push(kk+' numéros attendus, '+(d.nums?d.nums.length:0)+' fournis');
+ else{if(d.nums.some(x=>!Number.isInteger(x)||x<1||x>G.n))err.push('numéro hors de la plage 1–'+G.n);if(new Set(d.nums).size!==d.nums.length)err.push('numéro répété');}
+ if(!legacy){const bn=per.bn;if(!Array.isArray(d.bonus)||d.bonus.length!==G.bk)err.push(G.bk+' '+G.bonusShort+'(s) attendu(s)');
+  else{if(d.bonus.some(x=>!Number.isInteger(x)||x<1||x>bn))err.push(G.bonusShort+' hors de la plage 1–'+bn+' (règles en vigueur à cette date)');if(new Set(d.bonus).size!==d.bonus.length)err.push(G.bonusShort+' répété(e)');}
+  if(per.days&&per.days.indexOf(dow(d.date))<0)warn.push('ce jour de la semaine n’est pas un jour de tirage habituel');}
+ return{err,warn};}
+function normalize(gid,date,nums,bonus,extra){const per=periodOf(gid,date);const o={id:drawId(gid,date,extra&&extra.seq),game:gid,date,nums:nums.slice().sort((a,b)=>a-b),bonus:(bonus||[]).slice().sort((a,b)=>a-b),legacy:!!(per&&per.legacy)};
+ if(extra)for(const key in extra)if(extra[key]!==undefined&&extra[key]!==null)o[key]=extra[key];return o;}
+function sameDraw(a,b){return a.nums.join()===b.nums.join()&&(a.bonus||[]).join()===(b.bonus||[]).join();}
+
+/* ================= Lecture des fichiers ================= */
+function splitLines(t){return t.replace(/^﻿/,'').split(/\r\n|\n|\r/).filter(l=>l.trim().length);}
+function normHeader(hh){return hh.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9_]+/g,'_').replace(/^_+|_+$/g,'');}
+function detectSep(line){const c={';':0,',':0,'\t':0,'|':0};for(const ch of line)if(ch in c)c[ch]++;return Object.keys(c).sort((a,b)=>c[b]-c[a])[0];}
+/* Archives officielles FDJ (CSV à point-virgule, en-têtes boule_1…, etoile_1…, numero_chance) */
+function parseFdjCsv(text,filename,importedAt){const res={game:null,draws:[],errors:[],format:null,filename};
+ const lines=splitLines(text);if(lines.length<2){res.errors.push('fichier vide');return res;}
+ if(/super|grand|noel|vendredi|(^|[\/_-])sloto/i.test(filename||'')){res.errors.push('Ce fichier correspond à un tirage spécial (Super Loto / Grand Loto), qui n’appartient pas à la série des tirages réguliers : il n’est pas importé.');return res;}
+ const sep=detectSep(lines[0]),H=lines[0].split(sep).map(normHeader),col=n=>H.indexOf(n);
+ const cDate=col('date_de_tirage');if(cDate<0||col('boule_1')<0){res.errors.push('en-têtes FDJ non reconnus');return res;}
+ const hasStar=col('etoile_1')>=0,hasChance=col('numero_chance')>=0,legacy=col('boule_6')>=0&&!hasStar&&!hasChance;
+ if(hasStar)res.game='em';else if(hasChance||legacy)res.game='loto';else{res.errors.push('type de jeu non identifiable');return res;}
+ res.format=hasStar?'FDJ EuroMillions':legacy?'FDJ Loto 1976–2008 (6 numéros)':'FDJ Loto (5 numéros + N° Chance)';
+ const cId=col('annee_numero_de_tirage'),cSeq=col('1er_ou_2eme_tirage'),cComp=col('boule_complementaire'),nb=legacy?6:5;
+ const bc=[];for(let i=1;i<=nb;i++)bc.push(col('boule_'+i));
+ const sc=hasStar?[col('etoile_1'),col('etoile_2')]:hasChance?[col('numero_chance')]:[];
+ for(let li=1;li<lines.length;li++){const f=lines[li].split(sep);const date=parseDate(f[cDate]);
+  if(!date){res.errors.push('ligne '+(li+1)+' : date illisible « '+(f[cDate]||'')+' »');continue;}
+  const nums=bc.map(c=>parseInt(f[c],10)),bonus=sc.map(c=>parseInt(f[c],10));
+  if(nums.some(isNaN)||bonus.some(isNaN)){res.errors.push('ligne '+(li+1)+' ('+date+') : numéro illisible');continue;}
+  const seq=cSeq>=0?(parseInt(f[cSeq],10)||1):1;
+  res.draws.push(normalize(res.game,date,nums,bonus,{seq,fdjId:cId>=0?(f[cId]||'').trim():undefined,compl:legacy&&cComp>=0?parseInt(f[cComp],10):undefined,source:'Archive officielle FDJ'+(filename?' · '+filename:''),importedAt,raw:lines[li],order:nums}));}
+ return res;}
+/* CSV libre : date ; n1 ; … ; n5 ; (e1 ; e2 | chance) */
+function parseGenericCsv(text,gid,importedAt,source){const G=GAMES[gid],res={game:gid,draws:[],errors:[],format:'CSV libre'};
+ const lines=splitLines(text);if(!lines.length){res.errors.push('fichier vide');return res;}
+ lines.forEach((ln,i)=>{const f=ln.split(detectSep(ln)).map(s=>s.trim().replace(/^"|"$/g,''));const date=parseDate(f[0]);
+  if(!date){if(i===0)return;res.errors.push('ligne '+(i+1)+' : date illisible « '+f[0]+' »');return;}
+  const v=f.slice(1).filter(s=>s!=='').map(s=>parseInt(s,10));
+  if(v.some(isNaN)||v.length<G.k+G.bk){res.errors.push('ligne '+(i+1)+' ('+date+') : '+(G.k+G.bk)+' valeurs numériques attendues après la date');return;}
+  res.draws.push(normalize(gid,date,v.slice(0,G.k),v.slice(G.k,G.k+G.bk),{source:source||'Import manuel (CSV)',importedAt,raw:ln}));});
+ return res;}
+function parseJsonDraws(obj,gid,importedAt,source){const G=GAMES[gid],res={game:gid,draws:[],errors:[],format:'JSON'};
+ const arr=Array.isArray(obj)?obj:(obj&&Array.isArray(obj.tirages)?obj.tirages:obj&&Array.isArray(obj.draws)?obj.draws:null);
+ if(!arr){res.errors.push('tableau de tirages introuvable (attendu : [ {date, numeros, etoiles|chance} ])');return res;}
+ arr.forEach((o,i)=>{if(o&&o.game&&o.game!==gid)return;const date=parseDate(o&&o.date);if(!date){res.errors.push('élément '+(i+1)+' : date illisible');return;}
+  const nums=(o.numeros||o.nums||o.numbers||[]).map(Number);let bonus=o.etoiles||o.stars||o.bonus;if(bonus==null&&o.chance!=null)bonus=[o.chance];bonus=(Array.isArray(bonus)?bonus:[bonus]).map(Number);
+  if(nums.length!==G.k&&!(periodOf(gid,date)||{}).legacy){res.errors.push('élément '+(i+1)+' ('+date+') : '+G.k+' numéros attendus');return;}
+  res.draws.push(normalize(gid,date,nums,bonus.filter(x=>!isNaN(x)),{seq:o.seq,fdjId:o.fdjId,compl:o.compl,source:o.source||source||'Import manuel (JSON)',importedAt:o.importedAt||importedAt,raw:o.raw||JSON.stringify(o)}));});
+ return res;}
+
+/* ================= ZIP (inflate local + CRC32) ================= */
+let crcT=null;
+function crc32(u8){if(!crcT){crcT=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;crcT[n]=c>>>0;}}
+ let c=0xFFFFFFFF;for(let i=0;i<u8.length;i++)c=crcT[(c^u8[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0;}
+function inflateRaw(src,sizeHint){let pos=0,bb=0,bc=0,out=new Uint8Array(Math.max(1024,sizeHint||src.length*4)),op=0;
+ function need(n){if(op+n>out.length){const o=new Uint8Array(Math.max(out.length*2,op+n));o.set(out);out=o;}}
+ function bits(n){while(bc<n){if(pos>=src.length)throw new Error('archive tronquée');bb|=src[pos++]<<bc;bc+=8;}const v=bb&((1<<n)-1);bb>>>=n;bc-=n;return v;}
+ function build(lens){const count=new Uint16Array(16),sym=new Uint16Array(lens.length),offs=new Uint16Array(16);for(let i=0;i<lens.length;i++)count[lens[i]]++;count[0]=0;
+  for(let i=1;i<16;i++)offs[i]=offs[i-1]+count[i-1];for(let s=0;s<lens.length;s++)if(lens[s])sym[offs[lens[s]]++]=s;return{count,sym};}
+ function dec(h){let code=0,first=0,index=0;for(let len=1;len<16;len++){code|=bits(1);const c=h.count[len];if(code-c<first)return h.sym[index+(code-first)];index+=c;first+=c;first<<=1;code<<=1;}throw new Error('code Huffman invalide');}
+ const LB=[3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258],LE=[0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0],
+  DB=[1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577],DE=[0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+ let fixL=null,fixD=null,last=0;
+ do{last=bits(1);const type=bits(2);
+  if(type===0){bb=0;bc=0;const len=src[pos]|(src[pos+1]<<8);pos+=4;need(len);out.set(src.subarray(pos,pos+len),op);op+=len;pos+=len;}
+  else if(type===1||type===2){let hl,hd;
+   if(type===1){if(!fixL){const l=new Uint8Array(288);l.fill(8,0,144);l.fill(9,144,256);l.fill(7,256,280);l.fill(8,280,288);fixL=build(l);fixD=build(new Uint8Array(30).fill(5));}hl=fixL;hd=fixD;}
+   else{const nl=bits(5)+257,nd=bits(5)+1,nc=bits(4)+4,ord=[16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15],cl=new Uint8Array(19);
+    for(let i=0;i<nc;i++)cl[ord[i]]=bits(3);const hc=build(cl),lens=new Uint8Array(nl+nd);let i=0;
+    while(i<nl+nd){const s=dec(hc);if(s<16)lens[i++]=s;else{let rep,val=0;if(s===16){if(!i)throw new Error('archive corrompue');val=lens[i-1];rep=3+bits(2);}else if(s===17)rep=3+bits(3);else rep=11+bits(7);while(rep--&&i<nl+nd)lens[i++]=val;}}
+    hl=build(lens.subarray(0,nl));hd=build(lens.subarray(nl));}
+   for(;;){const s=dec(hl);if(s<256){need(1);out[op++]=s;}else if(s===256)break;else{const li=s-257;if(li>28)throw new Error('archive corrompue');const len=LB[li]+bits(LE[li]),di=dec(hd),dist=DB[di]+bits(DE[di]);
+     if(dist>op)throw new Error('archive corrompue');need(len);for(let j=0;j<len;j++){out[op]=out[op-dist];op++;}}}}
+  else throw new Error('bloc compressé inconnu');
+ }while(!last);
+ return out.subarray(0,op);}
+function unzip(u8){const dv=new DataView(u8.buffer,u8.byteOffset,u8.byteLength);let e=-1;
+ for(let i=u8.length-22;i>=Math.max(0,u8.length-66000);i--)if(dv.getUint32(i,true)===0x06054b50){e=i;break;}
+ if(e<0)throw new Error('ce fichier n’est pas une archive ZIP valide');
+ const count=dv.getUint16(e+10,true);let p=dv.getUint32(e+16,true);const files=[];
+ for(let i=0;i<count;i++){if(dv.getUint32(p,true)!==0x02014b50)throw new Error('répertoire ZIP corrompu');
+  const method=dv.getUint16(p+10,true),crc=dv.getUint32(p+16,true),cs=dv.getUint32(p+20,true),us=dv.getUint32(p+24,true),nl=dv.getUint16(p+28,true),xl=dv.getUint16(p+30,true),ml=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+  const name=new TextDecoder().decode(u8.subarray(p+46,p+46+nl));p+=46+nl+xl+ml;if(name.endsWith('/'))continue;
+  const ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),comp=u8.subarray(ds,ds+cs);let data;
+  if(method===0)data=comp;else if(method===8)data=inflateRaw(comp,us);else throw new Error('méthode de compression ZIP non gérée ('+method+')');
+  if(crc32(data)!==crc)throw new Error('contrôle d’intégrité CRC32 en échec pour '+name);
+  files.push({name,data});}
+ return files;}
+function decodeText(u8){try{return new TextDecoder('utf-8',{fatal:true}).decode(u8);}catch(e){return new TextDecoder('windows-1252').decode(u8);}}
+
+/* ================= Probabilités des rangs ================= */
+function rankTable(gid,bnOverride){const G=GAMES[gid],bn=bnOverride||G.bn,rows=[];
+ for(let m=G.k;m>=0;m--)for(let b=G.bk;b>=0;b--){const p=hyper(G.n,G.k,G.k,m)*hyper(bn,G.bk,G.bk,b),key=m+'+'+b;rows.push({m,b,key,p,gain:G.gains[key]||0});}
+ const ev=rows.reduce((s,r)=>s+r.p*r.gain,0);return{rows,total:comb(G.n,G.k)*comb(bn,G.bk),ev,price:G.price,roi:ev/G.price-1,pWin:rows.reduce((s,r)=>s+(r.gain?r.p:0),0)};}
+
+/* ================= Statistiques d'un historique (observé ou simulé) ================= */
+const HS_NAMES=['chi2','pairDisp','maxPair','maxGap','evenChi','meanSum','sdSum','meanRep','consec','blockVar','cusum'];
+function makeHistStats(n,k,T){const cnt=new Int32Array(n+1),pc=new Int32Array((n+1)*(n+1)),last=new Int32Array(n+1),stamp=new Int32Array(n+2),ev=new Int32Array(k+1),sums=new Float64Array(T);
+ const p=k/n,E=T*p,Ep=T*k*(k-1)/(n*(n-1)),nEven=Math.floor(n/2),evP=[];for(let x=0;x<=k;x++)evP.push(hyper(n,nEven,k,x));
+ const mu=k*(n+1)/2,sg=Math.sqrt(k*(n+1)*(n-k)/12),BL=50;
+ return function(flat){cnt.fill(0);pc.fill(0);last.fill(-1);stamp.fill(0);ev.fill(0);let maxGap=0,rep=0,cons=0,sSum=0,sSq=0;
+  for(let t=0;t<T;t++){const o=t*k;let s=0,e=0,r=0,c=0;
+   for(let i=0;i<k;i++){const a=flat[o+i];s+=a;if(!(a&1))e++;if(t&&stamp[a]===t)r++;cnt[a]++;if(last[a]>=0){const g=t-last[a];if(g>maxGap)maxGap=g;}last[a]=t;
+    for(let j=i+1;j<k;j++){const b=flat[o+j];pc[a<b?a*(n+1)+b:b*(n+1)+a]++;}}
+   for(let i=0;i<k;i++)stamp[flat[o+i]]=t+1;
+   for(let i=0;i<k;i++){const a=flat[o+i];if(a<n&&stamp[a+1]===t+1){c=1;break;}}
+   sums[t]=s;sSum+=s;sSq+=s*s;ev[e]++;rep+=r;cons+=c;}
+  for(let a=1;a<=n;a++)if(T-1-last[a]>maxGap)maxGap=T-1-last[a];
+  let chi=0;for(let a=1;a<=n;a++)chi+=(cnt[a]-E)*(cnt[a]-E)/E;chi*=(n-1)/(n-k);
+  let pd=0,mp=0;for(let a=1;a<n;a++)for(let b=a+1;b<=n;b++){const v=pc[a*(n+1)+b];pd+=(v-Ep)*(v-Ep)/Ep;if(v>mp)mp=v;}
+  let ec=0;for(let x=0;x<=k;x++){const ex=evP[x]*T;ec+=(ev[x]-ex)*(ev[x]-ex)/ex;}
+  const ms=sSum/T,sds=Math.sqrt(Math.max(0,(sSq-T*ms*ms)/(T-1)));
+  let nb=Math.floor(T/BL),bv=0;if(nb>1){let bm=[],tot=0;for(let b=0;b<nb;b++){let s=0;for(let t=b*BL;t<(b+1)*BL;t++)s+=sums[t];bm.push(s/BL);tot+=s/BL;}tot/=nb;for(const x of bm)bv+=(x-tot)*(x-tot);bv/=(nb-1);}
+  let cs=0,cmax=0;for(let t=0;t<T;t++){cs+=(sums[t]-mu)/sg;if(Math.abs(cs)>cmax)cmax=Math.abs(cs);}
+  return[chi,pd,mp,maxGap,ec,ms,sds,T>1?rep/(T-1):0,cons/T,bv,cmax/Math.sqrt(T)];};}
+function flatten(D,k){const f=new Uint8Array(D.length*k);for(let t=0;t<D.length;t++)for(let i=0;i<k;i++)f[t*k+i]=D[t].nums[i];return f;}
+
+/* ================= Analyse statistique complète ================= */
+function analyze(all,gid,opts){opts=opts||{};const G=GAMES[gid],n=G.n,k=G.k,bn=G.bn,bk=G.bk,p=k/n;
+ const D=all.filter(d=>!d.legacy).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0),T=D.length,cur=currentPeriod(gid),B=D.filter(d=>d.date>=cur.from),TB=B.length;
+ const R={game:gid,T,TB,first:T?D[0].date:null,last:T?D[T-1].date:null,nLegacy:all.length-T};
+ if(T<30){R.insufficient=true;return R;}
+ const rng=RNG(opts.seed||(T*7919+17));
+ /* --- A. Fréquences --- */
+ const cnt=new Int32Array(n+1),lastIdx=new Int32Array(n+1).fill(-1),gaps=[];for(let i=0;i<=n;i++)gaps.push([]);
+ const years=[],yIdx={};D.forEach(d=>{const y=d.date.slice(0,4);if(!(y in yIdx)){yIdx[y]=years.length;years.push(y);}});
+ const yc=years.map(()=>new Int32Array(n+1)),yT=new Int32Array(years.length);
+ D.forEach((d,t)=>{const yi=yIdx[d.date.slice(0,4)];yT[yi]++;for(const a of d.nums){cnt[a]++;yc[yi][a]++;if(lastIdx[a]>=0)gaps[a].push(t-lastIdx[a]);lastIdx[a]=t;}});
+ const win=w=>{const c=new Int32Array(n+1);for(let t=Math.max(0,T-w);t<T;t++)for(const a of D[t].nums)c[a]++;return c;};
+ const W={10:win(10),25:win(25),50:win(50),100:win(100)},sdC=Math.sqrt(T*p*(1-p));
+ const nums=[],pz=[];for(let a=1;a<=n;a++){const z=(cnt[a]-T*p)/sdC,ci=wilson(cnt[a],T),w100=Math.min(100,T),tz=(W[100][a]-w100*p)/Math.sqrt(w100*p*(1-p));pz.push(binP2(T,p,cnt[a]));
+  nums.push({a,count:cnt[a],pct:cnt[a]/T,ci,z,w10:W[10][a],w25:W[25][a],w50:W[50][a],w100:W[100][a],trendZ:tz,byYear:years.map((y,i)=>yc[i][a]),gap:T-1-lastIdx[a],gapMean:mean(gaps[a]),gapMedian:median(gaps[a]),gapMax:Math.max(gaps[a].length?Math.max.apply(null,gaps[a]):0,T-1-lastIdx[a]),pGap:Math.pow(1-p,T-1-lastIdx[a])});}
+ const q=adjustBH(pz);nums.forEach((o,i)=>{o.pRaw=pz[i];o.q=q[i];});
+ let chi=0;for(let a=1;a<=n;a++)chi+=(cnt[a]-T*p)*(cnt[a]-T*p)/(T*p);chi*=(n-1)/(n-k);
+ R.freq={nums,years,yearT:Array.from(yT),expectedPct:p,chi2:{stat:chi,df:n-1,p:chi2sf(chi,n-1)},flagged:nums.filter(o=>o.q<0.05).map(o=>o.a),minBonf:Math.min(1,Math.min.apply(null,pz)*n)};
+ /* --- Numéros complémentaires (période de règles en cours) --- */
+ if(TB>=20){const bc=new Int32Array(bn+1),bl=new Int32Array(bn+1).fill(-1),bg=[];for(let i=0;i<=bn;i++)bg.push([]);const pb=bk/bn;
+  B.forEach((d,t)=>{for(const s of d.bonus){bc[s]++;if(bl[s]>=0)bg[s].push(t-bl[s]);bl[s]=t;}});
+  const bw=w=>{const c=new Int32Array(bn+1);for(let t=Math.max(0,TB-w);t<TB;t++)for(const s of B[t].bonus)c[s]++;return c;},b50=bw(50),b10=bw(10);
+  const bnums=[],bp=[];let bchi=0;for(let s=1;s<=bn;s++){const z=(bc[s]-TB*pb)/Math.sqrt(TB*pb*(1-pb));bp.push(binP2(TB,pb,bc[s]));bchi+=(bc[s]-TB*pb)*(bc[s]-TB*pb)/(TB*pb);
+   bnums.push({a:s,count:bc[s],pct:bc[s]/TB,z,w10:b10[s],w50:b50[s],gap:TB-1-bl[s],gapMean:mean(bg[s]),gapMax:Math.max(bg[s].length?Math.max.apply(null,bg[s]):0,TB-1-bl[s])});}
+  bchi*=bk<bn?(bn-1)/(bn-bk):1;const bq=adjustBH(bp);bnums.forEach((o,i)=>o.q=bq[i]);
+  R.bonus={nums:bnums,expectedPct:pb,since:cur.from,chi2:{stat:bchi,df:bn-1,p:chi2sf(bchi,bn-1)}};}
+ /* --- B. Écarts --- */
+ {const all2=[];for(let a=1;a<=n;a++)for(const g of gaps[a])all2.push(g);const MAXB=40,pr=[];
+  for(let g=1;g<=MAXB;g++)pr.push(p*Math.pow(1-p,g-1));pr.push(Math.pow(1-p,MAXB));
+  const o2=new Array(MAXB+1).fill(0);for(const g of all2)o2[g>MAXB?MAXB:g-1]++;
+  R.gaps={total:all2.length,mean:mean(all2),median:median(all2),expectedMean:1/p,obs:o2,probs:pr,gof:chi2gof(o2,pr,all2.length),maxObserved:all2.length?all2.reduce((a,b)=>a>b?a:b):0};}
+ /* --- C. Associations --- */
+ {const pc=new Int32Array((n+1)*(n+1)),tri=new Map(),quad=new Map();
+  for(const d of D){const v=d.nums;for(let i=0;i<k;i++)for(let j=i+1;j<k;j++){pc[v[i]*(n+1)+v[j]]++;for(let l=j+1;l<k;l++){const key=(v[i]*64+v[j])*64+v[l];tri.set(key,(tri.get(key)||0)+1);for(let m=l+1;m<k;m++){const k4=key*64+v[m];quad.set(k4,(quad.get(k4)||0)+1);}}}}
+  const qp=k*(k-1)/(n*(n-1)),Ep=T*qp,sp=Math.sqrt(T*qp*(1-qp)),pairs=[];for(let a=1;a<n;a++)for(let b=a+1;b<=n;b++){const c=pc[a*(n+1)+b];pairs.push({a,b,c,z:(c-Ep)/sp});}
+  pairs.sort((x,y)=>y.c-x.c);const nP=pairs.length,zmax=pairs[0].z;
+  const q3=k*(k-1)*(k-2)/(n*(n-1)*(n-2)),E3=T*q3,N3=comb(n,3),tl=Array.from(tri.entries()).sort((x,y)=>y[1]-x[1]),maxT=tl.length?tl[0][1]:0;
+  const poisTail=(lam,c)=>{let s=0,term=Math.exp(-lam);for(let i=0;i<c;i++){s+=term;term*=lam/(i+1);}return Math.max(0,1-s);};
+  const q4=comb(k,4)/comb(n,4),E4=T*q4,N4=comb(n,4),ql=Array.from(quad.entries()).filter(e=>e[1]>=2).sort((x,y)=>y[1]-x[1]);
+  const dec3=key=>[Math.floor(key/4096),Math.floor(key/64)%64,key%64],dec4=key=>[Math.floor(key/262144),Math.floor(key/4096)%64,Math.floor(key/64)%64,key%64];
+  R.assoc={expectedPair:Ep,sdPair:sp,nPairs:nP,top:pairs.slice(0,12),bottom:pairs.slice(-12).reverse(),pBonfMax:Math.min(1,binSf(T,qp,pairs[0].c)*nP),pairTest:'binomiale exacte, Bonferroni sur '+nP+' paires',
+   tri:{expected:E3,distinct:tri.size,possible:N3,max:maxT,expectedAtMax:N3*poisTail(E3,maxT),top:tl.slice(0,10).map(e=>({nums:dec3(e[0]),c:e[1]}))},
+   quad:{expected:E4,possible:N4,repeated:ql.length,expectedRepeated:N4*poisTail(E4,2),top:ql.slice(0,10).map(e=>({nums:dec4(e[0]),c:e[1]}))}};
+  /* numéros × complémentaires : test d'indépendance par permutation */
+  if(TB>=50){const M=new Int32Array((n+1)*(bn+1)),Ex=TB*p*(bk/bn);const stat=(perm)=>{M.fill(0);for(let t=0;t<TB;t++){const bo=B[perm?perm[t]:t].bonus;for(const a of B[t].nums)for(const s of bo)M[a*(bn+1)+s]++;}let x=0;for(let a=1;a<=n;a++)for(let s=1;s<=bn;s++){const v=M[a*(bn+1)+s];x+=(v-Ex)*(v-Ex)/Ex;}return x;};
+   const obs=stat(null),cells=[];for(let a=1;a<=n;a++)for(let s=1;s<=bn;s++)cells.push({a,s,c:M[a*(bn+1)+s]});cells.sort((x,y)=>y.c-x.c);
+   const NP=opts.perms||300,perm=new Int32Array(TB);for(let i=0;i<TB;i++)perm[i]=i;let ge=0;
+   for(let r=0;r<NP;r++){for(let i=TB-1;i>0;i--){const j=Math.floor(rng()*(i+1)),t=perm[i];perm[i]=perm[j];perm[j]=t;}if(stat(perm)>=obs)ge++;}
+   R.assoc.cross={stat:obs,expected:Ex,perms:NP,p:(ge+1)/(NP+1),top:cells.slice(0,8),bottom:cells.slice(-5).reverse()};}}
+ /* --- D. Distributions --- */
+ {const nEven=Math.floor(n/2),nLow=Math.floor(n/2),ev=new Array(k+1).fill(0),lo=new Array(k+1).fill(0),rp=new Array(k+1).fill(0),ndec=Math.ceil(n/10),dec=new Array(ndec).fill(0),sums=new Float64Array(T),ranges=new Float64Array(T),runs=new Array(k).fill(0);let cons=0;
+  D.forEach((d,t)=>{let e=0,l=0,s=0,c=0;for(const a of d.nums){if(!(a&1))e++;if(a<=nLow)l++;s+=a;dec[Math.min(ndec-1,Math.floor((a-1)/10))]++;}
+   for(let i=1;i<k;i++)if(d.nums[i]===d.nums[i-1]+1)c++;runs[c]++;if(c)cons++;ev[e]++;lo[l]++;sums[t]=s;ranges[t]=d.nums[k-1]-d.nums[0];
+   if(t){let r=0;for(const a of d.nums)if(D[t-1].nums.indexOf(a)>=0)r++;rp[r]++;}});
+  const hp=K=>{const o=[];for(let x=0;x<=k;x++)o.push(hyper(n,K,k,x));return o;},evP=hp(nEven),loP=hp(nLow),rpP=hp(k);
+  const mu=k*(n+1)/2,sg=Math.sqrt(k*(n+1)*(n-k)/12),ms=mean(sums),zs=(ms-mu)/(sg/Math.sqrt(T));
+  const pNoCons=comb(n-k+1,k)/comb(n,k),zc=(cons/T-(1-pNoCons))/Math.sqrt(pNoCons*(1-pNoCons)/T);
+  const decP=[];for(let i=0;i<ndec;i++)decP.push((Math.min(n,(i+1)*10)-i*10)/n);
+  const BW=10,h0=Math.floor((k*(k+1)/2)/BW)*BW,nbin=Math.ceil((k*n-k*(k-1)/2-h0+1)/BW),hist=new Array(nbin).fill(0);for(let t=0;t<T;t++)hist[Math.floor((sums[t]-h0)/BW)]++;
+  /* bootstrap de la somme moyenne */
+  const NB=opts.boot||1000,bm=new Float64Array(NB);for(let b=0;b<NB;b++){let s=0;for(let i=0;i<T;i++)s+=sums[Math.floor(rng()*T)];bm[b]=s/T;}bm.sort();
+  R.dist={even:{obs:ev,probs:evP,gof:chi2gof(ev,evP,T)},low:{obs:lo,probs:loP,gof:chi2gof(lo,loP,T),split:nLow},repeats:{obs:rp,probs:rpP,gof:chi2gof(rp,rpP,T-1),mean:rp.reduce((s,v,i)=>s+v*i,0)/(T-1),expected:k*k/n},
+   decades:{obs:dec,probs:decP,labels:decP.map((v,i)=>(i*10+1)+'–'+Math.min(n,(i+1)*10)),chiNote:chi2gof(dec,decP,T*k)},
+   sum:{mean:ms,sd:sd(sums),muTheo:mu,sdTheo:sg,z:zs,p:normP2(zs),hist,h0,bw:BW,min:Math.min.apply(null,sums),max:Math.max.apply(null,sums),bootCI:[bm[Math.floor(NB*0.025)],bm[Math.floor(NB*0.975)]],boot:NB},
+   range:{mean:mean(ranges),sd:sd(ranges)},consecutive:{share:cons/T,expected:1-pNoCons,z:zc,p:normP2(zc),runs}};
+  /* --- E. Temporel --- */
+  const grp=(keyf)=>{const m=new Map();D.forEach((d,t)=>{const key=keyf(d);let o=m.get(key);if(!o){o={key,T:0,sum:0,cnt:new Int32Array(n+1)};m.set(key,o);}o.T++;o.sum+=sums[t];for(const a of d.nums)o.cnt[a]++;});
+   return Array.from(m.values()).map(o=>{let x=0;const E=o.T*p;for(let a=1;a<=n;a++)x+=(o.cnt[a]-E)*(o.cnt[a]-E)/E;x*=(n-1)/(n-k);const z=(o.sum/o.T-mu)/(sg/Math.sqrt(o.T));return{key:o.key,T:o.T,meanSum:o.sum/o.T,zSum:z,chi2:x,p:o.T*p>=5?chi2sf(x,n-1):null};});};
+  const byYear=grp(d=>d.date.slice(0,4)),byMonth=grp(d=>d.date.slice(5,7)).sort((a,b)=>a.key<b.key?-1:1),byQuarter=grp(d=>'T'+(Math.floor((+d.date.slice(5,7)-1)/3)+1)).sort((a,b)=>a.key<b.key?-1:1),byPeriod=grp(d=>periodOf(gid,d.date).id);
+  byPeriod.forEach(o=>{o.label=GAMES[gid].periods.find(x=>x.id===o.key).label;});
+  const WN=Math.min(100,Math.floor(T/3)),roll=[];if(WN>=50){const wc=new Int32Array(n+1);for(let t=0;t<T;t++){for(const a of D[t].nums)wc[a]++;if(t>=WN)for(const a of D[t-WN].nums)wc[a]--;if(t>=WN-1&&(t-WN+1)%10===0){let x=0;const E=WN*p;for(let a=1;a<=n;a++)x+=(wc[a]-E)*(wc[a]-E)/E;roll.push({date:D[t].date,chi2:x*(n-1)/(n-k)});}}}
+  /* rupture de régime : CUSUM des sommes, p-valeur par permutation */
+  const cus=arr=>{let c=0,m=0,at=0;for(let t=0;t<arr.length;t++){c+=(arr[t]-ms);if(Math.abs(c)>m){m=Math.abs(c);at=t;}}return{m:m/(sd(sums)*Math.sqrt(T)),at};};
+  const c0=cus(sums),NPc=opts.perms||300,sh=Float64Array.from(sums);let gec=0;for(let r=0;r<NPc;r++){for(let i=T-1;i>0;i--){const j=Math.floor(rng()*(i+1)),t=sh[i];sh[i]=sh[j];sh[j]=t;}if(cus(sh).m>=c0.m)gec++;}
+  /* autocorrélation des sommes + Ljung-Box */
+  const L=10,ac=[];let den=0;for(let t=0;t<T;t++)den+=(sums[t]-ms)*(sums[t]-ms);let Q=0;for(let l=1;l<=L;l++){let num=0;for(let t=l;t<T;t++)num+=(sums[t]-ms)*(sums[t-l]-ms);const r=num/den;ac.push(r);Q+=r*r/(T-l);}Q*=T*(T+2);
+  R.temporal={byYear,byMonth,byQuarter,byPeriod,roll,rollWindow:WN,rollRef:{mean:n-1,hi:(n-1)+2.326*Math.sqrt(2*(n-1))},
+   cusum:{stat:c0.m,date:D[c0.at].date,p:(gec+1)/(NPc+1),perms:NPc},autocorr:{r:ac,band:1.96/Math.sqrt(T),Q,df:L,p:chi2sf(Q,L)},
+   multi:{yearMinP:Math.min.apply(null,byYear.filter(o=>o.p!=null).map(o=>o.p).concat([1])),yearsTested:byYear.filter(o=>o.p!=null).length}};
+  /* --- Théorie de l'information --- */
+  let Hh=0,KL=0;const N=T*k;for(let a=1;a<=n;a++){const f=cnt[a]/N;if(f>0){Hh-=f*Math.log2(f);KL+=f*Math.log2(f*n);}}
+  const Gs=2*N*Math.LN2*KL*(n-1)/(n-k);
+  const mi=(x,y,m)=>{const J=new Float64Array(m*m),px=new Float64Array(m),py=new Float64Array(m),L2=x.length;for(let i=0;i<L2;i++){J[x[i]*m+y[i]]++;px[x[i]]++;py[y[i]]++;}let v=0;for(let a=0;a<m;a++)for(let b=0;b<m;b++){const j=J[a*m+b];if(j)v+=j/L2*Math.log2(j*L2/(px[a]*py[b]));}return v;};
+  const evs=D.map(d=>d.nums.filter(a=>!(a&1)).length),x1=evs.slice(0,T-1),y1=evs.slice(1),mi0=mi(x1,y1,k+1);let gem=0;const NPm=Math.min(200,opts.perms||200),ys=y1.slice();
+  for(let r=0;r<NPm;r++){for(let i=ys.length-1;i>0;i--){const j=Math.floor(rng()*(i+1)),t=ys[i];ys[i]=ys[j];ys[j]=t;}if(mi(x1,ys,k+1)>=mi0)gem++;}
+  R.info={H:Hh,Hmax:Math.log2(n),ratio:Hh/Math.log2(n),KL,G:{stat:Gs,df:n-1,p:chi2sf(Gs,n-1)},mi:{value:mi0,p:(gem+1)/(NPm+1),perms:NPm}};
+  /* --- Bayésien (Beta-binomial) + hiérarchique (Bayes empirique) --- */
+  const phi=chi/(n-1),tau2=Math.max(0,(phi-1))*p*(1-p)/T,aEB=tau2>0?Math.max(1,p*(1-p)/tau2-1):Infinity,shrink=isFinite(aEB)?aEB/(aEB+T):1,aW=2;
+  const post=[];let outside=0;for(let a=1;a<=n;a++){const A=aW*p+cnt[a],Bb=aW*(1-p)+T-cnt[a],lo2=betaQuantile(A,Bb,0.025),hi2=betaQuantile(A,Bb,0.975);if(lo2>p||hi2<p)outside++;post.push({a,mean:A/(A+Bb),lo:lo2,hi:hi2,eb:shrink*p+(1-shrink)*cnt[a]/T});}
+  R.bayes={prior:aW,post,outside,expectedOutside:0.05*n,phi,aEB:isFinite(aEB)?aEB:null,shrink,spreadEB:[Math.min.apply(null,post.map(o=>o.eb)),Math.max.apply(null,post.map(o=>o.eb))]};
+  /* Facteur de Bayes : uniformité stricte (H0) contre probabilités hétérogènes Beta-binomiales (H1), concentration α intégrée sur une loi log-uniforme 10 à 10^7 */
+  {let l0=0;for(let a=1;a<=n;a++)l0+=cnt[a]*Math.log(p)+(T-cnt[a])*Math.log(1-p);const G2=[];for(let g=0;g<=72;g++){const al=Math.pow(10,1+6*g/72);let l1=0;for(let a=1;a<=n;a++)l1+=lnBeta(cnt[a]+al*p,T-cnt[a]+al*(1-p))-lnBeta(al*p,al*(1-p));G2.push(l1);}
+   const mx=Math.max.apply(null,G2),lm=mx+Math.log(G2.reduce((s2,v)=>s2+Math.exp(v-mx),0)/G2.length),lbf=l0-lm;
+   R.bayes.bf={log10:lbf/Math.LN10,value:Math.exp(Math.min(700,lbf)),grid:'α ∈ [10 ; 10^7], log-uniforme',note:'approximation binomiale indépendante par numéro'};}
+  /* Puissance : plus petit écart détectable (α = 5 % après Bonferroni, puissance 80 %) */
+  {const zA=normInv(1-0.025/n),zB=normInv(0.8),dp=(zA+zB)*Math.sqrt(p*(1-p)/T);R.power={freqDelta:dp,freqRel:dp/p,zA,zB,T,note:'un numéro dont la probabilité serait plus élevée de '+(100*dp/p).toFixed(1)+' % serait détecté 8 fois sur 10'};
+   if(TB>=20){const pb=bk/bn,zb=normInv(1-0.025/bn),db=(zb+zB)*Math.sqrt(pb*(1-pb)/TB);R.power.bonusRel=db/pb;}}
+  /* Loi exacte des sommes et anomalies */
+  {const P=sumDist(n,k),obs=[],pr=[],h0=R.dist.sum.h0,BW=R.dist.sum.bw;for(let i=0;i<R.dist.sum.hist.length;i++){let q2=0;for(let s2=h0+i*BW;s2<h0+(i+1)*BW&&s2<P.length;s2++)q2+=P[s2];obs.push(R.dist.sum.hist[i]);pr.push(q2);}
+   R.dist.sum.exact=chi2gof(obs,pr,T);R.dist.sum.expectedHist=pr.map(v=>v*T);
+   let cum=0,lo=0,hi=P.length-1;for(let s2=0;s2<P.length;s2++){cum+=P[s2];if(cum<=0.001)lo=s2+1;}cum=0;for(let s2=P.length-1;s2>=0;s2--){cum+=P[s2];if(cum<=0.001)hi=s2-1;}
+   let pt=0;for(let s2=0;s2<P.length;s2++)if(s2<lo||s2>hi)pt+=P[s2];let ot=0;const ext=[];D.forEach((d,t)=>{const s2=d.nums.reduce((x,y)=>x+y,0);if(s2<lo||s2>hi){ot++;if(ext.length<10)ext.push({date:d.date,nums:d.nums,sum:s2});}});
+   const seen=new Map(),dups=[];D.forEach(d=>{const key=d.nums.join('-');if(seen.has(key))dups.push({nums:d.nums,dates:[seen.get(key),d.date]});else seen.set(key,d.date);});
+   const eDup=T*(T-1)/2/comb(n,k);
+   R.anomalies={sumTail:{lo,hi,prob:pt,observed:ot,expected:T*pt,pHigh:poisSf(T*pt,ot),pLow:poisCdf(T*pt,ot),examples:ext},
+    duplicates:{observed:dups.length,expected:eDup,p:poisSf(eDup,dups.length),list:dups.slice(0,10)}};}
+  R.observed=makeHistStats(n,k,T)(flatten(D,k));}
+ return R;}
+
+/* Période historique du Loto à 6 numéros : analyse séparée, jamais mélangée */
+function analyzeLegacy(all,gid){const L=all.filter(d=>d.legacy);if(L.length<30)return null;const n=GAMES[gid].n,k=6,T=L.length,cnt=new Int32Array(n+1),p=k/n;for(const d of L)for(const a of d.nums)cnt[a]++;
+ let x=0;const nums=[];for(let a=1;a<=n;a++){x+=(cnt[a]-T*p)*(cnt[a]-T*p)/(T*p);nums.push({a,count:cnt[a],pct:cnt[a]/T});}x*=(n-1)/(n-k);
+ const dates=L.map(d=>d.date).sort();return{T,first:dates[0],last:dates[T-1],nums,expectedPct:p,chi2:{stat:x,df:n-1,p:chi2sf(x,n-1)}};}
+
+/* ================= Monte-Carlo ================= */
+function monteCarlo(obs,gid,T,opts,progress){const G=GAMES[gid],n=G.n,k=G.k,N=opts.N||1000000,Hn=opts.H||1000,rng=RNG(opts.seed||newSeed()),smp=makeSampler(n);let executed=0;
+ const buf=new Uint8Array(k),sumH=new Float64Array(k*n+1),ev=new Float64Array(k+1);let cons=0,rangeS=0,sAll=0;
+ for(let i=0;i<N;i++){smp(rng,k,buf);let s=0,e=0,mn=99,mx=0,c=0;for(let j=0;j<k;j++){const a=buf[j];s+=a;if(!(a&1))e++;if(a<mn)mn=a;if(a>mx)mx=a;}
+  for(let j=0;j<k&&!c;j++)for(let l=0;l<k;l++)if(buf[l]===buf[j]+1){c=1;break;}
+  sumH[s]++;ev[e]++;cons+=c;rangeS+=mx-mn;sAll+=s;executed++;if(progress&&(i&131071)===0)progress(0.3*i/N,'Monte-Carlo : tirages unitaires');}
+ const nEven=Math.floor(n/2);let dmax=0;for(let x=0;x<=k;x++)dmax=Math.max(dmax,Math.abs(ev[x]/N-hyper(n,nEven,k,x)));
+ const pNoCons=comb(n-k+1,k)/comb(n,k);
+ const single={N,sumHist:Array.from(sumH),meanSum:sAll/N,meanSumExact:k*(n+1)/2,evenMaxDiff:dmax,consec:cons/N,consecExact:1-pNoCons,meanRange:rangeS/N,
+  checks:[{label:'Somme moyenne',mc:sAll/N,exact:k*(n+1)/2,tol:4*Math.sqrt(k*(n+1)*(n-k)/12/N)},{label:'Part de tirages avec numéros consécutifs',mc:cons/N,exact:1-pNoCons,tol:4*Math.sqrt(pNoCons*(1-pNoCons)/N)},{label:'Écart max. loi pairs/impairs',mc:dmax,exact:0,tol:4*Math.sqrt(0.25/N)}]};
+ single.checks.forEach(c=>c.ok=Math.abs(c.mc-c.exact)<=c.tol);
+ const hs=makeHistStats(n,k,T),flat=new Uint8Array(T*k),S=HS_NAMES.map(()=>new Float64Array(Hn));
+ for(let h=0;h<Hn;h++){for(let t=0;t<T;t++){smp(rng,k,buf);flat[t*k]=buf[0];flat[t*k+1]=buf[1];flat[t*k+2]=buf[2];flat[t*k+3]=buf[3];flat[t*k+4]=buf[4];}executed+=T;
+  const v=hs(flat);for(let i=0;i<v.length;i++)S[i][h]=v[i];if(progress&&(h&15)===0)progress(0.3+0.7*h/Hn,'Monte-Carlo : historiques simulés');}
+ const META={chi2:['Fréquences des numéros (khi-deux corrigé)','up'],pairDisp:['Associations : dispersion des paires','up'],maxPair:['Associations : paire la plus fréquente','up'],maxGap:['Écarts : plus long écart observé','two'],evenChi:['Répartition pairs / impairs','up'],meanSum:['Sommes : moyenne','two'],sdSum:['Sommes : dispersion','two'],meanRep:['Répétitions entre tirages successifs','two'],consec:['Suites de numéros consécutifs','two'],blockVar:['Stabilité temporelle (blocs de 50 tirages)','up'],cusum:['Rupture de régime (CUSUM)','up']};
+ const tests=HS_NAMES.map((nm,i)=>{const a=S[i],o=obs[i];let ge=0,le=0;for(let h=0;h<Hn;h++){if(a[h]>=o)ge++;if(a[h]<=o)le++;}const pu=(ge+1)/(Hn+1),pl=(le+1)/(Hn+1),srt=Float64Array.from(a).sort();
+  return{id:nm,label:META[nm][0],tail:META[nm][1],obs:o,simMean:mean(a),lo:srt[Math.floor(Hn*0.025)],hi:srt[Math.min(Hn-1,Math.floor(Hn*0.975))],p:META[nm][1]==='up'?pu:Math.min(1,2*Math.min(pu,pl))};});
+ const adj=adjustBH(tests.map(t=>t.p));tests.forEach((t,i)=>t.q=adj[i]);
+ return{single,tests,histories:Hn,T,executed,compatible:tests.every(t=>t.q>=0.05),minP:1/(Hn+1)};}
+
+/* ================= Banc de modèles (marche avant, sans regard vers le futur) ================= */
+const MODELS=[
+ {id:'uniform',label:'Référence uniforme',desc:'Sélection au hasard : le niveau à battre.'},
+ {id:'freq',label:'Fréquence historique',desc:'Numéros les plus sortis depuis l’origine.'},
+ {id:'cold',label:'Fréquence inverse',desc:'Numéros les moins sortis.'},
+ {id:'roll',label:'Fenêtre glissante',desc:'Numéros les plus sortis sur les 50 derniers tirages.'},
+ {id:'gap',label:'Retard',desc:'Numéros absents depuis le plus longtemps (hypothèse du numéro « dû »).'},
+ {id:'bayes',label:'Bayésien à oubli',desc:'Comptages actualisés avec oubli exponentiel (demi-vie 200 tirages).'},
+ {id:'temp',label:'Temporel',desc:'Moyenne mobile exponentielle courte (demi-vie 20 tirages).'},
+ {id:'assoc',label:'Associations',desc:'Affinité de paires avec les numéros du tirage précédent.'},
+ {id:'ens',label:'Ensemble',desc:'Moyenne des scores standardisés des modèles précédents.'},
+ {id:'ml',label:'Régression logistique',desc:'Apprentissage en ligne sur fréquences, écarts et présence au tirage précédent.'}];
+function standardize(v,n){let m=0;for(let i=1;i<=n;i++)m+=v[i];m/=n;let s=0;for(let i=1;i<=n;i++)s+=(v[i]-m)*(v[i]-m);s=Math.sqrt(s/n)||1;const o=new Float64Array(n+1);for(let i=1;i<=n;i++)o[i]=(v[i]-m)/s;return o;}
+function ModelBank(G,seed){const n=G.n,k=G.k,p=k/n,rng=RNG(seed),NM=MODELS.length;
+ const cnt=new Float64Array(n+1),last=new Int32Array(n+1).fill(-1),w50=new Float64Array(n+1),w10=new Float64Array(n+1),disc=new Float64Array(n+1),ew=new Float64Array(n+1).fill(p),inLast=new Uint8Array(n+1),pair=new Float64Array((n+1)*(n+1)),wml=new Float64Array(6),hist=[];
+ let t=0,lastNums=[];const lamB=Math.pow(0.5,1/200),lamT=Math.pow(0.5,1/20),cum=new Float64Array(NM);let steps=0;
+ const mu=k*k/n,varH=k*p*(1-p)*(n-k)/(n-1),F=new Float64Array(6);
+ function feats(i){const tt=Math.max(1,t),s=Math.sqrt(p*(1-p));F[0]=(cnt[i]/tt-p)*Math.sqrt(tt)/s;F[1]=(w10[i]/Math.min(tt,10)-p)/(s/Math.sqrt(10));F[2]=(w50[i]/Math.min(tt,50)-p)/(s/Math.sqrt(50));F[3]=Math.min((last[i]<0?tt:tt-1-last[i])*p,4)-1;F[4]=inLast[i]-p;F[5]=(ew[i]-p)*10;return F;}
+ function mlPred(i){const f=feats(i);let z=Math.log(p/(1-p));for(let j=0;j<6;j++)z+=wml[j]*f[j];return 1/(1+Math.exp(-z));}
+ function scores(){const S=[];for(let m=0;m<NM;m++)S.push(new Float64Array(n+1));const Ep=t*k*(k-1)/(n*(n-1));
+  for(let i=1;i<=n;i++){S[0][i]=rng();S[1][i]=cnt[i];S[2][i]=-cnt[i];S[3][i]=w50[i];S[4][i]=last[i]<0?t+1:t-1-last[i];S[5][i]=disc[i];S[6][i]=ew[i];
+   let a=0;for(const j of lastNums)if(j!==i)a+=pair[i<j?i*(n+1)+j:j*(n+1)+i]-Ep;S[7][i]=a;S[9][i]=mlPred(i);}
+  const zs=[1,3,5,6,7].map(m=>standardize(S[m],n));for(let i=1;i<=n;i++){let a=0;for(const z of zs)a+=z[i];S[8][i]=a/zs.length;}
+  return S;}
+ function topK(sc){const idx=[],tb=new Float64Array(n+1);for(let i=1;i<=n;i++){idx.push(i);tb[i]=rng();}idx.sort((a,b)=>sc[b]-sc[a]||tb[b]-tb[a]);return idx;}
+ function update(nums){for(let i=1;i<=n;i++){const y=nums.indexOf(i)>=0?1:0;if(t>=20){const pr=mlPred(i),g=(y-pr)*0.002;for(let j=0;j<6;j++)wml[j]+=g*F[j];}}
+  for(let i=1;i<=n;i++){disc[i]*=lamB;ew[i]*=lamT;inLast[i]=0;}
+  for(let a=0;a<k;a++){const i=nums[a];cnt[i]++;w50[i]++;w10[i]++;disc[i]++;ew[i]+=(1-lamT);last[i]=t;inLast[i]=1;for(let b=a+1;b<k;b++){const j=nums[b];pair[i<j?i*(n+1)+j:j*(n+1)+i]++;}}
+  hist.push(nums);if(t>=50)for(const i of hist[t-50])w50[i]--;if(t>=10)for(const i of hist[t-10])w10[i]--;lastNums=nums;t++;}
+ function record(hits){for(let m=0;m<NM;m++)cum[m]+=hits[m];steps++;}
+ function zOf(m){return steps?(cum[m]-steps*mu)/Math.sqrt(steps*varH):0;}
+ function combined(S,thr){if(steps<100)return null;const w=[];let tot=0;for(let m=1;m<NM;m++){const z=zOf(m)-thr;w.push(z>0?z:0);tot+=z>0?z:0;}if(!tot)return null;
+  const out=new Float64Array(n+1);for(let m=1;m<NM;m++)if(w[m-1]){const z=standardize(S[m],n);for(let i=1;i<=n;i++)out[i]+=w[m-1]/tot*z[i];}return out;}
+ return{scores,topK,update,record,zOf,combined,mlPred,mu,varH,get t(){return t;},cnt,last};}
+
+function modelLab(Dall,gid,progress){const G=GAMES[gid],n=G.n,k=G.k,D=Dall.filter(d=>!d.legacy),T=D.length;if(T<200)return{insufficient:true,T};
+ const bank=ModelBank(G,(T*2654435761)>>>0),NM=MODELS.length,burn=Math.min(300,Math.floor(T/3)),N=T-burn,H=MODELS.map(()=>new Uint8Array(N)),hits=new Float64Array(NM),BrM=new Float64Array(N),BrF=new Float64Array(N),p=k/n,AP=50;let lastS=null;
+ for(let t=0;t<T;t++){if(t>=burn){let dm=0,df=0;const tt=bank.t;for(let i=1;i<=n;i++){const y=D[t].nums.indexOf(i)>=0?1:0,u=(y-p)*(y-p),pm=bank.mlPred(i),pf=(bank.cnt[i]+AP*p)/(tt+AP);dm+=u-(y-pm)*(y-pm);df+=u-(y-pf)*(y-pf);}BrM[t-burn]=dm;BrF[t-burn]=df;const S=bank.scores();for(let m=0;m<NM;m++){const top=bank.topK(S[m]);let h=0;for(let j=0;j<k;j++)if(D[t].nums.indexOf(top[j])>=0)h++;H[m][t-burn]=h;hits[m]=h;}bank.record(hits);}
+  bank.update(D[t].nums);if(progress&&t%100===0)progress(t/T,'Comparaison des modèles');}
+ lastS=bank.scores();const split=Math.floor(N*0.6),mu=bank.mu,v=bank.varH,zp=(arr,a,b)=>{let s=0;for(let i=a;i<b;i++)s+=arr[i];const m=s/(b-a),z=(m-mu)/Math.sqrt(v/(b-a));return{mean:m,z,p:normSf(z),n:b-a};};
+ const rows=MODELS.map((M,m)=>({id:M.id,label:M.label,desc:M.desc,all:zp(H[m],0,N),disc:zp(H[m],0,split),valid:zp(H[m],split,N)}));
+ const brier=(arr,lab)=>{const m=mean(arr),s=sd(arr),z=m/(s/Math.sqrt(arr.length)||1);return{label:lab,mean:m,z,p:normSf(z),n:arr.length};};
+ const hol=adjustHolm(rows.slice(1).map(r=>r.disc.p));rows.forEach((r,i)=>{r.holm=i?hol[i-1]:null;r.retained=i>0&&r.holm<0.05&&r.valid.p<0.05;});
+ const kept=rows.filter(r=>r.retained).map(r=>r.id);let signal=null;
+ if(kept.length){signal=new Float64Array(n+1);for(const id of kept){const z=standardize(lastS[MODELS.findIndex(M=>M.id===id)],n);for(let i=1;i<=n;i++)signal[i]+=z[i]/kept.length;}signal=Array.from(signal);}
+ const sdH=Math.sqrt(bank.varH),mde=(normInv(0.95)+normInv(0.8))*sdH/Math.sqrt(N-split);
+ return{T,burn,N,split,expected:mu,rows,kept,signal,splitDate:D[burn+split].date,startDate:D[burn].date,brier:[brier(BrF,'Fréquence bayésienne (a priori de force 50)'),brier(BrM,'Régression logistique')],mde,mdeRel:mde/mu};}
+
+/* ================= Construction des grilles ================= */
+function popularity(nums,n){const k=nums.length,why=[];let s=0;
+ if(nums.every(a=>a<=31)){s+=2;why.push('tous les numéros ≤ 31 (profil « dates »)');}
+ if(nums.filter(a=>a<=12).length>=3){s+=1;why.push('trois numéros ou plus ≤ 12 (mois)');}
+ let cons=0;for(let i=1;i<k;i++)if(nums[i]===nums[i-1]+1)cons++;if(cons){s+=cons;why.push(cons+' paire(s) de numéros consécutifs');}
+ const d=nums[1]-nums[0];let ap=true;for(let i=2;i<k;i++)if(nums[i]-nums[i-1]!==d)ap=false;if(ap){s+=3;why.push('progression arithmétique');}
+ const dg={};nums.forEach(a=>dg[a%10]=(dg[a%10]||0)+1);if(Object.values(dg).some(c=>c>=3)){s+=1;why.push('trois numéros de même terminaison');}
+ if(new Set(nums.map(a=>Math.floor((a-1)/10))).size<=2){s+=1;why.push('numéros concentrés sur deux dizaines');}
+ if(nums.filter(a=>a%5===0).length>=3){s+=1;why.push('trois multiples de 5 ou plus');}
+ if(nums.filter(a=>a>31).length>=2)s-=0.5;
+ return{score:s,why};}
+function typicality(nums,n){const k=nums.length,mu=k*(n+1)/2,sg=Math.sqrt(k*(n+1)*(n-k)/12),sum=nums.reduce((a,b)=>a+b,0),ev=nums.filter(a=>!(a&1)).length,dz=new Set(nums.map(a=>Math.floor((a-1)/10))).size;
+ let s=0;if(Math.abs(sum-mu)<=1.2816*sg)s++;if(ev===2||ev===3)s++;if(dz>=3)s++;return{score:s,sum,even:ev,decades:dz,sumLo:Math.ceil(mu-1.2816*sg),sumHi:Math.floor(mu+1.2816*sg)};}
+function makeGrids(gid,signal,rng,nCand,bnOverride){const G=GAMES[gid],n=G.n,k=G.k,bn=bnOverride||G.bn,bk=G.bk;nCand=nCand||3000;
+ let w=null;if(signal){w=new Float64Array(n+1);for(let i=1;i<=n;i++)w[i]=Math.exp(0.8*signal[i]);}
+ const smp=makeSampler(n),tmp=new Array(k),cands=[];
+ for(let c=0;c<nCand;c++){const nums=w?weightedSampleK(rng,w,n,k):Array.from(smp(rng,k,tmp)).sort((a,b)=>a-b);let sig=0;if(signal)for(const a of nums)sig+=signal[a]/k;
+  const pop=popularity(nums,n),typ=typicality(nums,n);cands.push({nums,sig,pop,typ,s1:sig+typ.score-0.5*pop.score+rng()*1e-6,s2:0.5*sig+0.5*typ.score-1.5*pop.score+rng()*1e-6});}
+ let g1=cands[0];for(const c of cands)if(c.s1>g1.s1)g1=c;
+ let g2=null;for(const c of cands){if(c===g1||c.nums.some(a=>g1.nums.indexOf(a)>=0))continue;if(!g2||c.s2>g2.s2)g2=c;}
+ if(!g2){for(const c of cands){if(c===g1||c.nums.join()===g1.nums.join())continue;if(!g2||c.s2>g2.s2)g2=c;}}
+ const b1=sampleK(rng,bn,bk);let b2=sampleK(rng,bn,bk),guard=0;while(guard++<50&&b2.some(x=>b1.indexOf(x)>=0)&&bn>=2*bk)b2=sampleK(rng,bn,bk);
+ return[{kind:1,nums:g1.nums,bonus:b1,typ:g1.typ,pop:g1.pop,sig:g1.sig},{kind:2,nums:g2.nums,bonus:b2,typ:g2.typ,pop:g2.pop,sig:g2.sig}];}
+function evalGrid(gid,grid,draw){let m=0,b=0;for(const a of grid.nums)if(draw.nums.indexOf(a)>=0)m++;for(const s of grid.bonus)if(draw.bonus.indexOf(s)>=0)b++;const key=m+'+'+b;return{m,b,key,gain:GAMES[gid].gains[key]||0};}
+
+/* ================= Backtesting en marche avant ================= */
+function backtest(Dall,gid,opts,progress){opts=opts||{};const G=GAMES[gid],n=G.n,k=G.k,bk=G.bk,D=Dall.filter(d=>!d.legacy),T=D.length;if(T<200)return{insufficient:true,T};
+ const seed=opts.seed||newSeed(),rng=RNG(seed),bank=ModelBank(G,seed^0x5bd1e995),NM=MODELS.length,burn=Math.min(300,Math.floor(T/3)),N=T-burn,RR=20,NC=opts.nCand||40;
+ const ST=[{id:'engine',label:'Moteur complet (2 grilles)'},{id:'random',label:'Hasard pur (moyenne de '+RR+' répliques)'},{id:'hot',label:'Numéros les plus fréquents'},{id:'cold',label:'Numéros les moins fréquents'},{id:'overdue',label:'Numéros les plus en retard'},{id:'fixed',label:'Grilles fixes (1-2-3-4-5 et les 5 derniers)'}];
+ const rec=ST.map(()=>({hits:new Float32Array(N),bon:new Float32Array(N),gain:new Float32Array(N),dist:new Array(k+1).fill(0),ranks:{}})),repl=new Float64Array(RR),hits=new Float64Array(NM);let activeSteps=0,expB=0;
+ const smp=makeSampler(n),tmp=new Array(k);
+ function play(si,i,grids,draw,wgt){for(const g of grids){const e=evalGrid(gid,g,draw);rec[si].hits[i]+=e.m*wgt;rec[si].bon[i]+=e.b*wgt;rec[si].gain[i]+=e.gain*wgt;if(wgt===1){rec[si].dist[e.m]++;if(e.gain)rec[si].ranks[e.key]=(rec[si].ranks[e.key]||0)+1;}}}
+ for(let t=0;t<T;t++){if(t>=burn){const i=t-burn,d=D[t],bn=periodOf(gid,d.date).bn,S=bank.scores(),sig=bank.combined(S,3);if(sig)activeSteps++;expB+=2*bk*bk/bn;
+   play(0,i,makeGrids(gid,sig,rng,NC,bn),d,1);
+   for(let r=0;r<RR;r++){const gs=[0,1].map(()=>({nums:Array.from(smp(rng,k,tmp)),bonus:sampleK(rng,bn,bk)}));const before=rec[1].hits[i];play(1,i,gs,d,1/RR);repl[r]+=(rec[1].hits[i]-before)*RR;}
+   const rb=()=>sampleK(rng,bn,bk),ord=m=>bank.topK(S[m]),mk=o=>[{nums:o.slice(0,k),bonus:rb()},{nums:o.slice(k,2*k),bonus:rb()}];
+   play(2,i,mk(ord(1)),d,1);play(3,i,mk(ord(2)),d,1);play(4,i,mk(ord(4)),d,1);
+   const fx=[];for(let a=1;a<=k;a++)fx.push(a);const fy=[];for(let a=n-k+1;a<=n;a++)fy.push(a);const fb=[];for(let a=1;a<=bk;a++)fb.push(a);play(5,i,[{nums:fx,bonus:fb},{nums:fy,bonus:fb}],d,1);
+   for(let m=0;m<NM;m++){const top=bank.topK(S[m]);let h=0;for(let j=0;j<k;j++)if(d.nums.indexOf(top[j])>=0)h++;hits[m]=h;}bank.record(hits);}
+  bank.update(D[t].nums);if(progress&&t%50===0)progress(t/T,'Backtesting en marche avant');}
+ const mu=bank.mu,split=Math.floor(N*0.6),cost=2*G.price,NB=opts.boot||1000;
+ const seg=(arr,a,b)=>{let s=0,q=0;for(let i=a;i<b;i++){s+=arr[i];q+=arr[i]*arr[i];}const m=s/(b-a),sdv=Math.sqrt(Math.max(1e-12,(q-(b-a)*m*m)/(b-a-1))),z=(m-2*mu)/(sdv/Math.sqrt(b-a));return{meanPerGrid:m/2,z,p:normSf(z),n:b-a,sd:sdv};};
+ const out=ST.map((s,si)=>{const r=rec[si],all=seg(r.hits,0,N),A=seg(r.hits,0,split),Bv=seg(r.hits,split,N);let g=0,b=0;for(let i=0;i<N;i++){g+=r.gain[i];b+=r.bon[i];}
+  const bh=new Float64Array(NB),br=new Float64Array(NB);for(let x=0;x<NB;x++){let sh=0,sg=0;for(let i=0;i<N;i++){const j=Math.floor(rng()*N);sh+=r.hits[j];sg+=r.gain[j];}bh[x]=sh/N/2;br[x]=sg/(N*cost)-1;}bh.sort();br.sort();
+  return{id:s.id,label:s.label,all,disc:A,valid:Bv,gain:g,cost:N*cost,roi:g/(N*cost)-1,roiCI:[br[Math.floor(NB*0.025)],br[Math.floor(NB*0.975)]],hitsCI:[bh[Math.floor(NB*0.025)],bh[Math.floor(NB*0.975)]],bonusMean:b/(2*N),bonusExpected:expB/(2*N),dist:si===1?null:r.dist,ranks:r.ranks};});
+ const hol=adjustHolm(out.filter(o=>o.id!=='random').map(o=>o.disc.p));let hi=0;out.forEach(o=>{o.holm=o.id==='random'?null:hol[hi++];o.better=o.id!=='random'&&o.holm<0.05&&o.valid.p<0.05;});
+ const mdeB=(normInv(0.95)+normInv(0.8))*out[0].valid.sd/Math.sqrt(out[0].valid.n)/2;
+ const rp=Array.from(repl).map(v=>v/N/2).sort((a,b)=>a-b),eng=out[0].all.meanPerGrid;
+ return{T,burn,N,split,seed,expectedHits:mu,strategies:out,randomRange:[rp[0],rp[RR-1]],engineRank:rp.filter(v=>v<eng).length,replicas:RR,activeSteps,theoRoi:rankTable(gid).roi,boot:NB,startDate:D[burn].date,splitDate:D[burn+split].date,endDate:D[T-1].date,gridsPlayed:2*N,mde:mdeB,mdeRel:mdeB/mu,anyBetter:out.some(o=>o.better),nCand:NC};}
+
+/* ================= Tests unitaires intégrés ================= */
+function selfTest(){const R=[],ok=(name,cond,detail)=>R.push({name,ok:!!cond,detail:detail==null?'':String(detail)}),near=(a,b,e)=>Math.abs(a-b)<=e;
+ ok('Combinatoire : C(50,5) = 2 118 760',comb(50,5)===2118760,comb(50,5));
+ ok('Combinatoire : C(49,5) = 1 906 884',comb(49,5)===1906884,comb(49,5));
+ ok('EuroMillions : 139 838 160 combinaisons',rankTable('em').total===139838160,rankTable('em').total);
+ ok('Loto : 19 068 840 combinaisons',rankTable('loto').total===19068840,rankTable('loto').total);
+ ok('Probabilités des rangs : somme = 1 (EuroMillions)',near(rankTable('em').rows.reduce((s,r)=>s+r.p,0),1,1e-12));
+ ok('Probabilités des rangs : somme = 1 (Loto)',near(rankTable('loto').rows.reduce((s,r)=>s+r.p,0),1,1e-12));
+ let hs=0;for(let x=0;x<=5;x++)hs+=hyper(50,25,5,x);ok('Loi hypergéométrique : somme = 1',near(hs,1,1e-12),hs);
+ ok('Hypergéométrique : P(2 pairs sur 5 parmi 50)',near(hyper(50,25,5,2),300*2300/2118760,1e-12),hyper(50,25,5,2).toFixed(6));
+ ok('Khi-deux : P(χ²₁ > 3,841) = 0,05',near(chi2sf(3.841458821,1),0.05,1e-6),chi2sf(3.841458821,1));
+ ok('Khi-deux : P(χ²₄₉ > 66,339) = 0,05',near(chi2sf(66.3386,49),0.05,2e-5),chi2sf(66.3386,49));
+ ok('Loi normale : P(Z > 1,96) = 0,025',near(normSf(1.959964),0.025,1e-6),normSf(1.959964));
+ ok('Fonction gamma : lnΓ(10) = ln(362 880)',near(lnGamma(10),Math.log(362880),1e-9));
+ ok('Bêta incomplète : I₀.₅(2,3) = 0,6875',near(betaInc(2,3,0.5),0.6875,1e-9),betaInc(2,3,0.5));
+ ok('Quantile bêta : médiane de Beta(5,5) = 0,5',near(betaQuantile(5,5,0.5),0.5,1e-9));
+ const w=wilson(50,100);ok('Intervalle de Wilson 50/100 = [0,404 ; 0,596]',near(w[0],0.4038,1e-3)&&near(w[1],0.5962,1e-3),w.map(x=>x.toFixed(4)));
+ const bh=adjustBH([0.01,0.04,0.03,0.005]);ok('Benjamini-Hochberg',near(bh[0],0.02,1e-12)&&near(bh[1],0.04,1e-12)&&near(bh[2],0.04,1e-12)&&near(bh[3],0.02,1e-12),bh);
+ const ho=adjustHolm([0.01,0.04,0.03,0.005]);ok('Holm-Bonferroni',near(ho[3],0.02,1e-12)&&near(ho[0],0.03,1e-12)&&near(ho[2],0.06,1e-12)&&near(ho[1],0.06,1e-12),ho);
+ const r=RNG(42),c=new Int32Array(51),smp=makeSampler(50),b=new Array(5);let bad=0;for(let i=0;i<200000;i++){smp(r,5,b);if(new Set(b).size!==5||b.some(x=>x<1||x>50))bad++;for(const x of b)c[x]++;}
+ let x2=0;for(let a=1;a<=50;a++)x2+=(c[a]-20000)*(c[a]-20000)/20000;x2*=49/45;
+ ok('Générateur : 200 000 tirages valides, sans répétition',bad===0,bad+' invalides');
+ ok('Générateur : uniformité (khi-deux corrigé, p > 0,001)',chi2sf(x2,49)>0.001,'χ² = '+x2.toFixed(1)+', p = '+chi2sf(x2,49).toFixed(3));
+ const r2=RNG(7),wv=new Float64Array(11).fill(1);wv[3]=50;let c3=0;for(let i=0;i<2000;i++)if(weightedSampleK(r2,wv,10,2).indexOf(3)>=0)c3++;ok('Tirage pondéré sans remise',c3>1800,c3+'/2000');
+ ok('CRC32("123456789") = CBF43926',crc32(new TextEncoder().encode('123456789'))===0xCBF43926);
+ try{const d=inflateRaw(new Uint8Array([115,116,132,1,0]));ok('Inflate (Huffman fixe) : « AAAAAAAAAA »',new TextDecoder().decode(d)==='AAAAAAAAAA',new TextDecoder().decode(d));}catch(e){ok('Inflate (Huffman fixe)',false,e.message);}
+ try{const d=inflateRaw(new Uint8Array([1,3,0,252,255,97,98,99]));ok('Inflate (bloc non compressé)',new TextDecoder().decode(d)==='abc');}catch(e){ok('Inflate (bloc non compressé)',false,e.message);}
+ ok('Dates : 13/02/2004, 20040213, 2004-02-13, 13/02/04',['13/02/2004','20040213','2004-02-13','13/02/04'].every(s=>parseDate(s)==='2004-02-13'));
+ ok('Dates : 31/02/2020 rejetée',parseDate('31/02/2020')===null);
+ ok('Calendrier : le 13/02/2004 est un vendredi',dow('2004-02-13')===5);
+ ok('Calendrier : tirages EuroMillions attendus du 01 au 14/11/2026',expectedDates('em','2026-11-01','2026-11-14').join()==='2026-11-03,2026-11-06,2026-11-10,2026-11-13');
+ ok('Calendrier : tirages Loto attendus sur une semaine',expectedDates('loto','2026-11-02','2026-11-08').join()==='2026-11-02,2026-11-04,2026-11-07');
+ ok('Tirages manquants détectés',missingDates('em',['2026-11-03','2026-11-10'],'2026-11-10',[]).join()==='2026-11-06');
+ ok('Validation : étoile 12 refusée en 2010, acceptée en 2020',validateDraw('em',{date:'2010-06-04',nums:[1,2,3,4,5],bonus:[3,12]}).err.length>0&&validateDraw('em',{date:'2020-06-05',nums:[1,2,3,4,5],bonus:[3,12]}).err.length===0);
+ ok('Validation : numéro répété refusé',validateDraw('loto',{date:'2020-06-06',nums:[1,2,3,4,4],bonus:[3]}).err.length>0);
+ ok('Validation : numéro 50 refusé au Loto',validateDraw('loto',{date:'2020-06-06',nums:[1,2,3,4,50],bonus:[3]}).err.length>0);
+ const csv='annee_numero_de_tirage;jour_de_tirage;date_de_tirage;date_de_forclusion;boule_1;boule_2;boule_3;boule_4;boule_5;etoile_1;etoile_2\n2020001;VENDREDI;03/01/2020;x;11;2;37;45;47;2;9\n';
+ ok('Archive Super Loto « sloto.csv » refusée',parseFdjCsv('date_de_tirage;boule_1;boule_2;boule_3;boule_4;boule_5;boule_6\n15/05/1996;1;2;3;4;5;6\n','sloto.csv','').errors.length===1);
+ ok('Loto : 04/11/2019 (transition FDJ) non signalé comme manquant',missingDates('loto',['2019-11-02','2019-11-06'],'2019-11-06',[]).length===0);
+ const pf=parseFdjCsv(csv,'euromillions.csv','');ok('Lecture CSV FDJ EuroMillions',pf.game==='em'&&pf.draws.length===1&&pf.draws[0].nums.join()==='2,11,37,45,47'&&pf.draws[0].bonus.join()==='2,9'&&pf.draws[0].date==='2020-01-03');
+ const gp=popularity([1,2,3,4,5],50),gq=popularity([4,19,33,41,48],50);ok('Popularité : 1-2-3-4-5 pénalisée',gp.score>gq.score+3,gp.score+' vs '+gq.score);
+ const gg=makeGrids('em',null,RNG(5),500);ok('Grilles : deux grilles valides et disjointes',gg.length===2&&gg.every(g=>g.nums.length===5&&new Set(g.nums).size===5&&g.bonus.length===2)&&!gg[0].nums.some(a=>gg[1].nums.indexOf(a)>=0));
+ ok('Évaluation d’une grille : 3 numéros + 1 étoile',evalGrid('em',{nums:[1,2,3,4,5],bonus:[1,2]},{nums:[1,2,3,40,50],bonus:[2,9]}).key==='3+1');
+ const hsF=makeHistStats(50,5,3)(new Uint8Array([1,2,3,4,5, 1,10,20,30,40, 6,7,8,9,11]));ok('Statistiques d’historique : somme moyenne et répétitions',near(hsF[5],(15+101+41)/3,1e-9)&&near(hsF[7],0.5,1e-9)&&near(hsF[8],2/3,1e-9),hsF.map(v=>+v.toFixed(3)));
+ ok('Quantile normal : Φ⁻¹(0,975) = 1,959964',near(normInv(0.975),1.959963985,1e-8),normInv(0.975));
+ ok('Quantile normal : Φ⁻¹(0,001) = −3,090232',near(normInv(0.001),-3.090232306,1e-7),normInv(0.001));
+ ok('lnΓ précis : lnΓ(0,5) = ln√π et lnΓ(10⁶)',near(lnG(0.5),0.5*Math.log(Math.PI),1e-12)&&near(lnG(1e6),12815504.569147612,1e-4),lnG(1e6));
+ const sd5=sumDist(50,5);let m5=0,t5=0;for(let s2=0;s2<sd5.length;s2++){t5+=sd5[s2];m5+=s2*sd5[s2];}
+ ok('Loi exacte des sommes : total 1, moyenne 127,5',near(t5,1,1e-12)&&near(m5,127.5,1e-9),m5);
+ ok('Loi exacte des sommes : P(somme = 15) = 1 / C(50,5)',near(sd5[15],1/2118760,1e-18));
+ ok('Binomiale exacte : P(X ≥ 8 | n = 10, p = ½) = 56/1024',near(binSf(10,0.5,8),56/1024,1e-12)&&near(binCdf(10,0.5,2),56/1024,1e-12),binSf(10,0.5,8));
+ ok('Loi de Poisson : P(X ≥ 3 | λ = 1) = 0,0803',near(poisSf(1,3),0.0803013971,1e-9),poisSf(1,3));
+ return R;}
+
+return{binSf,binP2,normInv,sumDist,poisSf,lnBeta,GAMES,MODELS,periodOf,currentPeriod,comb,hyper,chi2sf,normSf,normP2,wilson,adjustBH,adjustHolm,RNG,newSeed,sampleK,parseDate,dow,addDays,expectedDates,missingDates,nextDrawDate,drawId,validateDraw,normalize,sameDraw,parseFdjCsv,parseGenericCsv,parseJsonDraws,unzip,decodeText,crc32,inflateRaw,rankTable,analyze,analyzeLegacy,monteCarlo,modelLab,makeGrids,evalGrid,backtest,popularity,typicality,selfTest};
+}
+
+
+</script>
+<script>
+(function(){
+'use strict';
+const E=LotoEngine(),G=E.GAMES,APP='labo-tirages',VERSION=1;
+const $=(s,r)=>(r||document).querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf=(x,d)=>x==null||isNaN(x)?'–':Number(x).toLocaleString('fr-FR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
+const pct=(x,d)=>x==null||isNaN(x)?'–':nf(100*x,d==null?1:d)+' %';
+const pv=p=>p==null||isNaN(p)?'–':p<0.001?'< 0,001':nf(p,3);
+const fd=iso=>iso?iso.slice(8,10)+'/'+iso.slice(5,7)+'/'+iso.slice(0,4):'–';
+const fdt=ts=>ts?new Date(ts).toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'}):'jamais';
+const DAYS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const localIso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=()=>localIso(new Date());
+const lastComplete=()=>{const d=new Date();return d.getHours()>=22?localIso(d):E.addDays(localIso(d),-1);};
+const ICON={sync:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9M18 3v4.5h-4.5M6 21v-4.5h4.5"/></svg>',plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',copy:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg>',dice:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h.01M15 15h.01M15 9h.01M9 15h.01"/></svg>',warn:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.5 20h19L12 4zM12 10v5M12 17.5v.01"/></svg>',ok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',file:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5zM14 3v5h5"/></svg>'};
+
+/* ---------------- Stockage : IndexedDB, repli en mémoire ---------------- */
+const STORES=['draws','kv','grids','backtests','journal'];
+const DB={db:null,mem:null,
+ open(){return new Promise(res=>{const fb=()=>{this.mem={};STORES.forEach(s=>this.mem[s]=new Map());this.seq=1;res(false);};
+  try{const r=indexedDB.open(APP,1);r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('draws',{keyPath:'id'});d.createObjectStore('kv');['grids','backtests','journal'].forEach(s=>d.createObjectStore(s,{keyPath:'id',autoIncrement:true}));};
+   r.onsuccess=()=>{this.db=r.result;res(true);};r.onerror=fb;r.onblocked=fb;}catch(e){fb();}});},
+ run(store,mode,fn){if(this.mem)return Promise.resolve(fn(null,this.mem[store]));return new Promise((res,rej)=>{const tx=this.db.transaction(store,mode),st=tx.objectStore(store);let out;const rq=fn(st);if(rq&&'onsuccess' in rq)rq.onsuccess=()=>out=rq.result;tx.oncomplete=()=>res(out);tx.onerror=()=>rej(tx.error);tx.onabort=()=>rej(tx.error);});},
+ all(s){return this.run(s,'readonly',(st,m)=>m?Array.from(m.values()):st.getAll());},
+ get(s,k){return this.run(s,'readonly',(st,m)=>m?m.get(k):st.get(k));},
+ set(k,v){return this.run('kv','readwrite',(st,m)=>m?void m.set(k,v):st.put(v,k));},
+ put(s,v){return this.run(s,'readwrite',(st,m)=>{if(m){if(v.id==null)v.id=this.seq++;m.set(v.id,v);return v.id;}return st.put(v);}).then(id=>{if(v.id==null&&id!=null)v.id=id;return v;});},
+ putMany(s,arr){return this.run(s,'readwrite',(st,m)=>{for(const v of arr){if(m){if(v.id==null)v.id=this.seq++;m.set(v.id,v);}else st.put(v);}});},
+ del(s,k){return this.run(s,'readwrite',(st,m)=>m?void m.delete(k):st.delete(k));},
+ clear(s){return this.run(s,'readwrite',(st,m)=>m?void m.clear():st.clear());},
+ kvAll(){if(this.mem)return Promise.resolve(Array.from(this.mem.kv.entries()));return new Promise((res,rej)=>{const out=[],rq=this.db.transaction('kv').objectStore('kv').openCursor();rq.onsuccess=()=>{const c=rq.result;if(c){out.push([c.key,c.value]);c.continue();}else res(out);};rq.onerror=()=>rej(rq.error);});}
+};
+
+/* ---------------- État ---------------- */
+const SRC={em:{page:'https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique',urls:['afe6','afd6','afc6','afb6','afa9','afa8']},loto:{page:'https://www.fdj.fr/jeux-de-tirage/loto/historique',urls:['afp6','afo6','afn6','afm6','afl6']}};
+const FDJ_BASE='https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66';
+for(const g in SRC)SRC[g].urls=SRC[g].urls.map(u=>FDJ_BASE+u);
+const MC_LEVELS={fast:{label:'Rapide',N:200000,H:300},std:{label:'Standard',N:1000000,H:1000},max:{label:'Intensif',N:5000000,H:4000}};
+const S={relay:null,tab:'em',draws:{em:[],loto:[]},res:{em:{},loto:{}},sync:{em:{status:'never'},loto:{status:'never'}},ignored:{em:[],loto:[]},grids:[],backtests:[],journal:[],job:{em:null,loto:null},urls:{em:SRC.em.urls.slice(),loto:SRC.loto.urls.slice()},mc:'std',sel:{em:1,loto:1},page:{em:0,loto:0},year:{em:'',loto:''},storage:true,workerOk:null,tests:null,note:{em:null,loto:null}};
+window.__LABO={S,E,DB};
+const sorted=gid=>S.draws[gid];
+const cur=gid=>S.draws[gid].filter(d=>!d.legacy);
+function sortDraws(gid){S.draws[gid].sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.seq||1)-(b.seq||1));}
+function sig(gid){const D=S.draws[gid];let h=5381;for(const d of D){const s=d.id+d.nums.join()+'/'+d.bonus.join();for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;}return D.length+'|'+(D.length?D[D.length-1].date:'')+'|'+(h>>>0);}
+function journal(type,gid,msg,extra){const e={ts:Date.now(),type,game:gid,msg};if(extra)e.extra=extra;S.journal.push(e);return DB.put('journal',e).catch(()=>{});}
+function integrity(gid){const D=S.draws[gid],o={total:D.length,missing:[],partial:null,gapYears:[],last:null,first:null};if(!D.length)return o;
+ o.first=D[0].date;o.last=D[D.length-1].date;o.lastCur=(cur(gid).slice(-1)[0]||{}).date||null;
+ o.missing=E.missingDates(gid,D.map(d=>d.date),lastComplete(),S.ignored[gid]);
+ const launch=G[gid].periods[0].from;if(o.first>E.addDays(launch,10))o.partial='L’historique local commence le '+fd(o.first)+' alors que le jeu existe depuis le '+fd(launch)+'.';
+ const ys=new Set(D.map(d=>+d.date.slice(0,4)));for(let y=+o.first.slice(0,4);y<=+o.last.slice(0,4);y++)if(!ys.has(y))o.gapYears.push(y);
+ o.complete=!o.missing.length&&!o.partial&&!o.gapYears.length;return o;}
+
+/* ---------------- Fusion et enregistrement des tirages ---------------- */
+function classify(gid,draws){const map=new Map(S.draws[gid].map(d=>[d.id,d])),seen=new Set(),out={fresh:[],dup:[],conflicts:[],invalid:[],warn:[]},t=today();
+ for(const d of draws){const v=E.validateDraw(gid,d,t);if(v.err.length){out.invalid.push({d,err:v.err});continue;}
+  if(seen.has(d.id)){out.dup.push(d);continue;}seen.add(d.id);const ex=map.get(d.id);
+  if(ex){if(E.sameDraw(ex,d))out.dup.push(d);else out.conflicts.push({d,ex});}else{out.fresh.push(d);if(v.warn.length)out.warn.push({d,warn:v.warn});}}
+ return out;}
+async function commit(gid,add,replace){const all=add.concat(replace||[]);if(!all.length)return;const ids=new Set(all.map(d=>d.id));
+ try{await DB.putMany('draws',all);}catch(e){toast('Enregistrement impossible : stockage du navigateur plein ou refusé ('+(e&&e.name||e)+'). Exportez une sauvegarde.');journal('erreur',gid,'Échec d’écriture IndexedDB : '+(e&&e.message||e));return;}
+ S.draws[gid]=S.draws[gid].filter(d=>!ids.has(d.id)).concat(all);sortDraws(gid);await afterDataChange(gid);}
+async function afterDataChange(gid){await resolveGrids(gid);render();runPipeline(gid);}
+async function resolveGrids(gid){const byDate=new Map(cur(gid).map(d=>[d.date,d]));const ch=[];
+ for(const g of S.grids){if(g.game!==gid)continue;const d=byDate.get(g.target);if(d){const r=E.evalGrid(gid,g,d);const nr={m:r.m,b:r.b,key:r.key,gain:r.gain,draw:{nums:d.nums,bonus:d.bonus}};if(JSON.stringify(nr)!==JSON.stringify(g.result)){g.result=nr;ch.push(g);}}else if(g.result){g.result=null;ch.push(g);}}
+ if(ch.length)await DB.putMany('grids',ch).catch(()=>{});}
+
+/* ---------------- Lecture de fichiers ---------------- */
+function readFile(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(new Uint8Array(r.result));r.onerror=()=>rej(r.error);r.readAsArrayBuffer(f);});}
+function parseBytes(name,u8,gidDefault,when){const out=[];const lower=name.toLowerCase();
+ try{if(lower.endsWith('.zip')||(u8[0]===0x50&&u8[1]===0x4b)){for(const f of E.unzip(u8)){if(/\.csv$/i.test(f.name)||/\.txt$/i.test(f.name))out.push(E.parseFdjCsv(E.decodeText(f.data),f.name,when));else out.push({game:null,draws:[],errors:['fichier ignoré dans l’archive : '+f.name],filename:f.name});}}
+  else if(lower.endsWith('.json')){const o=JSON.parse(E.decodeText(u8));if(o&&o.app===APP)return[{backup:o,filename:name,draws:[],errors:[]}];
+   for(const g of(o&&o.game?[o.game]:Array.isArray(o)&&o.some(x=>x&&x.game)?['em','loto']:[gidDefault])){const r=E.parseJsonDraws(o,g,when,'Import manuel (JSON) · '+name);r.filename=name;if(r.draws.length||r.errors.length)out.push(r);}}
+  else{const txt=E.decodeText(u8);let r=E.parseFdjCsv(txt,name,when);if(!r.game){r=E.parseGenericCsv(txt,gidDefault,when,'Import manuel (CSV) · '+name);}r.filename=name;out.push(r);}
+ }catch(e){out.push({game:null,draws:[],errors:['lecture impossible : '+e.message],filename:name});}
+ return out;}
+async function importFiles(fileList){const when=new Date().toISOString(),parsed=[];for(const f of Array.from(fileList)){const u8=await readFile(f);parsed.push(...parseBytes(f.name,u8,S.tab,when));}
+ const bk=parsed.find(p=>p.backup);if(bk)return restoreBackup(bk.backup);previewImport(parsed);}
+function previewImport(parsed,opts){opts=opts||{};const groups={em:{draws:[],files:[]},loto:{draws:[],files:[]}},errs=[];
+ for(const p of parsed){if(p.game){groups[p.game].draws.push(...p.draws);groups[p.game].files.push(p);}(p.errors||[]).forEach(e=>errs.push((p.filename?p.filename+' — ':'')+e));}
+ const cls={};let nNew=0,nConf=0;for(const g of['em','loto']){cls[g]=classify(g,groups[g].draws);nNew+=cls[g].fresh.length;nConf+=cls[g].conflicts.length;}
+ let h='<h2>Aperçu avant enregistrement</h2>';
+ for(const g of['em','loto']){const c=cls[g];if(!groups[g].draws.length)continue;const pr=c.fresh.slice().sort((a,b)=>a.date<b.date?1:-1);
+  h+='<h3>'+G[g].name+'</h3><p class="muted">'+groups[g].files.map(f=>esc(f.filename||'saisie')+' ('+esc(f.format||'')+', '+f.draws.length+' lignes)').join(' · ')+'</p>'+
+   '<ul class="kv"><li><b>'+nf(c.fresh.length)+'</b> nouveau(x) tirage(s) valide(s)</li><li><b>'+nf(c.dup.length)+'</b> doublon(s) ignoré(s)</li><li><b>'+nf(c.conflicts.length)+'</b> conflit(s) avec un tirage déjà enregistré</li><li><b>'+nf(c.invalid.length)+'</b> ligne(s) rejetée(s)</li></ul>';
+  if(c.invalid.length)h+='<div class="alert err">'+ICON.warn+'<div><b>Lignes rejetées</b><ul>'+c.invalid.slice(0,8).map(x=>'<li>'+fd(x.d.date)+' : '+esc(x.err.join(', '))+'</li>').join('')+(c.invalid.length>8?'<li>… et '+(c.invalid.length-8)+' autre(s)</li>':'')+'</ul></div></div>';
+  if(c.warn.length)h+='<div class="alert warn">'+ICON.warn+'<div><b>À vérifier</b><ul>'+c.warn.slice(0,6).map(x=>'<li>'+fd(x.d.date)+' ('+DAYS[E.dow(x.d.date)]+') : '+esc(x.warn.join(', '))+'</li>').join('')+(c.warn.length>6?'<li>… et '+(c.warn.length-6)+' autre(s)</li>':'')+'</ul></div></div>';
+  if(c.conflicts.length)h+='<div class="alert warn">'+ICON.warn+'<div><b>Conflits</b> — numéros différents pour une date déjà enregistrée :<ul>'+c.conflicts.slice(0,6).map(x=>'<li>'+fd(x.d.date)+' : local '+x.ex.nums.join('-')+' / '+x.ex.bonus.join('-')+' → fichier '+x.d.nums.join('-')+' / '+x.d.bonus.join('-')+'</li>').join('')+'</ul></div></div>';
+  if(pr.length)h+='<div class="scroll"><table><thead><tr><th>Date</th><th>Numéros</th><th>'+esc(G[g].bonusLabel)+'</th></tr></thead><tbody>'+pr.slice(0,12).map(d=>'<tr><td>'+fd(d.date)+'</td><td>'+d.nums.join(' · ')+'</td><td>'+(d.bonus.join(' · ')||(d.compl?'compl. '+d.compl:'–'))+'</td></tr>').join('')+'</tbody></table></div>'+(pr.length>12?'<p class="muted">… et '+nf(pr.length-12)+' autre(s) tirage(s).</p>':'');}
+ if(errs.length)h+='<div class="alert err">'+ICON.warn+'<div><b>Anomalies de lecture</b><ul>'+errs.slice(0,8).map(e=>'<li>'+esc(e)+'</li>').join('')+(errs.length>8?'<li>… et '+(errs.length-8)+' autre(s)</li>':'')+'</ul></div></div>';
+ if(!nNew&&!nConf)h+='<p>Aucun nouveau tirage à enregistrer.</p>';
+ if(nConf)h+='<label class="check"><input type="checkbox" id="imp-replace"> Remplacer les tirages locaux en conflit par ceux du fichier (correction)</label>';
+ h+='<div class="actions"><button class="btn ghost" data-act="dlg-close">Annuler</button>'+(nNew||nConf?'<button class="btn primary" id="imp-ok">Valider l’enregistrement</button>':'')+'</div>';
+ openDlg(h);const okb=$('#imp-ok');if(okb)okb.onclick=async()=>{const rep=$('#imp-replace')&&$('#imp-replace').checked;closeDlg();
+  for(const g of['em','loto']){const c=cls[g],repl=rep?c.conflicts.map(x=>x.d):[];if(!c.fresh.length&&!repl.length)continue;
+   await journal(opts.type||'import',g,nf(c.fresh.length)+' tirage(s) ajouté(s)'+(repl.length?', '+repl.length+' remplacé(s)':'')+' — '+(groups[g].files.map(f=>f.filename||'saisie manuelle').join(', ')),repl.length?{replaced:c.conflicts.map(x=>({avant:x.ex,apres:x.d}))}:null);
+   await commit(g,c.fresh,repl);}
+  toast('Tirages enregistrés. Les analyses sont relancées.');};}
+
+/* ---------------- Synchronisation ---------------- */
+async function fetchArchive(url){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),25000);try{const r=await fetch(url,{cache:'no-store',signal:ctl.signal});if(!r.ok)throw new Error('réponse HTTP '+r.status);return new Uint8Array(await r.arrayBuffer());}finally{clearTimeout(to);}}
+async function relayManifest(){if(location.protocol==='file:')return null;try{const r=await fetch('data/manifest.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return null;const m=await r.json();return m&&m.relay==='labo-tirages'&&m.games?m:null;}catch(e){return null;}}
+async function syncRelay(gid,man,manual,fail){const st=S.sync[gid],name=G[gid].name,g=man.games[gid]||{},files=(Array.isArray(g.files)?g.files:[]).filter(f=>f&&f.path).sort((a,b)=>a.lastDate<b.lastDate?1:-1);
+ if(!files.length)return fail('failed','le relais GitHub ne contient encore aucune archive '+name+(g.lastError?' (motif : '+g.lastError+')':''));
+ try{const when=new Date().toISOString(),need=integrity(gid),list=(!S.draws[gid].length||need.partial||need.gapYears.length)?files:files.slice(0,1);let remote=[];
+  const skipped=[];
+  for(let i=0;i<list.length;i++){const f=list[i],all=parseBytes(f.path,await fetchArchive(f.path+'?v='+String(f.sha256||'').slice(0,12)),gid,when),parsed=all.filter(p=>p.game===gid);
+   if(!parsed.some(p=>p.draws.length)){const why=(all.flatMap(p=>p.errors||[])[0])||'contenu illisible';if(i===0)throw new Error('archive la plus récente illisible ('+(f.inner||f.path)+') : '+why);skipped.push((f.inner||f.path)+' — '+why);continue;}
+   parsed.forEach(p=>{p.draws.forEach(d=>d.source='Archive officielle FDJ (relais GitHub) · '+(f.inner||f.path));remote.push(...p.draws);});}
+  if(skipped.length)await journal('import',gid,skipped.length+' archive(s) du relais écartée(s) : '+skipped.join(' ; '));
+  const c=classify(gid,remote),rl=remote.filter(d=>!d.legacy).map(d=>d.date).sort().pop(),checked=Date.parse(g.lastSuccess||'')||null,age=checked?Date.now()-checked:Infinity;
+  st.via='relais';st.remoteLast=rl;st.added=c.fresh.length;st.conflicts=c.conflicts.length;st.partialFetch=0;st.lastAttempt=Date.now();
+  if(age>36*3600e3){st.status='stale';st.lastOk=checked;st.error='le relais GitHub n’a pas pu interroger FDJ depuis '+(checked?'le '+fdt(checked):'sa création')+(g.lastError?' (motif : '+g.lastError+')':'');}
+  else{st.status='ok';st.error=null;st.lastOk=checked;}
+  await DB.set('sync:'+gid,{lastOk:st.lastOk||null,lastAttempt:st.lastAttempt,remoteLast:rl,lastError:st.error,via:'relais'});
+  await journal(st.status==='ok'?'synchronisation':'erreur',gid,st.status==='ok'?'Relais GitHub lu : archives FDJ vérifiées par le relais le '+fdt(checked)+', '+c.fresh.length+' nouveau(x) tirage(s), '+c.conflicts.length+' conflit(s), dernier tirage publié le '+fd(rl)+'.':'Relais GitHub en retard : '+st.error+'.',c.conflicts.length?{conflits:c.conflicts.map(x=>({local:x.ex,distant:x.d}))}:null);
+  if(c.fresh.length)await commit(gid,c.fresh,[]);else render();
+  if(manual)toast(st.status==='ok'?name+' : relais vérifié le '+fdt(checked)+', '+c.fresh.length+' tirage(s) ajouté(s).':name+' : le relais n’a pas été rafraîchi récemment. Vérification manuelle nécessaire.');
+ }catch(e){await fail('failed','relais GitHub : '+(e.name==='AbortError'?'délai dépassé':e.message));}}
+async function syncGame(gid,manual){const st=S.sync[gid],name=G[gid].name;st.status='running';st.error=null;updateStatus();
+ const fail=async(status,why)=>{st.status=status;st.error=why;st.lastAttempt=Date.now();await DB.set('sync:'+gid,{lastOk:st.lastOk||null,lastAttempt:st.lastAttempt,lastError:why});await journal('erreur',gid,'Échec de l’actualisation automatique : '+why);render();if(manual){toast('Récupération automatique impossible ('+(status==='offline'?'hors connexion':S.relay?'relais GitHub illisible':'source FDJ illisible depuis cette page')+'). Importez les archives manuellement.');window.scrollTo(0,0);}};
+ if(navigator.onLine===false)return fail('offline','appareil hors connexion');
+ try{const when=new Date().toISOString(),need=integrity(gid),urls=(!S.draws[gid].length||need.partial)?S.urls[gid]:S.urls[gid].slice(0,1);let remote=[],okCount=0,lastErr=null;
+  for(let i=0;i<urls.length;i++){try{const parsed=parseBytes('archive.zip',await fetchArchive(urls[i]),gid,when).filter(p=>p.game===gid);if(!parsed.length||!parsed.some(p=>p.draws.length))throw new Error('archive reçue mais contenu inattendu');parsed.forEach(p=>remote.push(...p.draws));okCount++;}catch(e){lastErr=e;if(i===0)throw e;}}
+  const c=classify(gid,remote),rl=remote.filter(d=>!d.legacy).map(d=>d.date).sort().pop();
+  st.status='ok';st.via='direct';st.lastOk=Date.now();st.lastAttempt=st.lastOk;st.remoteLast=rl;st.added=c.fresh.length;st.conflicts=c.conflicts.length;st.partialFetch=okCount<urls.length?(urls.length-okCount):0;
+  await DB.set('sync:'+gid,{lastOk:st.lastOk,lastAttempt:st.lastOk,remoteLast:rl,lastError:null,via:'direct'});
+  await journal('synchronisation',gid,'Vérification réussie auprès de la source officielle : '+c.fresh.length+' nouveau(x) tirage(s), '+c.conflicts.length+' conflit(s), dernier tirage publié le '+fd(rl)+'.',c.conflicts.length?{conflits:c.conflicts.map(x=>({local:x.ex,distant:x.d}))}:null);
+  if(c.fresh.length)await commit(gid,c.fresh,[]);else render();
+  if(manual)toast(name+' : vérification réussie, '+c.fresh.length+' tirage(s) ajouté(s).');
+ }catch(e){const man=await relayManifest();S.relay=!!man;if(man)return syncRelay(gid,man,manual,fail);
+  const why=e.name==='AbortError'?'délai dépassé':(e instanceof TypeError?'la source officielle n’a pas pu être lue (réseau indisponible, ou page ouverte dans un aperçu qui bloque Internet : ouvrez-la dans Safari ou Chrome)':e.message);await fail('failed',why);}}
+
+/* ---------------- Calculs (Web Worker) ---------------- */
+function workerMain(){self.onmessage=function(ev){const m=ev.data,post=o=>{o.id=m.id;self.postMessage(o);},prog=(stage,base,span)=>(f,label)=>post({type:'progress',f:base+span*f,label});
+ try{let A=null;
+  if(m.stages.indexOf('analysis')>=0){post({type:'progress',f:0.01,label:'Analyse statistique'});A=E.analyze(m.draws,m.gid);A.legacy=E.analyzeLegacy(m.draws,m.gid);post({type:'part',key:'analysis',value:A});}
+  const ins=A?A.insufficient:false,T=A?A.T:m.T,obs=A?A.observed:m.observed;
+  if(!ins&&m.stages.indexOf('lab')>=0)post({type:'part',key:'lab',value:E.modelLab(m.draws,m.gid,prog('lab',0.05,0.15))});
+  if(!ins&&m.stages.indexOf('bt')>=0)post({type:'part',key:'bt',value:E.backtest(m.draws,m.gid,{},prog('bt',0.2,0.35))});
+  if(!ins&&obs&&m.stages.indexOf('mc')>=0)post({type:'part',key:'mc',value:E.monteCarlo(obs,m.gid,T,m.mc,prog('mc',0.55,0.45))});
+  post({type:'done'});}catch(e){post({type:'error',message:String(e&&e.message||e)});}};}
+let workerUrl=null;
+function newWorker(){try{if(!workerUrl)workerUrl=URL.createObjectURL(new Blob(['const E=('+LotoEngine.toString()+')();\n('+workerMain.toString()+')();'],{type:'text/javascript'}));const w=new Worker(workerUrl);S.workerOk=true;return w;}catch(e){S.workerOk=false;return null;}}
+let jobSeq=1;
+function runPipeline(gid,stages){cancelJob(gid,true);const D=S.draws[gid];if(!cur(gid).length){S.res[gid]={};render();return;}
+ stages=stages||['analysis','lab','bt','mc'];const s=sig(gid),lv=MC_LEVELS[S.mc],id=jobSeq++,full=stages.indexOf('analysis')>=0;
+ if(full)S.res[gid]={sig:s,partial:true};else S.res[gid].partial=true;
+ const msg={id,gid,stages,draws:D.map(d=>({date:d.date,nums:d.nums,bonus:d.bonus,legacy:d.legacy})),mc:{N:lv.N,H:lv.H},observed:S.res[gid].analysis&&S.res[gid].analysis.observed,T:S.res[gid].analysis&&S.res[gid].analysis.T};
+ const job={id,f:0,label:'Préparation',stages};S.job[gid]=job;S.note[gid]=null;DB.set('running:'+gid,s);
+ const onMsg=async m=>{if(!S.job[gid]||S.job[gid].id!==m.id)return;
+  if(m.type==='progress'){job.f=m.f;job.label=m.label;updateProgress(gid);}
+  else if(m.type==='part'){S.res[gid][m.key]=m.value;if(m.key==='bt'&&!m.value.insufficient){const rec={game:gid,at:Date.now(),sig:s,result:m.value};S.backtests.push(rec);DB.put('backtests',rec).catch(()=>{});}
+   if(m.key==='lab')await ensureProposal(gid);render();}
+  else if(m.type==='done'){S.res[gid].partial=false;S.res[gid].at=Date.now();S.job[gid]=null;if(job.worker)job.worker.terminate();await DB.set('res:'+gid,S.res[gid]);await DB.del('kv','running:'+gid);if(!S.res[gid].lab)await ensureProposal(gid);render();}
+  else if(m.type==='error'){S.job[gid]=null;if(job.worker)job.worker.terminate();S.note[gid]='Le calcul a échoué : '+m.message;await journal('erreur',gid,'Échec d’un calcul : '+m.message);await DB.del('kv','running:'+gid);render();}};
+ const w=newWorker();
+ if(w){job.worker=w;w.onmessage=ev=>onMsg(ev.data);w.onerror=ev=>onMsg({id,type:'error',message:ev.message||'erreur du Web Worker'});w.postMessage(msg);}
+ else{job.label='Calcul sans Web Worker (l’interface peut se figer quelques secondes)';setTimeout(()=>{const fake={postMessage:o=>onMsg(o)};const fn=new Function('E','self','('+workerMain.toString()+')();return self.onmessage;')(E,fake);fn({data:msg});},60);}
+ render();}
+function cancelJob(gid,silent){const j=S.job[gid];if(!j)return;if(j.worker)j.worker.terminate();S.job[gid]=null;DB.del('kv','running:'+gid);if(!silent){S.note[gid]='Calcul annulé. Les résultats déjà obtenus restent affichés ; relancez l’analyse pour compléter.';S.res[gid].partial=false;S.res[gid].cancelled=true;render();}}
+
+/* ---------------- Grilles ---------------- */
+function latestBatch(gid){const gs=S.grids.filter(g=>g.game===gid);if(!gs.length)return null;const b=gs.reduce((m,g)=>g.batch>m?g.batch:m,0);return gs.filter(g=>g.batch===b).sort((a,b2)=>a.kind-b2.kind);}
+async function ensureProposal(gid){const I=integrity(gid);if(!I.complete||!cur(gid).length)return;const target=E.nextDrawDate(gid,I.lastCur>lastComplete()?I.lastCur:lastComplete()),lb=latestBatch(gid);
+ if(lb&&lb[0].target===target&&lb[0].params.sig===sig(gid)&&!lb[0].provisional)return;await generate(gid,false,true);}
+async function generate(gid,provisional,auto){const I=integrity(gid),lab=S.res[gid].lab,signal=lab&&lab.signal?[0].concat(lab.signal.slice(1)):null,seed=E.newSeed(),NC=3000;
+ const sg=lab&&lab.signal?lab.signal:null,grids=E.makeGrids(gid,sg,E.RNG(seed),NC),batch=Date.now(),target=E.nextDrawDate(gid,I.lastCur>lastComplete()?I.lastCur:lastComplete());
+ for(const g of grids){const rec={game:gid,batch,createdAt:batch,target,kind:g.kind,nums:g.nums,bonus:g.bonus,provisional:!!provisional,auto:!!auto,typ:g.typ,pop:g.pop,result:null,
+  params:{seed,candidates:NC,models:lab&&lab.kept?lab.kept:[],signal:!!sg,labDone:!!lab&&!lab.insufficient,nDraws:cur(gid).length,lastDraw:I.lastCur,sig:sig(gid),sync:S.sync[gid].status,missing:I.missing.length}};
+  S.grids.push(rec);await DB.put('grids',rec).catch(()=>{});}
+ if(!auto){render();toast(provisional?'Sélection provisoire générée (historique incomplet).':'Deux nouvelles propositions générées.');}}
+
+/* ---------------- Sauvegarde / restauration ---------------- */
+async function exportBackup(){const kv={};(await DB.kvAll()).forEach(([k,v])=>kv[k]=v);const o={app:APP,version:VERSION,exportedAt:new Date().toISOString(),draws:S.draws.em.concat(S.draws.loto),grids:S.grids,backtests:S.backtests,journal:S.journal,kv};
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='labo-tirages-sauvegarde-'+today()+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000);journal('sauvegarde',null,'Sauvegarde complète exportée ('+nf(o.draws.length)+' tirages).');}
+async function restoreBackup(o){if(!o||o.app!==APP||!Array.isArray(o.draws)){toast('Ce fichier n’est pas une sauvegarde de l’application.');return;}
+ if(!await ask('Restaurer la sauvegarde ?','Sauvegarde du '+fdt(Date.parse(o.exportedAt))+' : '+nf(o.draws.length)+' tirages, '+nf((o.grids||[]).length)+' grilles. Toutes les données actuellement enregistrées dans ce navigateur seront remplacées.','Remplacer et restaurer',true))return;
+ ['em','loto'].forEach(g=>cancelJob(g,true));for(const s of STORES)await DB.clear(s);
+ await DB.putMany('draws',o.draws);await DB.putMany('grids',o.grids||[]);await DB.putMany('backtests',o.backtests||[]);await DB.putMany('journal',o.journal||[]);for(const k in(o.kv||{}))if(k.indexOf('running:')!==0)await DB.set(k,o.kv[k]);
+ await load();await journal('restauration',null,'Sauvegarde du '+fdt(Date.parse(o.exportedAt))+' restaurée.');render();['em','loto'].forEach(g=>{if(S.res[g].sig!==sig(g)||!S.res[g].mc)runPipeline(g);});toast('Sauvegarde restaurée.');}
+
+/* ---------------- Dialogues ---------------- */
+function openDlg(html){const d=$('#dlg');$('#dlg-body').innerHTML=html;if(!d.open)d.showModal();}
+function closeDlg(){const d=$('#dlg');if(d.open)d.close();}
+function ask(title,text,okLabel,danger){return new Promise(res=>{const d=$('#confirm');$('#confirm-body').innerHTML='<h2>'+esc(title)+'</h2><p>'+esc(text)+'</p><div class="actions"><button class="btn ghost" id="c-no">Annuler</button><button class="btn '+(danger?'danger':'primary')+'" id="c-yes">'+esc(okLabel)+'</button></div>';
+ const end=v=>{d.close();res(v);};$('#c-no').onclick=()=>end(false);$('#c-yes').onclick=()=>end(true);d.oncancel=()=>res(false);d.showModal();});}
+let toastT=null;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),4500);}
+function rowHtml(gid,i,d){const g=G[gid],per=d&&d.legacy;let h='<fieldset class="mrow" data-row="'+i+'"><legend>Tirage '+(i+1)+'</legend><label>Date du tirage<input type="date" name="date" required max="'+today()+'" value="'+(d?d.date:'')+'"></label><div class="nums">';
+ const kk=per?6:g.k;for(let j=0;j<kk;j++)h+='<label>N° '+(j+1)+'<input type="number" inputmode="numeric" name="n'+j+'" min="1" max="'+g.n+'" required value="'+(d&&d.nums[j]!=null?d.nums[j]:'')+'"></label>';
+ if(!per)for(let j=0;j<g.bk;j++)h+='<label class="bonus">'+(g.bk>1?'Étoile '+(j+1):'N° Chance')+'<input type="number" inputmode="numeric" name="b'+j+'" min="1" max="'+g.bn+'" required value="'+(d&&d.bonus[j]!=null?d.bonus[j]:'')+'"></label>';
+ return h+'</div><p class="ferr" role="alert"></p></fieldset>';}
+function readRows(gid,form,legacy){const g=G[gid],rows=[],when=new Date().toISOString();let ok=true;
+ form.querySelectorAll('.mrow').forEach(fs=>{const v=n=>fs.querySelector('[name='+n+']'),date=v('date').value,nums=[],bonus=[],kk=legacy?6:g.k;for(let j=0;j<kk;j++)nums.push(parseInt(v('n'+j).value,10));if(!legacy)for(let j=0;j<g.bk;j++)bonus.push(parseInt(v('b'+j).value,10));
+  const errEl=fs.querySelector('.ferr');let err=[];if(!date)err.push('date obligatoire');if(nums.some(isNaN)||bonus.some(isNaN))err.push('tous les numéros sont obligatoires');
+  if(!err.length)err=E.validateDraw(gid,{date,nums,bonus},today()).err;errEl.textContent=err.length?'Erreur : '+err.join(' ; ')+'.':'';if(err.length)ok=false;else rows.push(E.normalize(gid,date,nums,bonus,{source:'Saisie manuelle',importedAt:when,raw:JSON.stringify({date,nums,bonus})}));});
+ return ok?rows:null;}
+function manualDialog(gid,date){gid=gid||S.tab;let n=1;const g=G[gid];
+ const draw=()=>{openDlg('<h2>Ajouter un ou plusieurs tirages manuellement</h2><div class="seg" role="tablist"><button role="tab" class="'+(gid==='em'?'on':'')+'" data-mg="em">EuroMillions</button><button role="tab" class="'+(gid==='loto'?'on':'')+'" data-mg="loto">Loto</button></div>'+
+  '<h3>A. Saisie manuelle</h3><form id="mform" novalidate>'+rowHtml(gid,0,date?{date,nums:[],bonus:[]}:null)+'</form><div class="actions left"><button class="btn ghost" id="m-add">'+ICON.plus+'Ajouter une ligne</button></div>'+
+  '<h3>B. Importer un fichier</h3><p class="muted">Archives officielles FDJ (ZIP ou CSV), ou fichier CSV / JSON personnel contenant plusieurs semaines de tirages. Format CSV libre : <code>date;n1;n2;n3;n4;n5;'+(gid==='em'?'e1;e2':'chance')+'</code>, une ligne par tirage.</p><label class="btn ghost filebtn">'+ICON.file+'Choisir un ou plusieurs fichiers<input type="file" id="m-file" multiple accept=".zip,.csv,.json,.txt"></label>'+
+  '<div class="actions"><button class="btn ghost" data-act="dlg-close">Annuler</button><button class="btn primary" id="m-ok">Vérifier et afficher l’aperçu</button></div>');
+  $('#dlg-body').querySelectorAll('[data-mg]').forEach(b=>b.onclick=()=>{gid=b.dataset.mg;n=1;date=null;draw();});
+  $('#m-add').onclick=()=>{$('#mform').insertAdjacentHTML('beforeend',rowHtml(gid,n++,null));};
+  $('#m-file').onchange=ev=>{const prev=S.tab;S.tab=gid;importFiles(ev.target.files).finally(()=>{S.tab=prev;});};
+  $('#m-ok').onclick=()=>{const rows=readRows(gid,$('#mform'));if(!rows)return;previewImport([{game:gid,draws:rows,errors:[],filename:'saisie manuelle',format:'formulaire'}]);};};
+ draw();}
+function editDialog(gid,id){const d=S.draws[gid].find(x=>x.id===id);if(!d)return;
+ openDlg('<h2>Corriger un tirage</h2><p class="muted">'+G[gid].name+' — enregistré depuis : '+esc(d.source||'–')+'. La version d’origine est conservée dans le journal des corrections.</p><form id="mform" novalidate>'+rowHtml(gid,0,d)+'</form><div class="actions"><button class="btn ghost" data-act="dlg-close">Annuler</button><button class="btn primary" id="e-ok">Enregistrer la correction</button></div>');
+ $('#e-ok').onclick=async()=>{const rows=readRows(gid,$('#mform'),d.legacy);if(!rows)return;const nd=rows[0];nd.seq=d.seq;nd.id=E.drawId(gid,nd.date,d.seq);nd.fdjId=d.fdjId;nd.source='Correction manuelle (origine : '+(d.source||'inconnue')+')';nd.raw=d.raw;if(d.compl!=null)nd.compl=d.compl;
+  if(nd.id!==d.id&&S.draws[gid].some(x=>x.id===nd.id)){$('#mform .ferr').textContent='Erreur : un tirage existe déjà à cette date.';return;}
+  if(nd.id===d.id&&E.sameDraw(nd,d)){closeDlg();return;}
+  if(!await ask('Confirmer la correction ?','Tirage du '+fd(d.date)+' : '+d.nums.join('-')+' / '+d.bonus.join('-')+'  →  '+fd(nd.date)+' : '+nd.nums.join('-')+' / '+nd.bonus.join('-'),'Corriger'))return;
+  closeDlg();if(nd.id!==d.id){S.draws[gid]=S.draws[gid].filter(x=>x.id!==d.id);await DB.del('draws',d.id);}
+  await journal('correction',gid,'Tirage du '+fd(d.date)+' corrigé.',{avant:d,apres:nd});await commit(gid,[],[nd]);toast('Tirage corrigé.');};}
+async function deleteDraw(gid,id){const d=S.draws[gid].find(x=>x.id===id);if(!d)return;
+ if(!await ask('Supprimer ce tirage ?','Tirage '+G[gid].name+' du '+fd(d.date)+' ('+d.nums.join('-')+(d.bonus.length?' / '+d.bonus.join('-'):'')+'). À réserver aux tirages erronés : la suppression est consignée dans le journal et le tirage sera signalé comme manquant.','Supprimer',true))return;
+ S.draws[gid]=S.draws[gid].filter(x=>x.id!==id);await DB.del('draws',id);await journal('suppression',gid,'Tirage du '+fd(d.date)+' supprimé.',{supprime:d});await afterDataChange(gid);toast('Tirage supprimé.');}
+
+/* ---------------- Graphiques SVG ---------------- */
+function bars(items,o){o=o||{};const bw=o.bw||14,H=o.h||150,pt=14,pb=22,W=items.length*bw+34,max=Math.max(o.ref||0,...items.map(i=>Math.max(i.v,i.e||0)))*1.08||1,min=o.min||0,y=v=>pt+(H-pt-pb)*(1-(v-min)/(max-min));
+ let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.label||'graphique')+'" style="min-width:'+Math.min(W,o.minW||W*0.85)+'px;max-width:'+Math.round(Math.max(W*1.45,o.minW||0))+'px">';
+ for(let t=0;t<=2;t++){const v=min+(max-min)*t/2*0.92;s+='<line class="grid" x1="30" x2="'+W+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ax" x="27" y="'+(y(v)+3)+'" text-anchor="end">'+(o.fmt?o.fmt(v):nf(v))+'</text>';}
+ items.forEach((it,i)=>{const x=32+i*bw,yy=y(Math.max(min,it.v));s+='<rect class="bar'+(it.hi?' hi':'')+(it.lo?' lo':'')+'" x="'+x+'" y="'+yy+'" width="'+(bw-3)+'" height="'+Math.max(0.5,y(min)-yy)+'" rx="1.5"><title>'+esc(it.t||(it.l+' : '+nf(it.v,o.dec||0)))+'</title></rect>';
+  if(it.e!=null)s+='<line class="exp" x1="'+(x-1)+'" x2="'+(x+bw-2)+'" y1="'+y(it.e)+'" y2="'+y(it.e)+'"/>';
+  if(!o.every||i%o.every===0||i===items.length-1)s+='<text class="ax" x="'+(x+(bw-3)/2)+'" y="'+(H-8)+'" text-anchor="middle">'+esc(it.l)+'</text>';});
+ if(o.ref!=null)s+='<line class="ref" x1="30" x2="'+W+'" y1="'+y(o.ref)+'" y2="'+y(o.ref)+'"/>';
+ return'<div class="scroll">'+s+'</svg></div>'+(o.legend?'<p class="legend">'+o.legend+'</p>':'');}
+function lineChart(pts,o){const W=640,H=150,pt=12,pb=22,max=Math.max(o.hi||0,...pts.map(p=>p.v))*1.05,min=Math.min(o.lo==null?Infinity:o.lo,...pts.map(p=>p.v))*0.95,x=i=>34+(W-40)*i/Math.max(1,pts.length-1),y=v=>pt+(H-pt-pb)*(1-(v-min)/(max-min));
+ let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.label)+'" style="min-width:480px">';
+ (o.refs||[]).forEach(r=>{s+='<line class="'+r.c+'" x1="34" x2="'+W+'" y1="'+y(r.v)+'" y2="'+y(r.v)+'"/><text class="ax" x="'+(W-2)+'" y="'+(y(r.v)-3)+'" text-anchor="end">'+esc(r.l)+'</text>';});
+ s+='<polyline class="line" points="'+pts.map((p,i)=>x(i).toFixed(1)+','+y(p.v).toFixed(1)).join(' ')+'"/>';
+ [0,Math.floor(pts.length/2),pts.length-1].forEach(i=>{if(pts[i])s+='<text class="ax" x="'+x(i)+'" y="'+(H-7)+'" text-anchor="'+(i===0?'start':i===pts.length-1?'end':'middle')+'">'+esc(pts[i].l)+'</text>';});
+ s+='<text class="ax" x="30" y="'+(y(max/1.05)+3)+'" text-anchor="end">'+nf(max/1.05)+'</text><text class="ax" x="30" y="'+(y(min/0.95)+3)+'" text-anchor="end">'+nf(min/0.95)+'</text>';
+ return'<div class="scroll">'+s+'</svg></div>';}
+const ball=(a,c)=>'<span class="ball '+(c||'')+'">'+a+'</span>';
+const balls=(gid,nums,bonus,hitN,hitB)=>'<span class="balls">'+nums.map(a=>ball(a,hitN&&hitN.indexOf(a)>=0?'hit':'')).join('')+(bonus&&bonus.length?'<span class="sepb" aria-hidden="true"></span>'+bonus.map(a=>ball(a,'bonus'+(hitB&&hitB.indexOf(a)>=0?' hit':''))).join(''):'')+'</span>';
+const tag=(ok,a,b)=>'<span class="tag '+(ok?'good':'bad')+'">'+esc(ok?a:b)+'</span>';
+const neutral=t=>'<span class="tag">'+esc(t)+'</span>';
+const card=(id,title,body,sub)=>'<section class="card" id="'+id+'" aria-labelledby="'+id+'-h"><h2 id="'+id+'-h">'+title+'</h2>'+(sub?'<p class="sub">'+sub+'</p>':'')+body+'</section>';
+const lab=h=>esc(String(h).replace(/<[^>]*>/g,''));
+const table=(head,rows,cls)=>'<div class="scroll"><table class="'+(cls||'')+(head.length>3?' stack':'')+'"><thead><tr>'+head.map(h=>'<th scope="col">'+h+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map((c,i)=>'<td data-label="'+lab(head[i])+'"><span class="v">'+c+'</span></td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+
+/* ---------------- Rendu ---------------- */
+function syncBadge(gid,I){const st=S.sync[gid];
+ if(st.status==='running')return'<span class="tag">Vérification en cours…</span>';
+ if(st.status==='ok')return I.complete?'<span class="tag good">Historique à jour — vérifié le '+fdt(st.lastOk)+'</span>':'<span class="tag bad">Vérifié le '+fdt(st.lastOk)+' — historique incomplet</span>';
+ if(st.status==='failed')return'<span class="tag bad">Vérification impossible</span>';
+ if(st.status==='offline')return'<span class="tag warn">Hors connexion — non vérifié</span>';
+ if(st.status==='stale')return'<span class="tag bad">Relais en retard — non vérifié</span>';
+ return'<span class="tag warn">Non vérifié</span>';}
+function statusStrip(gid,I){const st=S.sync[gid];return'<div class="strip" id="strip"><div><span>Dernier tirage enregistré</span><b>'+(I.lastCur?fd(I.lastCur):(I.last?fd(I.last):'aucun'))+'</b></div><div><span>Dernière vérification Internet réussie</span><b>'+fdt(st.lastOk)+(st.via==='relais'&&st.lastOk?' <small class="muted">(par le relais)</small>':'')+'</b></div><div><span>Tirages enregistrés</span><b>'+nf(I.total)+'</b></div><div><span>Tirages manquants détectés</span><b class="'+(I.missing.length?'bad':'')+'">'+nf(I.missing.length)+'</b></div><div><span>Synchronisation</span>'+syncBadge(gid,I)+'</div></div>';}
+function alerts(gid,I){const st=S.sync[gid],name=G[gid].name;let h='';
+ if(!S.storage)h+='<div class="alert err" role="alert">'+ICON.warn+'<div><b>Stockage local indisponible.</b> Ce navigateur refuse IndexedDB dans ce mode d’ouverture : les données ne seront pas conservées à la fermeture. Exportez une sauvegarde JSON, ou placez le fichier sur un hébergement statique (voir « Données »).</div></div>';
+ if(st.status==='failed')h+='<div class="alert err" role="alert">'+ICON.warn+'<div><b>Impossible de récupérer automatiquement les derniers tirages '+name+'.</b> Votre historique local est conservé. Merci d’importer les nouveaux tirages manuellement.<br><span class="muted">Motif : '+esc(st.error||'inconnu')+'. Une vérification manuelle est nécessaire : comparez avec <a href="'+SRC[gid].page+'" target="_blank" rel="noopener">la page officielle FDJ</a>.</span></div></div>';
+ if(st.status==='stale')h+='<div class="alert err" role="alert">'+ICON.warn+'<div><b>Impossible de vérifier la dernière actualisation '+(gid==='em'?'d’EuroMillions':'du Loto')+'.</b> Votre historique local est conservé. Une vérification manuelle est nécessaire.<br><span class="muted">Motif : '+esc(st.error||'inconnu')+'. Comparez avec <a href="'+SRC[gid].page+'" target="_blank" rel="noopener">la page officielle FDJ</a> ou relancez le relais dans l’onglet « Actions » du dépôt GitHub.</span></div></div>';
+ if(st.status==='offline')h+='<div class="alert warn" role="alert">'+ICON.warn+'<div><b>Impossible de vérifier la dernière actualisation '+(gid==='em'?'d’EuroMillions':'du Loto')+'.</b> L’appareil est hors connexion : l’application fonctionne avec les données déjà enregistrées. Une vérification manuelle est nécessaire.</div></div>';
+ if(st.status==='ok'&&st.partialFetch)h+='<div class="alert warn" role="alert">'+ICON.warn+'<div>'+st.partialFetch+' archive(s) historique(s) n’ont pas pu être récupérées automatiquement. Importez-les depuis la page officielle FDJ.</div></div>';
+ if(st.status==='ok'&&st.conflicts)h+='<div class="alert warn" role="alert">'+ICON.warn+'<div>'+st.conflicts+' tirage(s) local(aux) diffèrent de la source officielle. Vos données n’ont pas été modifiées ; détail dans le journal (section « Données »).</div></div>';
+ if(I.total&&I.missing.length)h+='<div class="alert err" role="alert">'+ICON.warn+'<div><b>'+I.missing.length+' tirage'+(I.missing.length>1?'s':'')+' '+name+' manque'+(I.missing.length>1?'nt':'')+' dans votre historique.</b> Veuillez les ajouter avant de générer de nouvelles grilles.<div class="chips">'+I.missing.slice(-12).reverse().map(d=>'<span class="chip">'+fd(d)+' <button class="link" data-act="fill" data-date="'+d+'">Saisir</button> <button class="link" data-act="ignore" data-date="'+d+'" title="Marquer cette date comme sans tirage">Pas de tirage</button></span>').join('')+(I.missing.length>12?'<span class="chip">… '+(I.missing.length-12)+' autre(s) plus ancien(s)</span>':'')+'</div><span class="muted">Détection fondée sur le calendrier habituel des tirages ('+G[gid].periods.filter(p=>p.days).slice(-1)[0].days.map(d=>DAYS[d]).join(', ')+').</span></div></div>';
+ if(I.total&&I.partial)h+='<div class="alert warn" role="alert">'+ICON.warn+'<div><b>Historique partiel.</b> '+esc(I.partial)+' Importez les archives antérieures depuis <a href="'+SRC[gid].page+'" target="_blank" rel="noopener">la page officielle FDJ</a>.</div></div>';
+ if(I.gapYears.length)h+='<div class="alert warn" role="alert">'+ICON.warn+'<div><b>Années sans aucun tirage :</b> '+I.gapYears.join(', ')+'. Une archive n’a probablement pas été importée.</div></div>';
+ if(S.note[gid])h+='<div class="alert warn" role="status">'+ICON.warn+'<div>'+esc(S.note[gid])+' <button class="link" data-act="rerun">Relancer l’analyse</button></div></div>';
+ return h;}
+function progressBox(gid){const j=S.job[gid];if(!j)return'';return'<div class="progress" id="prog" role="status" aria-live="polite"><div class="ptxt"><span id="prog-l">'+esc(j.label)+'</span><span id="prog-p">'+Math.round(j.f*100)+' %</span></div><div class="pbar"><i id="prog-b" style="width:'+(j.f*100).toFixed(1)+'%"></i></div><button class="btn ghost sm" data-act="cancel">Annuler le calcul</button></div>';}
+function updateProgress(gid){if(gid!==S.tab)return;const j=S.job[gid];if(!j||!$('#prog-b'))return;$('#prog-b').style.width=(j.f*100).toFixed(1)+'%';$('#prog-l').textContent=j.label;$('#prog-p').textContent=Math.round(j.f*100)+' %';}
+function updateStatus(){const I=integrity(S.tab),el=$('#strip');if(el)el.outerHTML=statusStrip(S.tab,I);}
+function emptyState(gid){const st=S.sync[gid];return card('vide','Aucun historique '+G[gid].name+' enregistré','<p>L’application ne contient aucun tirage préchargé : elle n’utilise que des données réellement récupérées ou importées, jamais de valeurs inventées.</p><ol class="steps"><li><b>Récupération automatique</b> — '+(st.status==='running'?'tentative en cours…':st.status==='ok'?'réussie.':st.status==='never'?'pas encore tentée.':'échec : '+esc(st.error||'')+'.')+' <button class="link" data-act="sync">Réessayer</button></li><li><b>Sinon, téléchargez les archives officielles</b> sur <a href="'+SRC[gid].page+'" target="_blank" rel="noopener">la page « Historique » de FDJ</a> ('+SRC[gid].urls.length+' fichiers ZIP couvrant '+(gid==='em'?'2004':'1976')+' à aujourd’hui).</li><li><b>Importez-les ici</b>, tous en une fois, sans les décompresser.</li></ol><button class="btn primary" data-act="pick-files">'+ICON.file+'Importer les archives FDJ (ZIP, CSV, JSON)</button>');}
+function explain(gid,g){const sig=g.params.signal,t=g.typ,why=[];
+ if(g.kind===1){why.push(sig?'Numéros pondérés par les modèles retenus après validation hors échantillon ('+g.params.models.join(', ')+').':(g.params.labDone?'Aucun modèle n’a démontré de capacité prédictive hors échantillon : les numéros sont donc tirés uniformément, sans préférence pour les « chauds », les « froids » ou les « retards ».':'Comparaison des modèles non disponible : tirage uniforme.'));
+  why.push('Parmi '+nf(g.params.candidates)+' grilles candidates, celle-ci présente le profil le plus courant : somme '+t.sum+' (intervalle central '+t.sumLo+'–'+t.sumHi+'), '+t.even+' pair(s) / '+(g.nums.length-t.even)+' impair(s), '+t.decades+' dizaines représentées.');
+  why.push(g.pop.why.length?'Motifs populaires résiduels : '+g.pop.why.join(', ')+'.':'Aucun motif très joué détecté (dates, suites, progressions).');}
+ else{why.push('Grille complémentaire : aucun numéro commun avec la grille 1, pour couvrir dix numéros différents.');
+  why.push('Pénalisation renforcée des combinaisons populaires (numéros tous ≤ 31, suites, progressions régulières, mêmes terminaisons). Cela ne change pas la probabilité de gagner, mais limite le risque de partager un gain avec d’autres joueurs.');
+  why.push('Profil : somme '+t.sum+', '+t.even+' pair(s), '+t.decades+' dizaines'+(g.pop.why.length?' ; motifs résiduels : '+g.pop.why.join(', '):'')+'.');}
+ why.push(esc(G[gid].bonusLabel)+' : tirage uniforme, aucun critère ne permettant de les départager.');
+ return'<ul class="why">'+why.map(w=>'<li>'+w+'</li>').join('')+'</ul>';}
+function secGrids(gid,I){const lb=latestBatch(gid),R=S.res[gid],busy=!!S.job[gid]&&!R.lab;let h='';
+ if(!I.complete)h+='<div class="alert err">'+ICON.warn+'<div><b>Génération suspendue.</b> L’historique est incomplet : aucune grille ne peut être présentée comme fondée sur l’historique complet. Une sélection provisoire reste possible.</div></div>';
+ else if(S.sync[gid].status!=='ok')h+='<div class="alert warn">'+ICON.warn+'<div>L’historique local ne présente pas de trou, mais sa mise à jour n’a pas pu être vérifiée sur Internet pendant cette session.</div></div>';
+ const show=lb&&(I.complete?!lb[0].provisional||true:lb[0].provisional);
+ if(busy&&!lb)h+='<p class="muted">Les propositions seront affichées dès la fin de la comparaison des modèles.</p>';
+ if(lb&&show){h+='<p class="sub">Propositions pour le tirage du <b>'+DAYS[E.dow(lb[0].target)]+' '+fd(lb[0].target)+'</b> — générées le '+fdt(lb[0].createdAt)+' sur '+nf(lb[0].params.nDraws)+' tirages'+(lb[0].provisional?' · <span class="tag bad">Sélection provisoire — historique incomplet</span>':'')+(lb[0].params.sig!==sig(gid)?' · <span class="tag warn">l’historique a changé depuis</span>':'')+'</p><div class="grids">';
+  for(const g of lb)h+='<article class="grid"><header><h3>Grille '+g.kind+'</h3><span class="muted">'+(g.kind===1?'Analyse statistique complète':'Complémentaire et diversifiée')+'</span></header>'+balls(gid,g.nums,g.bonus)+explain(gid,g)+'<div class="actions left"><button class="btn ghost sm" data-act="copy" data-id="'+g.id+'">'+ICON.copy+'Copier</button></div></article>';
+  h+='</div>';}
+ h+='<div class="actions left">'+(I.complete?'<button class="btn primary" data-act="gen"'+(busy?' disabled':'')+'>'+ICON.dice+'Générer deux nouvelles propositions</button>':'<button class="btn ghost" data-act="gen-prov"'+(busy||!cur(gid).length?' disabled':'')+'>'+ICON.dice+'Générer une sélection provisoire (historique incomplet)</button>')+'</div>';
+ h+='<div class="note"><b>Limites.</b> Chaque combinaison a exactement la même probabilité de sortir ('+'1 sur '+nf(E.rankTable(gid).total)+' pour le rang 1). Ces grilles sont des sélections construites selon les critères ci-dessus, pas des prédictions : aucune optimisation n’augmente la probabilité intrinsèque de sortie.</div>';
+ return card('grilles','Deux grilles proposées',h);}
+function secFreq(gid,A){const F=A.freq,n=G[gid].n,by=F.nums.slice().sort((a,b)=>b.count-a.count),sel=F.nums[S.sel[gid]-1]||F.nums[0];
+ let h='<p class="verdict">'+tag(F.chi2.p>=0.01,'Fréquences compatibles avec un tirage uniforme','Écart global à examiner')+' Khi-deux corrigé pour un tirage sans remise : χ² = '+nf(F.chi2.stat,1)+' ('+F.chi2.df+' ddl), p = '+pv(F.chi2.p)+'. '+(F.flagged.length?'Numéros signalés après correction de Benjamini-Hochberg : '+F.flagged.join(', ')+'.':'Aucun numéro ne s’écarte significativement après correction des tests multiples ('+n+' tests).')+'</p>';
+ h+=heat(F.nums,A.T*F.expectedPct)+'<div class="wide-only">'+bars(F.nums.map(o=>({l:o.a,v:o.count,hi:o.q<0.05,t:'N° '+o.a+' : '+o.count+' sorties ('+pct(o.pct)+')'})),{ref:A.T*F.expectedPct,min:Math.floor(by[by.length-1].count*0.85),every:n>40?1:1,label:'Nombre de sorties par numéro',legend:'<i class="lg ref"></i> effectif attendu sous l’uniformité ('+nf(A.T*F.expectedPct,1)+' sorties, '+pct(F.expectedPct)+' des tirages)'})+'</div>';
+ if(A.power)h+='<p class="note"><b>Puissance du test.</b> Avec '+nf(A.T)+' tirages, un numéro réellement favorisé de <b>'+nf(100*A.power.freqRel,1)+' %</b> (soit '+pct(F.expectedPct+A.power.freqDelta,2)+' au lieu de '+pct(F.expectedPct,2)+') serait détecté 8 fois sur 10 après correction pour '+n+' numéros. Un biais plus faible passerait inaperçu : l’absence d’écart significatif ne prouve donc pas une uniformité parfaite, elle borne le biais possible.</p>';
+ h+='<div class="two"><div><h3>Les plus fréquents</h3><ol class="rank">'+by.slice(0,10).map(o=>'<li>'+ball(o.a)+'<span>'+o.count+' sorties · '+pct(o.pct)+'</span></li>').join('')+'</ol></div><div><h3>Les moins fréquents</h3><ol class="rank">'+by.slice(-10).reverse().map(o=>'<li>'+ball(o.a)+'<span>'+o.count+' sorties · '+pct(o.pct)+'</span></li>').join('')+'</ol></div></div>';
+ h+='<p class="note">Une fréquence passée décrit l’historique ; elle n’est pas une probabilité future. Sur '+nf(A.T)+' tirages, un écart de ±'+nf(1.96*Math.sqrt(A.T*F.expectedPct*(1-F.expectedPct)),0)+' sorties autour de l’attendu relève du hasard ordinaire.</p>';
+ h+='<details><summary>Tableau complet par numéro</summary>'+table(['N°','Sorties','Fréquence','IC 95 %','z','p corrigée','10 dern.','25 dern.','50 dern.','100 dern.','Tendance (z)'],F.nums.map(o=>[ball(o.a),o.count,pct(o.pct,2),pct(o.ci[0],1)+' – '+pct(o.ci[1],1),nf(o.z,2),pv(o.q),o.w10,o.w25,o.w50,o.w100,nf(o.trendZ,2)]),'num')+'<p class="muted">IC 95 % : intervalle de Wilson. Tendance : écart standardisé de la fréquence sur les 100 derniers tirages par rapport à l’attendu.</p></details>';
+ h+='<h3>Évolution annuelle d’un numéro</h3><label class="inline">Numéro <select data-act="selnum">'+F.nums.map(o=>'<option'+(o.a===sel.a?' selected':'')+'>'+o.a+'</option>').join('')+'</select></label>'+bars(F.years.map((y,i)=>({l:y.slice(2),v:F.yearT[i]?sel.byYear[i]/F.yearT[i]:0,t:y+' : '+sel.byYear[i]+' sorties sur '+F.yearT[i]+' tirages'})),{ref:F.expectedPct,bw:24,fmt:v=>nf(100*v,0)+' %',label:'Fréquence annuelle du numéro '+sel.a,legend:'<i class="lg ref"></i> fréquence attendue ('+pct(F.expectedPct)+')'});
+ if(A.bonus){const Bn=A.bonus;h+='<h3>'+esc(G[gid].bonusLabel)+' — depuis le '+fd(Bn.since)+' ('+nf(A.TB)+' tirages)</h3>'+bars(Bn.nums.map(o=>({l:o.a,v:o.count,hi:o.q<0.05})),{ref:A.TB*Bn.expectedPct,bw:34,min:0,label:'Sorties par '+G[gid].bonusShort})+'<p class="verdict">'+tag(Bn.chi2.p>=0.01,'Compatible avec l’uniformité','Écart à examiner')+' χ² = '+nf(Bn.chi2.stat,1)+' ('+Bn.chi2.df+' ddl), p = '+pv(Bn.chi2.p)+'. Seule la période de règles en cours est utilisée.</p>';}
+ if(A.legacy){const L=A.legacy;h+='<details><summary>Période 1976 – 2008 (6 numéros parmi 49) — analysée séparément</summary><p>'+nf(L.T)+' tirages du '+fd(L.first)+' au '+fd(L.last)+'. Les règles étant différentes, cette période n’est jamais mélangée aux analyses de la formule actuelle. χ² corrigé = '+nf(L.chi2.stat,1)+' ('+L.chi2.df+' ddl), p = '+pv(L.chi2.p)+'.</p>'+bars(L.nums.map(o=>({l:o.a,v:o.count})),{ref:L.T*L.expectedPct,min:Math.floor(Math.min(...L.nums.map(o=>o.count))*0.85),label:'Sorties par numéro, Loto 1976–2008'})+'</details>';}
+ return card('frequences','Fréquences',h,nf(A.T)+' tirages analysés, du '+fd(A.first)+' au '+fd(A.last)+'.');}
+function secGaps(gid,A){const p=A.freq.expectedPct,late=A.freq.nums.slice().sort((a,b)=>b.gap-a.gap).slice(0,10),g=A.gaps;
+ let h='<div class="two"><div><h3>Numéros les plus en retard</h3><ol class="rank">'+late.map(o=>'<li>'+ball(o.a)+'<span>absent depuis '+o.gap+' tirage(s) · un tel écart survient dans '+pct(o.pGap,1)+' des cas</span></li>').join('')+'</ol></div><div><h3>Distribution des écarts</h3><ul class="kv"><li>Écart moyen observé : <b>'+nf(g.mean,2)+'</b> tirages (théorie : '+nf(g.expectedMean,2)+')</li><li>Écart médian : <b>'+nf(g.median,0)+'</b></li><li>Plus long écart observé : <b>'+g.maxObserved+'</b> tirages</li><li>Ajustement à la loi géométrique : χ² = '+nf(g.gof.stat,1)+' ('+g.gof.df+' ddl), p = '+pv(g.gof.p)+' '+tag(g.gof.p>=0.01,'conforme','à examiner')+'</li></ul></div></div>';
+ h+=bars(g.obs.slice(0,30).map((v,i)=>({l:i+1,v,e:g.probs[i]*g.total})),{bw:20,every:1,label:'Distribution des écarts entre deux sorties',legend:'<i class="lg exp"></i> effectif attendu (loi géométrique) — axe : nombre de tirages entre deux sorties d’un même numéro'});
+ h+='<div class="note"><b>Un numéro en retard n’est pas « dû ».</b> Les tirages sont indépendants : quel que soit son écart actuel, chaque numéro garde '+pct(p)+' de chances d’apparaître au prochain tirage. Le test du modèle « Retard » dans la comparaison des modèles le vérifie sur l’historique.</div>';
+ h+='<details><summary>Écarts par numéro</summary>'+table(['N°','Écart actuel','Écart moyen','Écart médian','Écart maximal'],A.freq.nums.map(o=>[ball(o.a),o.gap,nf(o.gapMean,1),nf(o.gapMedian,0),o.gapMax]),'num')+'</details>';
+ return card('ecarts','Écarts',h);}
+function secAssoc(gid,A){const a=A.assoc,row=x=>[ball(x.a)+ball(x.b),x.c,nf(a.expectedPair,1),nf(x.z,2)];
+ let h='<p class="verdict">'+tag(a.pBonfMax>=0.05,'Aucune association anormale','Association à examiner')+' Sur '+nf(a.nPairs)+' paires possibles, la plus fréquente a une p-valeur corrigée de '+pv(a.pBonfMax)+' ('+esc(a.pairTest||'Bonferroni')+'). Avec autant de paires, il est attendu que certaines sortent nettement plus souvent que la moyenne.</p>';
+ h+='<div class="two"><div><h3>Paires les plus fréquentes</h3>'+table(['Paire','Observé','Attendu','z'],a.top.slice(0,10).map(row),'num')+'</div><div><h3>Paires les moins fréquentes</h3>'+table(['Paire','Observé','Attendu','z'],a.bottom.slice(0,10).map(row),'num')+'</div></div>';
+ h+='<div class="two"><div><h3>Triplets</h3><p>'+nf(a.tri.distinct)+' triplets distincts observés sur '+nf(a.tri.possible)+' possibles ; attendu par triplet : '+nf(a.tri.expected,2)+' sortie. Le plus fréquent est sorti '+a.tri.max+' fois — sous le hasard, on attend environ '+nf(a.tri.expectedAtMax,1)+' triplet(s) atteignant ce niveau.</p>'+table(['Triplet','Sorties'],a.tri.top.slice(0,6).map(t=>[t.nums.map(x=>ball(x)).join(''),t.c]),'num')+'</div>';
+ h+='<div><h3>Quadruplets</h3><p>Attendu par quadruplet : '+nf(a.quad.expected,3)+' sortie. '+nf(a.quad.repeated)+' quadruplets sont sortis au moins deux fois — le hasard en prévoit environ '+nf(a.quad.expectedRepeated,0)+'.</p>'+(a.quad.top.length?table(['Quadruplet','Sorties'],a.quad.top.slice(0,6).map(t=>[t.nums.map(x=>ball(x)).join(''),t.c]),'num'):'')+'</div></div>';
+ if(a.cross)h+='<h3>Numéros × '+esc(G[gid].bonusLabel.toLowerCase())+'</h3><p class="verdict">'+tag(a.cross.p>=0.01,'Indépendance non rejetée','Dépendance à examiner')+' Test d’indépendance par permutation ('+a.cross.perms+' permutations) : p = '+pv(a.cross.p)+'. Effectif attendu par couple : '+nf(a.cross.expected,1)+' ; couple le plus fréquent : '+ball(a.cross.top[0].a)+ball(a.cross.top[0].s,'bonus')+' ('+a.cross.top[0].c+' fois).</p>';
+ h+='<p class="note">Une association observée dans le passé est une corrélation descriptive ; elle n’établit aucun mécanisme et ne dit rien du prochain tirage.</p>';
+ return card('associations','Associations',h);}
+function cmp(labels,o,T,label){return bars(labels.map((l,i)=>({l,v:o.obs[i],e:o.probs[i]*T})),{bw:Math.max(34,Math.floor(300/labels.length)),label,minW:260});}
+function secDist(gid,A){const d=A.dist,k=G[gid].k,n=G[gid].n,idx=Array.from({length:k+1},(v,i)=>i),g=x=>'χ² = '+nf(x.stat,1)+', p = '+pv(x.p)+' '+tag(x.p>=0.01,'conforme','à examiner');
+ let h='<div class="two"><div><h3>Nombre de numéros pairs</h3>'+cmp(idx,d.even,A.T,'Nombre de numéros pairs par tirage')+'<p class="muted">Loi hypergéométrique attendue — '+g(d.even.gof)+'</p></div><div><h3>Petits numéros (1 à '+d.low.split+')</h3>'+cmp(idx,d.low,A.T,'Nombre de petits numéros par tirage')+'<p class="muted">'+g(d.low.gof)+'</p></div></div>';
+ h+='<div class="two"><div><h3>Répartition par dizaines</h3>'+cmp(d.decades.labels,d.decades,A.T*k,'Répartition par dizaines')+'</div><div><h3>Répétitions d’un tirage au suivant</h3>'+cmp(idx,d.repeats,A.T-1,'Numéros communs avec le tirage précédent')+'<p class="muted">Moyenne : '+nf(d.repeats.mean,3)+' numéro commun (théorie : '+nf(d.repeats.expected,3)+') — '+g(d.repeats.gof)+'</p></div></div>';
+ h+='<h3>Somme des cinq numéros</h3>'+bars(d.sum.hist.map((v,i)=>({l:d.sum.h0+i*d.sum.bw,v,e:d.sum.expectedHist?d.sum.expectedHist[i]:null})),{bw:26,label:'Histogramme des sommes',minW:420,legend:'<i class="lg exp"></i> effectif attendu, calculé par dénombrement exact des '+nf(E.comb(n,k))+' combinaisons'})+'<ul class="kv">'+(d.sum.exact?'<li>Ajustement à la loi exacte des sommes : '+g(d.sum.exact)+'</li>':'')+'<li>Moyenne observée : <b>'+nf(d.sum.mean,2)+'</b> (théorie : '+nf(d.sum.muTheo,1)+') — intervalle de confiance bootstrap à 95 % : '+nf(d.sum.bootCI[0],1)+' – '+nf(d.sum.bootCI[1],1)+' ('+nf(d.sum.boot)+' rééchantillonnages)</li><li>Écart-type : <b>'+nf(d.sum.sd,2)+'</b> (théorie : '+nf(d.sum.sdTheo,2)+')</li><li>Étendue moyenne (plus grand − plus petit) : <b>'+nf(d.range.mean,1)+'</b></li><li>Tirages contenant au moins deux numéros consécutifs : <b>'+pct(d.consecutive.share)+'</b> (théorie : '+pct(d.consecutive.expected)+', p = '+pv(d.consecutive.p)+')</li></ul>';
+ return card('distributions','Distributions',h,'Barres : observé. Traits : attendu sous un tirage uniforme.');}
+function secTemporal(gid,A){const t=A.temporal,MO=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+ let h='<h3>Historique par année</h3>'+bars(t.byYear.map(o=>({l:o.key.slice(2),v:o.T,t:o.key+' : '+o.T+' tirages'})),{bw:24,label:'Nombre de tirages par année'});
+ h+='<h3>Périodes de règles</h3>'+table(['Période','Tirages','Somme moyenne','χ² des fréquences','p'],t.byPeriod.map(o=>[esc(o.label),nf(o.T),nf(o.meanSum,1),nf(o.chi2,1),pv(o.p)]))+'<p class="muted">Les '+esc(G[gid].bonusLabel.toLowerCase())+' ne sont analysé(e)s que sur la période en cours ; '+(gid==='loto'?'les tirages à 6 numéros d’avant 2008 sont traités à part.':'les 5 numéros (toujours parmi 50) sont analysés sur l’ensemble des périodes.')+'</p>';
+ if(t.roll.length)h+='<h3>Fenêtre glissante de '+t.rollWindow+' tirages</h3>'+lineChart(t.roll.map(o=>({l:fd(o.date).slice(3),v:o.chi2})),{label:'Khi-deux des fréquences sur fenêtre glissante',hi:t.rollRef.hi,refs:[{v:t.rollRef.mean,l:'attendu',c:'ref'},{v:t.rollRef.hi,l:'seuil 1 % (une fenêtre)',c:'exp'}]})+'<p class="muted">Des dépassements ponctuels du seuil sont attendus : '+t.roll.length+' fenêtres sont examinées.</p>';
+ h+='<div class="two"><div><h3>Par mois</h3>'+bars(t.byMonth.map(o=>({l:MO[+o.key-1],v:o.meanSum,t:MO[+o.key-1]+' : somme moyenne '+nf(o.meanSum,1)+' sur '+o.T+' tirages'})),{bw:30,ref:A.dist.sum.muTheo,min:A.dist.sum.muTheo*0.9,label:'Somme moyenne par mois',dec:1,minW:300})+'</div><div><h3>Par trimestre</h3>'+table(['Trimestre','Tirages','Somme moyenne','z'],t.byQuarter.map(o=>[o.key,nf(o.T),nf(o.meanSum,1),nf(o.zSum,2)]),'num')+'</div></div>';
+ h+='<ul class="kv"><li><b>Changement de régime</b> (CUSUM des sommes, '+t.cusum.perms+' permutations) : p = '+pv(t.cusum.p)+' '+tag(t.cusum.p>=0.01,'aucune rupture détectée','rupture possible vers le '+fd(t.cusum.date))+'</li><li><b>Autocorrélation</b> des sommes (retards 1 à 10, Ljung-Box) : Q = '+nf(t.autocorr.Q,1)+', p = '+pv(t.autocorr.p)+' '+tag(t.autocorr.p>=0.01,'pas de dépendance entre tirages','dépendance à examiner')+'</li><li><b>Années</b> : plus petite p-valeur annuelle = '+pv(t.multi.yearMinP)+' sur '+t.multi.yearsTested+' années testées (seuil de Bonferroni : '+pv(0.05/Math.max(1,t.multi.yearsTested))+')</li></ul>';
+ h+='<details><summary>Détail par année</summary>'+table(['Année','Tirages','Somme moyenne','z','χ² fréquences','p'],t.byYear.map(o=>[o.key,o.T,nf(o.meanSum,1),nf(o.zSum,2),nf(o.chi2,1),pv(o.p)]),'num')+'</details>';
+ return card('temporel','Analyse temporelle',h);}
+function heat(nums,E0){const mx=Math.max(...nums.map(o=>Math.abs(o.z)),2.5);return'<div class="heat" role="list" aria-label="Sorties par numéro">'+nums.map(o=>{const a=Math.min(1,Math.abs(o.z)/mx),c=o.z>=0?'var(--hot)':'var(--cold)';return'<div role="listitem" class="hc'+(o.q<0.05?' sig':'')+'" style="--a:'+a.toFixed(2)+';--c:'+c+'" title="N° '+o.a+' : '+o.count+' sorties, z = '+nf(o.z,2)+'"><b>'+o.a+'</b><span>'+o.count+'</span></div>';}).join('')+'</div><p class="legend"><i class="sw hot"></i>plus sorti que l’attendu ('+nf(E0,0)+') <i class="sw cold"></i>moins sorti — intensité proportionnelle à l’écart standardisé ; chaque case indique le nombre de sorties.</p>';}
+function secAnom(gid,A){const an=A.anomalies;if(!an)return'';const s=an.sumTail,d=an.duplicates,ps=Math.min(1,2*Math.min(s.pHigh,s.pLow));
+ let h='<p class="verdict">'+tag(ps>=0.01&&d.p>=0.01,'Aucune anomalie statistique','Anomalie à examiner')+' Une anomalie n’est retenue que si sa fréquence dépasse ce que le hasard produit lui-même : un tirage « étrange » isolé n’en est pas une.</p>';
+ h+='<ul class="kv"><li><b>Sommes extrêmes</b> (hors de '+s.lo+' à '+s.hi+', soit '+pct(s.prob,2)+' des combinaisons d’après la loi exacte) : <b>'+s.observed+'</b> tirage(s) observé(s) pour '+nf(s.expected,1)+' attendu(s) — p = '+pv(ps)+'</li>';
+ h+='<li><b>Combinaisons de 5 numéros déjà sorties</b> : <b>'+d.observed+'</b> répétition(s) pour '+nf(d.expected,2)+' attendue(s) (paradoxe des anniversaires) — p = '+pv(d.p)+'</li></ul>';
+ if(s.examples.length)h+='<details><summary>Tirages à somme extrême</summary>'+table(['Date','Numéros','Somme'],s.examples.map(x=>[fd(x.date),balls(gid,x.nums,[]),x.sum]))+'</details>';
+ if(d.list.length)h+='<details><summary>Combinaisons répétées</summary>'+table(['Numéros','Dates'],d.list.map(x=>[balls(gid,x.nums,[]),x.dates.map(fd).join(' et ')]))+'</details>';
+ h+='<p class="muted">Les contrôles de qualité des données (doublons, plages, dates, tirages manquants) sont faits à chaque import.</p>';
+ return card('anomalies','Détection d’anomalies',h);}
+function allTests(gid,R){const A=R.analysis,L=[],add=(f,lab,p)=>{if(p!=null&&isFinite(p))L.push({f,lab,p:Math.min(1,Math.max(0,p))});};if(!A||A.insufficient)return L;
+ add('Fréquences','Uniformité des numéros (khi-deux)',A.freq.chi2.p);if(A.bonus)add('Fréquences','Uniformité des '+G[gid].bonusLabel.toLowerCase(),A.bonus.chi2.p);
+ add('Écarts','Loi géométrique des écarts',A.gaps.gof.p);add('Associations','Paire la plus fréquente (Bonferroni)',A.assoc.pBonfMax);if(A.assoc.cross)add('Associations','Indépendance numéros × '+G[gid].bonusLabel.toLowerCase(),A.assoc.cross.p);
+ const d=A.dist;add('Distributions','Pairs / impairs',d.even.gof.p);add('Distributions','Petits / grands',d.low.gof.p);add('Distributions','Répétitions entre tirages',d.repeats.gof.p);add('Distributions','Dizaines',d.decades.chiNote.p);if(d.sum.exact)add('Distributions','Loi exacte des sommes',d.sum.exact.p);add('Distributions','Suites consécutives',d.consecutive.p);
+ add('Temporel','Rupture de régime (CUSUM)',A.temporal.cusum.p);add('Temporel','Autocorrélation (Ljung-Box)',A.temporal.autocorr.p);add('Temporel','Année la plus atypique (Bonferroni)',Math.min(1,A.temporal.multi.yearMinP*A.temporal.multi.yearsTested));
+ add('Information','Test G (Kullback-Leibler)',A.info.G.p);add('Information','Information mutuelle entre tirages',A.info.mi.p);
+ if(A.anomalies){const s=A.anomalies.sumTail;add('Anomalies','Sommes extrêmes',Math.min(1,2*Math.min(s.pHigh,s.pLow)));add('Anomalies','Combinaisons répétées',A.anomalies.duplicates.p);}
+ if(R.mc)R.mc.tests.forEach(t=>add('Monte-Carlo',t.label,t.p));
+ if(R.lab&&!R.lab.insufficient){R.lab.rows.slice(1).forEach(r=>add('Modèles',r.label+' (découverte)',r.disc.p));(R.lab.brier||[]).forEach(b=>add('Modèles','Brier — '+b.label,b.p));}
+ if(R.bt&&!R.bt.insufficient)R.bt.strategies.filter(s=>s.id!=='random').forEach(s=>add('Backtesting',s.label+' (découverte)',s.disc.p));
+ return L;}
+function secRigor(gid,R){const L=allTests(gid,R);if(!L.length)return'';const q=E.adjustBH(L.map(x=>x.p));L.forEach((x,i)=>x.q=q[i]);const raw=L.filter(x=>x.p<0.05).length,sig=L.filter(x=>x.q<0.05);
+ let h='<p class="verdict">'+tag(!sig.length,'Aucun résultat significatif après correction globale','Résultat(s) significatif(s) après correction globale : '+sig.map(x=>x.lab).join(', '))+' '+L.length+' tests sont réalisés dans cette page. Sous le hasard pur, environ '+nf(0.05*L.length,1)+' d’entre eux passeraient le seuil de 5 % par simple coïncidence ; on en observe '+raw+'. La correction de Benjamini-Hochberg sur l’ensemble ramène le taux de fausses découvertes à 5 %.</p>';
+ h+='<details><summary>Les '+L.length+' tests et leurs p-valeurs</summary>'+table(['Famille','Test','p brute','p corrigée (globale)'],L.slice().sort((a,b)=>a.p-b.p).map(x=>[esc(x.f),esc(x.lab),pv(x.p),pv(x.q)+(x.q<0.05?' '+tag(false,'','significatif'):'')]))+'</details>';
+ h+='<p class="muted">'+(R.partial?'Bilan provisoire : les calculs sont encore en cours. ':'')+'Ce bilan évite de « trouver » un signal en multipliant les tests : c’est la principale source d’erreur dans l’analyse des loteries.</p>';
+ return card('rigueur','Bilan de rigueur',h);}
+function secProba(gid,A){const rt=E.rankTable(gid),g=G[gid];
+ let h='<h3>Probabilités exactes par rang</h3>'+table(['Bons numéros','Probabilité','Soit 1 chance sur','Gain indicatif'],rt.rows.filter(r=>r.gain).map(r=>[r.m+' + '+r.b+' '+esc(g.bonusShort)+(r.b>1?'s':''),r.p<1e-4?r.p.toExponential(2).replace('.',','):pct(r.p,3),nf(1/r.p,r.p>0.01?1:0),nf(r.gain,r.gain<100?2:0)+' €']),'num')+'<p class="muted">'+esc(g.gainsNote)+' Avec ce barème, l’espérance d’une grille à '+nf(g.price,2)+' € est d’environ '+nf(rt.ev,2)+' €, soit un rendement théorique de '+pct(rt.roi,0)+'. Probabilité de gagner quelque chose : '+pct(rt.pWin,1)+'.</p>';
+ if(A&&A.bayes){const b=A.bayes,i=A.info;h+='<div class="two"><div><h3>Estimation bayésienne</h3><ul class="kv"><li>Modèle Beta-binomial par numéro (a priori faible centré sur l’uniformité) : <b>'+b.outside+'</b> numéro(s) dont l’intervalle de crédibilité à 95 % exclut la valeur uniforme — on en attend environ '+nf(b.expectedOutside,1)+' par simple hasard.</li><li>Modèle hiérarchique (Bayes empirique) : surdispersion φ = '+nf(b.phi,2)+' ; rétrécissement vers l’uniformité : <b>'+pct(b.shrink,0)+'</b>. Probabilités a posteriori comprises entre '+pct(b.spreadEB[0],2)+' et '+pct(b.spreadEB[1],2)+' (uniforme : '+pct(A.freq.expectedPct,2)+').</li></ul></div>';
+  if(b.bf){const l=b.bf.log10,txt=l>2?'décisif en faveur de l’uniformité':l>1?'fort en faveur de l’uniformité':l>0.5?'substantiel en faveur de l’uniformité':l>-0.5?'non concluant':l>-1?'substantiel en faveur d’une hétérogénéité':'fort en faveur d’une hétérogénéité';h=h.replace(/<\/ul><\/div>$/,'');h+='<li><b>Facteur de Bayes</b> uniformité contre probabilités inégales : <b>'+(Math.abs(l)<6?nf(Math.pow(10,l),2):'10^'+nf(l,1))+'</b> (log₁₀ = '+nf(l,2)+'), soit un niveau de preuve '+txt+' (échelle de Jeffreys). Concentration intégrée sur '+esc(b.bf.grid)+'.</li></ul></div>';}
+  h+='<div><h3>Théorie de l’information</h3><ul class="kv"><li>Entropie de Shannon des fréquences : <b>'+nf(i.H,4)+' bits</b> sur '+nf(i.Hmax,4)+' possibles ('+pct(i.ratio,3)+')</li><li>Divergence de Kullback-Leibler à l’uniforme : '+nf(i.KL,5)+' bit — test G : p = '+pv(i.G.p)+'</li><li>Information mutuelle entre tirages successifs (parité) : '+nf(i.mi.value,4)+' bit, p = '+pv(i.mi.p)+' ('+i.mi.perms+' permutations)</li></ul></div></div>';}
+ return card('probabilites','Analyse probabiliste',h);}
+function secMC(gid,R){const m=R.mc,fx=v=>Number.isInteger(v)?nf(v):nf(v,Math.abs(v)>50?1:3);let h='';
+ if(!m)return card('montecarlo','Simulations Monte-Carlo',S.job[gid]?'<p class="muted">Simulations en cours…</p>':'<p class="muted">Simulations non exécutées.</p><div class="actions left"><button class="btn ghost" data-act="rerun-mc">Lancer les simulations</button></div>');
+ h+='<p class="verdict">'+tag(m.compatible,'Historique compatible avec un tirage uniforme et indépendant','Au moins un indicateur s’écarte du hasard simulé')+' <b>'+nf(m.executed)+'</b> tirages réellement simulés dans ce navigateur : '+nf(m.single.N)+' tirages unitaires et '+nf(m.histories)+' historiques complets de '+nf(m.T)+' tirages.</p>';
+ h+=table(['Indicateur','Observé','Intervalle simulé à 95 %','p','p corrigée','Lecture'],m.tests.map(t=>[esc(t.label),fx(t.obs),fx(t.lo)+' – '+fx(t.hi),pv(t.p),pv(t.q),tag(t.q>=0.05,'compatible','atypique')]));
+ h+='<p class="muted">p corrigée : Benjamini-Hochberg sur les '+m.tests.length+' indicateurs. Plus petite p-valeur atteignable avec '+nf(m.histories)+' historiques : '+nf(m.minP,4)+'.</p><h3>Vérification numérique du simulateur</h3>'+table(['Contrôle','Simulé','Valeur exacte','Résultat'],m.single.checks.map(c=>[esc(c.label),nf(c.mc,4),nf(c.exact,4),tag(c.ok,'conforme','écart')]));
+ h+='<div class="actions left"><label class="inline">Volume <select data-act="mclevel">'+Object.keys(MC_LEVELS).map(k=>'<option value="'+k+'"'+(k===S.mc?' selected':'')+'>'+MC_LEVELS[k].label+' (≈ '+nf((MC_LEVELS[k].N+MC_LEVELS[k].H*m.T)/1e6,1)+' M de tirages)</option>').join('')+'</select></label><button class="btn ghost" data-act="rerun-mc"'+(S.job[gid]?' disabled':'')+'>Relancer les simulations</button></div><p class="note">Ces simulations servent à savoir si l’historique ressemble à ce que produit le hasard pur. Elles ne prédisent aucun tirage.</p>';
+ return card('montecarlo','Simulations Monte-Carlo',h);}
+function secLab(gid,R){const L=R.lab;if(!L)return card('modeles','Comparaison des modèles',S.job[gid]?'<p class="muted">Comparaison en cours…</p>':'<p class="muted">Non exécutée.</p>');
+ if(L.insufficient)return card('modeles','Comparaison des modèles','<p>Historique trop court ('+L.T+' tirages, 200 requis) pour une validation hors échantillon.</p>');
+ let h='<p class="verdict">'+tag(!L.kept.length,'Aucun signal prédictif exploitable démontré','Modèle(s) retenu(s) : '+L.kept.join(', '))+' '+(L.kept.length?'Ce résultat reste à confirmer sur de nouveaux tirages.':'Aucun modèle ne fait mieux que le hasard de façon robuste : la sélection des numéros reste donc uniforme.')+'</p>';
+ h+='<p class="sub">Marche avant sur '+nf(L.N)+' tirages (à partir du '+fd(L.startDate)+') : à chaque date, chaque modèle choisit 5 numéros en ne connaissant que le passé. Attendu sous le hasard : '+nf(L.expected,3)+' bon numéro par grille. Découverte jusqu’au '+fd(L.splitDate)+', validation indépendante ensuite.</p>';
+ h+=table(['Modèle','Bons numéros / grille','z global','Découverte : p corrigée (Holm)','Validation : p','Décision'],L.rows.map(r=>['<b>'+esc(r.label)+'</b><br><span class="muted">'+esc(r.desc)+'</span>',nf(r.all.mean,3),nf(r.all.z,2),r.holm==null?'référence':pv(r.holm),pv(r.valid.p),r.id==='uniform'?neutral('référence'):r.retained?'<span class="tag good">retenu</span>':neutral('écarté')]));
+ if(L.brier)h+='<h3>Qualité des probabilités annoncées (score de Brier)</h3>'+table(['Modèle probabiliste','Gain moyen par tirage','z','p'],L.brier.map(b=>[esc(b.label),b.mean.toExponential(2).replace('.',','),nf(b.z,2),pv(b.p)]),'num')+'<p class="muted">Le score de Brier est une règle de score propre : il juge la probabilité annoncée pour chaque numéro, pas seulement les 5 premiers. Un gain négatif signifie que le modèle prévoit moins bien que l’uniforme.</p>';
+ if(L.mde)h+='<p class="muted">Puissance : sur la période de validation, une amélioration de '+nf(L.mde,3)+' bon numéro par grille (+'+nf(100*L.mdeRel,1)+' %) serait détectée 8 fois sur 10.</p>';
+ h+='<p class="note">Un modèle n’est conservé que s’il bat le hasard en découverte après correction des tests multiples <em>et</em> le confirme sur la période de validation. La sophistication d’un modèle n’est pas une preuve de performance.</p>';
+ return card('modeles','Comparaison des modèles',h);}
+function secBT(gid,R){const B=R.bt;let h='';if(!B)return card('backtest','Backtesting',S.job[gid]?'<p class="muted">Backtesting en cours…</p>':'<p class="muted">Non exécuté.</p><div class="actions left"><button class="btn ghost" data-act="rerun-bt">Lancer le backtesting</button></div>');
+ if(B.insufficient)return card('backtest','Backtesting','<p>Historique trop court ('+B.T+' tirages, 200 requis).</p>');
+ const en=B.strategies[0],k=G[gid].k,n=G[gid].n;
+ h+='<p class="verdict">'+tag(!B.anyBetter,'Aucune stratégie ne fait mieux que le hasard','Stratégie(s) au-dessus du hasard : '+B.strategies.filter(s=>s.better).map(s=>s.label).join(', '))+' Le moteur obtient '+nf(en.all.meanPerGrid,3)+' bon numéro par grille (hasard : '+nf(B.expectedHits,3)+' ; intervalle bootstrap à 95 % : '+nf(en.hitsCI[0],3)+' – '+nf(en.hitsCI[1],3)+'). Les '+B.replicas+' répliques de hasard pur s’étalent de '+nf(B.randomRange[0],3)+' à '+nf(B.randomRange[1],3)+'.</p>';
+ h+='<p class="sub">'+nf(B.N)+' tirages rejoués du '+fd(B.startDate)+' au '+fd(B.endDate)+', '+nf(B.gridsPlayed)+' grilles par stratégie. À chaque date, seules les données antérieures sont utilisées. Validation indépendante à partir du '+fd(B.splitDate)+'.'+(B.activeSteps?' Un modèle a franchi le seuil d’activation lors de '+B.activeSteps+' tirages.':' Aucun modèle n’a jamais franchi le seuil d’activation (z > 3) : le moteur a joué uniformément, avec ses filtres de structure et de popularité.')+'</p>';
+ h+=table(['Stratégie','Bons numéros / grille','z','p corrigée (Holm)','Validation : p',esc(G[gid].bonusLabel)+' / grille','Gains théoriques','Rendement (IC 95 %)'],B.strategies.map(s=>['<b>'+esc(s.label)+'</b>',nf(s.all.meanPerGrid,3),nf(s.all.z,2),s.holm==null?'référence':pv(s.holm),pv(s.valid.p),nf(s.bonusMean,3)+' <span class="muted">('+nf(s.bonusExpected,3)+')</span>',nf(s.gain,0)+' € <span class="muted">/ '+nf(s.cost,0)+' €</span>',pct(s.roi,0)+' <span class="muted">('+pct(s.roiCI[0],0)+' à '+pct(s.roiCI[1],0)+')</span>']));
+ h+='<p class="muted">Règle de décision fixée à l’avance : une stratégie n’est déclarée supérieure au hasard que si elle le bat sur la période de découverte (correction de Holm sur '+(B.strategies.length-1)+' stratégies) <em>puis</em> sur la période de validation, qui n’a servi à aucun réglage.'+(B.mde?' Puissance : un gain de '+nf(B.mde,3)+' bon numéro par grille (+'+nf(100*B.mdeRel,1)+' %) serait détecté 8 fois sur 10.':'')+'</p>';
+ h+='<p class="muted">Rendement théorique d’une grille quelconque avec le barème indicatif : '+pct(B.theoRoi,0)+'. Le rendement mesuré dépend presque entièrement de quelques gains rares : son intervalle de confiance est large par nature.</p>';
+ h+='<div class="two"><div><h3>Bons numéros du moteur</h3>'+bars(en.dist.map((v,i)=>({l:i,v,e:E.hyper(n,k,k,i)*B.gridsPlayed})),{bw:44,label:'Répartition des bons numéros par grille',legend:'<i class="lg exp"></i> attendu sous le hasard',minW:260})+'</div><div><h3>Rangs obtenus par le moteur</h3>'+(Object.keys(en.ranks).length?table(['Rang','Nombre de grilles'],Object.keys(en.ranks).sort().reverse().map(key=>[key.replace('+',' + '),en.ranks[key]]),'num'):'<p class="muted">Aucune grille gagnante.</p>')+'</div></div>';
+ const past=S.backtests.filter(b=>b.game===gid).slice().reverse();
+ if(past.length)h+='<details><summary>Historique des backtests conservés ('+past.length+')</summary>'+table(['Exécuté le','Tirages rejoués','Moteur : bons numéros / grille','Rendement moteur','Verdict'],past.slice(0,30).map(b=>[fdt(b.at),nf(b.result.N),nf(b.result.strategies[0].all.meanPerGrid,3),pct(b.result.strategies[0].roi,0),b.result.anyBetter?'à examiner':'pas mieux que le hasard']),'num')+'</details>';
+ h+='<div class="actions left"><button class="btn ghost" data-act="rerun-bt"'+(S.job[gid]?' disabled':'')+'>Relancer le backtesting (nouvelle graine aléatoire)</button></div>';
+ return card('backtest','Backtesting',h);}
+function secTrack(gid){const gs=S.grids.filter(g=>g.game===gid).slice().sort((a,b)=>b.batch-a.batch||a.kind-b.kind),done=gs.filter(g=>g.result);
+ if(!gs.length)return card('suivi','Suivi des grilles','<p class="muted">Aucune grille générée pour l’instant. Chaque proposition sera conservée ici, puis comparée au tirage réel dès qu’il sera enregistré.</p>');
+ const gain=done.reduce((s,g)=>s+g.result.gain,0);let h='<ul class="kv"><li><b>'+gs.length+'</b> grille(s) conservée(s), dont <b>'+done.length+'</b> comparée(s) à un tirage réel</li><li>Gains indicatifs cumulés : <b>'+nf(gain,2)+' €</b> pour une mise théorique de '+nf(done.length*G[gid].price,2)+' €</li></ul>';
+ h+=table(['Tirage visé','Grille','Résultat réel','Bilan'],gs.slice(0,40).map(g=>[fd(g.target)+(g.provisional?'<br><span class="tag bad">provisoire</span>':''),balls(gid,g.nums,g.bonus,g.result&&g.result.draw.nums,g.result&&g.result.draw.bonus),g.result?balls(gid,g.result.draw.nums,g.result.draw.bonus):'<span class="muted">en attente du tirage</span>',g.result?g.result.m+' numéro(s) + '+g.result.b+' '+esc(G[gid].bonusShort)+(g.result.gain?'<br><span class="tag good">gain indicatif '+nf(g.result.gain,2)+' €</span>':'<br><span class="muted">non gagnante</span>'):'–']),'track');
+ return card('suivi','Suivi des grilles',h,'Paramètres de chaque génération (graine, modèles, nombre de tirages) conservés dans la sauvegarde JSON.');}
+function secData(gid,I){const D=S.draws[gid],years=Array.from(new Set(D.map(d=>d.date.slice(0,4)))).reverse(),yr=S.year[gid],list=(yr?D.filter(d=>d.date.slice(0,4)===yr):D).slice().reverse(),PP=15,pages=Math.max(1,Math.ceil(list.length/PP)),pg=Math.min(S.page[gid],pages-1);
+ let h='<div class="actions left"><button class="btn ghost" data-act="pick-files">'+ICON.file+'Importer des fichiers (ZIP FDJ, CSV, JSON)</button><button class="btn ghost" data-act="export">Sauvegarde complète (JSON)</button><button class="btn ghost" data-act="pick-restore">Restaurer une sauvegarde</button></div>';
+ h+='<h3>Tirages enregistrés</h3><div class="actions left"><label class="inline">Année <select data-act="year"><option value="">Toutes</option>'+years.map(y=>'<option'+(y===yr?' selected':'')+'>'+y+'</option>').join('')+'</select></label><span class="muted">'+nf(list.length)+' tirage(s)</span></div>';
+ h+=table(['Date','Numéros','Source','Actions'],list.slice(pg*PP,pg*PP+PP).map(d=>[fd(d.date)+(d.seq>1?' (2ᵉ)':''),balls(gid,d.nums,d.bonus)+(d.legacy&&d.compl?' <span class="muted">compl. '+d.compl+'</span>':''),'<span class="muted">'+esc(d.source||'–')+'</span>','<button class="link" data-act="edit" data-id="'+esc(d.id)+'">Corriger</button> <button class="link danger" data-act="del" data-id="'+esc(d.id)+'">Supprimer</button>']),'draws');
+ h+='<div class="actions left"><button class="btn ghost sm" data-act="pg" data-d="-1"'+(pg<=0?' disabled':'')+'>Précédents</button><span class="muted">Page '+(pg+1)+' / '+pages+'</span><button class="btn ghost sm" data-act="pg" data-d="1"'+(pg>=pages-1?' disabled':'')+'>Suivants</button></div>';
+ const jr=S.journal.filter(j=>!j.game||j.game===gid).slice(-40).reverse();
+ h+='<details><summary>Journal : synchronisations, erreurs, imports, corrections ('+S.journal.filter(j=>!j.game||j.game===gid).length+')</summary>'+(jr.length?table(['Date','Type','Détail'],jr.map(j=>[fdt(j.ts),esc(j.type),esc(j.msg)])):'<p class="muted">Journal vide.</p>')+'</details>';
+ h+='<details><summary>Source de l’actualisation automatique</summary><p class="muted">Adresse de l’archive officielle la plus récente, interrogée à chaque ouverture. À modifier seulement si FDJ change ses liens (ils figurent sur <a href="'+SRC[gid].page+'" target="_blank" rel="noopener">la page Historique</a>).</p><label>Adresse de l’archive<input type="url" id="url-in" value="'+esc(S.urls[gid][0])+'"></label><div class="actions left"><button class="btn ghost sm" data-act="saveurl">Enregistrer l’adresse</button></div></details>';
+ h+='<details'+(S.tests?' open':'')+'><summary>Diagnostic et tests unitaires</summary><ul class="kv"><li>Mode d’ouverture : <b>'+esc(location.protocol==='file:'?'fichier local (file://)':location.protocol.replace(':','')+' — '+location.host)+'</b></li><li>Stockage IndexedDB : '+tag(S.storage,'opérationnel','indisponible — données non conservées')+'</li><li>Stockage persistant (protégé du nettoyage automatique du navigateur) : '+(S.persist==null?neutral('non disponible'):tag(S.persist,'accordé','non accordé — exportez régulièrement une sauvegarde'))+'</li><li>Web Workers : '+(S.workerOk==null?neutral('non encore utilisé'):tag(S.workerOk,'opérationnels','indisponibles — calcul sur le fil principal'))+'</li><li>Connexion : '+tag(navigator.onLine!==false,'en ligne','hors ligne')+'</li><li>Relais GitHub (data/manifest.json) : '+(location.protocol==='file:'?neutral('non utilisable en ouverture directe du fichier'):S.relay==null?neutral('non encore interrogé'):tag(S.relay,'détecté','absent — lecture directe du site FDJ'))+'</li></ul><div class="actions left"><button class="btn ghost sm" data-act="tests">Exécuter les tests unitaires</button></div>'+(S.tests?'<p class="verdict">'+tag(S.tests.every(t=>t.ok),S.tests.length+' tests réussis sur '+S.tests.length,S.tests.filter(t=>!t.ok).length+' test(s) en échec sur '+S.tests.length)+'</p><ul class="tests">'+S.tests.map(t=>'<li class="'+(t.ok?'ok':'ko')+'">'+(t.ok?ICON.ok:ICON.warn)+'<span>'+esc(t.name)+(t.ok?'':' — obtenu : '+esc(t.detail))+'</span></li>').join('')+'</ul>':'')+'<p class="muted">Si le navigateur bloque le stockage ou les Web Workers en ouverture directe du fichier, déposez simplement ce fichier unique sur un hébergement statique gratuit (GitHub Pages, Netlify Drop, Cloudflare Pages) : aucun serveur applicatif n’est nécessaire.</p></details>';
+ return card('donnees','Données et sauvegarde',h);}
+function render(){const gid=S.tab,I=integrity(gid),R=S.res[gid],A=R.analysis;document.documentElement.dataset.game=gid;
+ document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===gid;b.classList.toggle('on',on);b.setAttribute('aria-selected',on);});
+ let h=statusStrip(gid,I)+alerts(gid,I)+progressBox(gid);
+ if(!I.total){h+=emptyState(gid)+secProba(gid,null)+secData(gid,I);}
+ else{const secs=[['grilles','Grilles'],['rigueur','Bilan'],['frequences','Fréquences'],['ecarts','Écarts'],['associations','Associations'],['distributions','Distributions'],['temporel','Temporel'],['anomalies','Anomalies'],['probabilites','Probabilités'],['montecarlo','Monte-Carlo'],['modeles','Modèles'],['backtest','Backtesting'],['suivi','Suivi'],['donnees','Données']];
+  h+='<nav class="subnav" aria-label="Sections">'+secs.map(s=>'<a href="#'+s[0]+'">'+s[1]+'</a>').join('')+'</nav>';
+  h+=secGrids(gid,I)+(A&&!A.insufficient?secRigor(gid,R):'');
+  if(A&&!A.insufficient)h+=secFreq(gid,A)+secGaps(gid,A)+secAssoc(gid,A)+secDist(gid,A)+secTemporal(gid,A)+secAnom(gid,A)+secProba(gid,A)+secMC(gid,R)+secLab(gid,R)+secBT(gid,R);
+  else if(A&&A.insufficient)h+=card('frequences','Analyses','<p>Seulement '+A.T+' tirage(s) au format actuel : au moins 30 sont nécessaires pour une analyse statistique. Importez l’historique complet.</p>')+secProba(gid,null);
+  else h+=card('frequences','Analyses','<p class="muted">'+(S.job[gid]?'Analyse statistique en cours…':'Analyse non disponible.')+'</p>')+secProba(gid,null);
+  h+=secTrack(gid)+secData(gid,I);}
+ const view=$('#view'),key=d=>d.querySelector('summary').textContent.replace(/\(.*$/,'').trim(),open=new Set(Array.from(view.querySelectorAll('details[open]')).map(key));
+ view.innerHTML=h;view.querySelectorAll('details').forEach(d=>{if(open.has(key(d)))d.open=true;});}
+
+/* ---------------- Événements ---------------- */
+document.addEventListener('click',async ev=>{const b=ev.target.closest('[data-act],[data-tab]');if(!b||b.tagName==='INPUT'||b.tagName==='SELECT')return;const gid=S.tab,a=b.dataset.act;
+ if(b.dataset.tab){S.tab=b.dataset.tab;render();window.scrollTo(0,0);return;}
+ if(a==='sync'){syncGame(gid,true);syncGame(gid==='em'?'loto':'em',false);}
+ else if(a==='manual')manualDialog(gid);
+ else if(a==='pick-files')$('#fi-files').click();
+ else if(a==='pick-restore')$('#fi-restore').click();
+ else if(a==='fill')manualDialog(gid,b.dataset.date);
+ else if(a==='ignore'){if(await ask('Aucun tirage ce jour-là ?','Le '+fd(b.dataset.date)+' ne sera plus signalé comme manquant. À n’utiliser que si vous avez vérifié qu’aucun tirage n’a eu lieu.','Confirmer')){S.ignored[gid].push(b.dataset.date);await DB.set('ignored:'+gid,S.ignored[gid]);await journal('correction',gid,'Date '+fd(b.dataset.date)+' marquée « sans tirage ».');render();if(integrity(gid).complete)ensureProposal(gid).then(render);}}
+ else if(a==='dlg-close')closeDlg();
+ else if(a==='gen')generate(gid,false,false);
+ else if(a==='gen-prov')generate(gid,true,false);
+ else if(a==='copy'){const g=S.grids.find(x=>String(x.id)===b.dataset.id);if(!g)return;const txt=G[gid].name+' — tirage du '+fd(g.target)+' : '+g.nums.join(' - ')+' | '+G[gid].bonusLabel+' : '+g.bonus.join(' - ');
+  try{await navigator.clipboard.writeText(txt);}catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e2){}ta.remove();}toast('Grille copiée : '+g.nums.join(' - ')+' | '+g.bonus.join(' - '));}
+ else if(a==='cancel')cancelJob(gid);
+ else if(a==='rerun')runPipeline(gid);
+ else if(a==='rerun-mc')runPipeline(gid,S.res[gid].analysis?['mc']:undefined);
+ else if(a==='rerun-bt')runPipeline(gid,S.res[gid].analysis?['bt']:undefined);
+ else if(a==='edit')editDialog(gid,b.dataset.id);
+ else if(a==='del')deleteDraw(gid,b.dataset.id);
+ else if(a==='export')exportBackup();
+ else if(a==='pg'){S.page[gid]=Math.max(0,S.page[gid]+(+b.dataset.d));render();location.hash='';$('#donnees').scrollIntoView();}
+ else if(a==='tests'){S.tests=E.selfTest();render();$('#donnees').scrollIntoView();}
+ else if(a==='saveurl'){const v=$('#url-in').value.trim();if(!/^https:\/\//.test(v)){toast('Adresse invalide : elle doit commencer par https://');return;}S.urls[gid][0]=v;await DB.set('urls:'+gid,S.urls[gid]);toast('Adresse enregistrée.');}
+});
+document.addEventListener('change',ev=>{const t=ev.target,a=t.dataset&&t.dataset.act,gid=S.tab;if(!a)return;
+ if(a==='files'){importFiles(t.files);t.value='';}
+ else if(a==='restore'){readFile(t.files[0]).then(u=>{try{restoreBackup(JSON.parse(E.decodeText(u)));}catch(e){toast('Fichier de sauvegarde illisible.');}});t.value='';}
+ else if(a==='selnum'){S.sel[gid]=+t.value;const y=window.scrollY;render();window.scrollTo(0,y);}
+ else if(a==='year'){S.year[gid]=t.value;S.page[gid]=0;const y=window.scrollY;render();window.scrollTo(0,y);}
+ else if(a==='mclevel'){S.mc=t.value;DB.set('mc',S.mc);}});
+window.addEventListener('online',()=>['em','loto'].forEach(g=>{if(S.sync[g].status!=='ok')syncGame(g,false);}));
+window.addEventListener('offline',()=>render());
+
+/* ---------------- Démarrage ---------------- */
+async function load(){const all=await DB.all('draws');S.draws={em:[],loto:[]};for(const d of all)if(S.draws[d.game])S.draws[d.game].push(d);sortDraws('em');sortDraws('loto');
+ S.grids=await DB.all('grids');S.backtests=await DB.all('backtests');S.journal=(await DB.all('journal')).sort((a,b)=>a.ts-b.ts);S.mc=(await DB.get('kv','mc'))||'std';
+ for(const g of['em','loto']){S.res[g]=(await DB.get('kv','res:'+g))||{};S.ignored[g]=(await DB.get('kv','ignored:'+g))||[];const u=await DB.get('kv','urls:'+g);if(u&&u.length)S.urls[g]=u;const sy=await DB.get('kv','sync:'+g);S.sync[g]={status:'never',lastOk:sy&&sy.lastOk||null,via:sy&&sy.via||null};}}
+async function boot(){S.storage=await DB.open();try{if(navigator.storage&&navigator.storage.persist){S.persist=await navigator.storage.persisted()||await navigator.storage.persist();}}catch(e){S.persist=false;}await load();render();
+ for(const g of['em','loto']){const interrupted=await DB.get('kv','running:'+g);if(cur(g).length&&(S.res[g].sig!==sig(g)||!S.res[g].mc||S.res[g].partial||interrupted)){if(interrupted)await journal('reprise',g,'Reprise automatique d’un calcul interrompu.');runPipeline(g);}else{await resolveGrids(g);await ensureProposal(g);}}
+ render();await Promise.all(['em','loto'].map(g=>syncGame(g,false)));}
+boot().catch(e=>{$('#view').innerHTML='<div class="alert err" role="alert"><div><b>Erreur au démarrage :</b> '+esc(e.message)+'</div></div>';});
+})();
+
+</script>
+</body>
+</html>
