@@ -81,7 +81,7 @@ def inspect(data):
     base = os.path.basename(name).lower()
     if 'etoile_1' in head:
         game = 'em'
-    elif re.search(r'super|grand|noel', base):
+    elif re.search(r'super|grand|noel|^sloto', base):
         game = None
     elif 'numero_chance' in head or 'boule_6' in head:
         game = 'loto'
