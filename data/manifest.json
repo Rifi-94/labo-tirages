@@ -1,0 +1,220 @@
+{
+ "relay": "labo-tirages",
+ "version": 1,
+ "generatedAt": "2026-11-11T20:16:14Z",
+ "pages": {
+  "em": "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique",
+  "loto": "https://www.fdj.fr/jeux-de-tirage/loto/historique"
+ },
+ "notes": [
+  "em : 6 lien(s) trouvé(s) sur la page Historique",
+  "loto : 11 lien(s) trouvé(s) sur la page Historique"
+ ],
+ "errors": [],
+ "ignored": [
+  {
+   "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afg6",
+   "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afg6",
+   "inner": "grandloto_201912.csv",
+   "reason": "tirage spécial (Super Loto / Grand Loto) ou jeu non suivi"
+  },
+  {
+   "id": "1a2b3c4d-9876-4562-b3fc-2c963f66aff6",
+   "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66aff6",
+   "inner": "lotonoel2017.csv",
+   "reason": "tirage spécial (Super Loto / Grand Loto) ou jeu non suivi"
+  },
+  {
+   "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afk6",
+   "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afk6",
+   "inner": "superloto_201907.csv",
+   "reason": "tirage spécial (Super Loto / Grand Loto) ou jeu non suivi"
+  },
+  {
+   "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afj6",
+   "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afj6",
+   "inner": "superloto2017.csv",
+   "reason": "tirage spécial (Super Loto / Grand Loto) ou jeu non suivi"
+  },
+  {
+   "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afi6",
+   "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afi6",
+   "inner": "nouveau_superloto.csv",
+   "reason": "tirage spécial (Super Loto / Grand Loto) ou jeu non suivi"
+  }
+ ],
+ "games": {
+  "em": {
+   "lastAttempt": "2026-11-11T20:16:14Z",
+   "lastSuccess": "2026-11-11T20:16:14Z",
+   "lastError": null,
+   "lastDraw": "2026-11-10",
+   "files": [
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afe6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afe6",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afe6.zip",
+     "inner": "euromillions_202002.csv",
+     "sha256": "acd5dc9904434aa92699e8b9369891b41495bbf1cb966081c1f4d63a777ad765",
+     "bytes": 118314,
+     "rows": 707,
+     "firstDate": "2020-02-04",
+     "lastDate": "2026-11-10",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afd6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afd6",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afd6.zip",
+     "inner": "euromillions_201902.csv",
+     "sha256": "90036089e5eedbf86c6298105134c8fe80f5a80d29c76e5fbcc20eaeaadd6c82",
+     "bytes": 16972,
+     "rows": 97,
+     "firstDate": "2019-03-01",
+     "lastDate": "2020-01-31",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afc6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afc6",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afc6.zip",
+     "inner": "euromillions_4.csv",
+     "sha256": "6d84073487efa6691d61aa1781b0cc45d329c03fdb7d775a3ce77e2a337dcf55",
+     "bytes": 42341,
+     "rows": 253,
+     "firstDate": "2016-09-27",
+     "lastDate": "2019-02-26",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afb6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afb6",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afb6.zip",
+     "inner": "euromillions_3.csv",
+     "sha256": "bd35c6fed317f0dbb8487c7aeda0d3a40a5754ebbbf5a92e4670f1cb1ee80101",
+     "bytes": 35986,
+     "rows": 276,
+     "firstDate": "2014-02-04",
+     "lastDate": "2016-09-23",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afa9",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afa9",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afa9.zip",
+     "inner": "euromillions_2.csv",
+     "sha256": "fe7a4bad4fdadc86776e8a88c45057a9977e85521a3580607beec83a8e2e25cd",
+     "bytes": 36220,
+     "rows": 286,
+     "firstDate": "2011-05-10",
+     "lastDate": "2014-01-31",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afa8",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afa8",
+     "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afa8.zip",
+     "inner": "euromillions.csv",
+     "sha256": "c8cd66ae98864000cfee02e47021b96896095b5971657fcae582bf752cbdb152",
+     "bytes": 43854,
+     "rows": 378,
+     "firstDate": "2004-02-13",
+     "lastDate": "2011-05-06",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    }
+   ]
+  },
+  "loto": {
+   "lastAttempt": "2026-11-11T20:16:14Z",
+   "lastSuccess": "2026-11-11T20:16:14Z",
+   "lastError": null,
+   "lastDraw": "2026-11-11",
+   "files": [
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afp6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afp6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afp6.zip",
+     "inner": "loto_201911.csv",
+     "sha256": "a7c159ff3406491cd1130da508baf603d833151dc90ceaf8fa7e57f34e5a2f15",
+     "bytes": 188113,
+     "rows": 1099,
+     "firstDate": "2019-11-06",
+     "lastDate": "2026-11-11",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afo6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afo6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afo6.zip",
+     "inner": "loto_201902.csv",
+     "sha256": "5daee376ffe313ed7e970a4783884fec6efb26d57a86858a389bba710fc8f452",
+     "bytes": 14336,
+     "rows": 107,
+     "firstDate": "2019-02-27",
+     "lastDate": "2019-11-02",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afn6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afn6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afn6.zip",
+     "inner": "loto2017.csv",
+     "sha256": "f357ae099d0aa9be33e88d2ccf3a010d8d1d0e73ea2c1258294f553ca1380554",
+     "bytes": 39531,
+     "rows": 310,
+     "firstDate": "2017-03-06",
+     "lastDate": "2019-02-25",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afm6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afm6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afm6.zip",
+     "inner": "nouveau_loto.csv",
+     "sha256": "367c4b3d143f5c24fed3a05634464ca4a1043a26d6b0737d8208ba0a9cb8424e",
+     "bytes": 70463,
+     "rows": 1317,
+     "firstDate": "2008-10-06",
+     "lastDate": "2017-03-04",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afl6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afl6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afl6.zip",
+     "inner": "loto.csv",
+     "sha256": "4fb634e4f68511b95b77b94e20d337ab3a1e0ef89c11da5394223689e9fcce51",
+     "bytes": 244366,
+     "rows": 4858,
+     "firstDate": "1976-05-19",
+     "lastDate": "2008-10-04",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    },
+    {
+     "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afh6",
+     "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afh6",
+     "path": "data/loto/1a2b3c4d-9876-4562-b3fc-2c963f66afh6.zip",
+     "inner": "sloto.csv",
+     "sha256": "4c5c2d1b9d8c8f2866c46f800f50261739f27b29f038f8bc97311083f511a39a",
+     "bytes": 3092,
+     "rows": 43,
+     "firstDate": "1996-05-15",
+     "lastDate": "2008-06-13",
+     "fetchedAt": "2026-11-11T20:16:14Z",
+     "changedAt": "2026-11-11T20:16:14Z"
+    }
+   ]
+  }
+ }
+}
