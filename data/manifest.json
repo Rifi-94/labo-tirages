@@ -1,7 +1,7 @@
 {
  "relay": "labo-tirages",
  "version": 1,
- "generatedAt": "2026-11-13T13:23:50Z",
+ "generatedAt": "2026-11-14T01:00:15Z",
  "pages": {
   "em": "https://www.fdj.fr/jeux-de-tirage/euromillions-my-million/historique",
   "loto": "https://www.fdj.fr/jeux-de-tirage/loto/historique"
@@ -51,23 +51,23 @@
  ],
  "games": {
   "em": {
-   "lastAttempt": "2026-11-13T13:23:50Z",
-   "lastSuccess": "2026-11-13T13:23:50Z",
+   "lastAttempt": "2026-11-14T01:00:15Z",
+   "lastSuccess": "2026-11-14T01:00:15Z",
    "lastError": null,
-   "lastDraw": "2026-11-10",
+   "lastDraw": "2026-11-13",
    "files": [
     {
      "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afe6",
      "source": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afe6",
      "path": "data/em/1a2b3c4d-9876-4562-b3fc-2c963f66afe6.zip",
      "inner": "euromillions_202002.csv",
-     "sha256": "acd5dc9904434aa92699e8b9369891b41495bbf1cb966081c1f4d63a777ad765",
-     "bytes": 118314,
-     "rows": 707,
+     "sha256": "871d9601affd86f3d92cc51656e9a5e84b3282c18b36b0abc95b2c37ee2ec422",
+     "bytes": 118469,
+     "rows": 708,
      "firstDate": "2020-02-04",
-     "lastDate": "2026-11-10",
-     "fetchedAt": "2026-11-13T13:23:50Z",
-     "changedAt": "2026-11-11T20:16:14Z"
+     "lastDate": "2026-11-13",
+     "fetchedAt": "2026-11-14T01:00:15Z",
+     "changedAt": "2026-11-14T01:00:15Z"
     },
     {
      "id": "1a2b3c4d-9876-4562-b3fc-2c963f66afd6",
@@ -79,7 +79,7 @@
      "rows": 97,
      "firstDate": "2019-03-01",
      "lastDate": "2020-01-31",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -92,7 +92,7 @@
      "rows": 253,
      "firstDate": "2016-09-27",
      "lastDate": "2019-02-26",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -105,7 +105,7 @@
      "rows": 276,
      "firstDate": "2014-02-04",
      "lastDate": "2016-09-23",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -118,7 +118,7 @@
      "rows": 286,
      "firstDate": "2011-05-10",
      "lastDate": "2014-01-31",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -131,14 +131,14 @@
      "rows": 378,
      "firstDate": "2004-02-13",
      "lastDate": "2011-05-06",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     }
    ]
   },
   "loto": {
-   "lastAttempt": "2026-11-13T13:23:50Z",
-   "lastSuccess": "2026-11-13T13:23:50Z",
+   "lastAttempt": "2026-11-14T01:00:15Z",
+   "lastSuccess": "2026-11-14T01:00:15Z",
    "lastError": null,
    "lastDraw": "2026-11-11",
    "files": [
@@ -152,7 +152,7 @@
      "rows": 1099,
      "firstDate": "2019-11-06",
      "lastDate": "2026-11-11",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -165,7 +165,7 @@
      "rows": 107,
      "firstDate": "2019-02-27",
      "lastDate": "2019-11-02",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -178,7 +178,7 @@
      "rows": 310,
      "firstDate": "2017-03-06",
      "lastDate": "2019-02-25",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -191,7 +191,7 @@
      "rows": 1317,
      "firstDate": "2008-10-06",
      "lastDate": "2017-03-04",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     },
     {
@@ -204,7 +204,7 @@
      "rows": 4858,
      "firstDate": "1976-05-19",
      "lastDate": "2008-10-04",
-     "fetchedAt": "2026-11-13T13:23:50Z",
+     "fetchedAt": "2026-11-14T01:00:15Z",
      "changedAt": "2026-11-11T20:16:14Z"
     }
    ]
